@@ -1,5 +1,5 @@
 Our Definition of Done:
-All unit test cases/suites are passed.
+- All unit test cases/suites are passed.
 - Proper documentation is added.
 - All user stories and final features are approved by Product Manager (team member).
 - Regression testing needs to be passed after merging to main branch.
