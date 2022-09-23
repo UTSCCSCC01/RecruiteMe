@@ -18,7 +18,7 @@ We use the [Gitflow Workflow](https://www.atlassian.com/git/tutorials/comparing-
 - the ```release``` branch is for bug fixes, documentation generation, and other release-oriented tasks.
 - the ```hotfix``` branches are for patching production releases. Should be in the form ```hotfix/"hotfixed feature"```.
 
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+We will use Jira for our ticketing. Pull requests are welcome.
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
