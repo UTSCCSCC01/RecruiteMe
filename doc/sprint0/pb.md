@@ -5,7 +5,7 @@ As an app user, I want to be able to:
 - Login to my account that I already registered for so that I can access the application
 - Create my profile where I will fill in my details such as upload my resume if I'm a job seeker, upload company information if I'm a recruiter, etc, so I can provide information to the other app users
 - Directly message other users on the platform so that I can have an organized and guided interaction within the community
-- Reminders on my calendar about upcoming events so I know to be organized with my schedule
+- Reminders on my calendar about upcoming interviews so I remember when to attend my interviews
 
 As a recruiter, I want to be able to:
 - Sign-up and login into a recruiter account and view my profile so I can proceed with recruiting job-seekers
