@@ -16,7 +16,7 @@
 | As a recruiter Linda, select interview scheduling dates and send invites so I can further assess the candidates for the job | Lowest |
 | As a recruiter Linda, send online assessments to selected job-seekers so I can assess their technical capabilities | Highest |
 | As a recruiter Linda, host video calls so that I conduct an interview with selected job-seekers so I can have a face-to-face assessment with the applicant |Lowest|
-|            |s
+|            |
 | Job-seeker |
 | As a job-seeker John, I want to sign-up and login into a job-seeker account and view my profile so I can proceed with finding jobs | Highest |
 | As a job-seeker John, see if I'm selected for an interview in the application tracker view so I know if the recruiter has shown interest in me | High |
