@@ -2,7 +2,7 @@
 ```bash
 npm i
 ```
-- Create a ```.env``` file and enter your create a variable called PORT and MONGO_PASS , and  store the appropiate values
+- Create a ```.env``` file and  create a variable called PORT and MONGO_PASS , and store the following values like this
 ```
   PORT = 3000
   MONGO_PASS  = "ask me i will tell u"
