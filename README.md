@@ -9,6 +9,16 @@ Use the package manager [pip](https://pip.pypa.io/en/stable/) to install foobar.
 ```bash
 pip install foobar
 ```
+- To install all the dependencies go to backend folder and  run 
+```bash
+npm i
+```
+
+- To run the application, start up your terminal /command prompt ,and go to backend folder and run the following command
+```bash
+node index.js
+```
+
 
 ## Contributing
 We use the [Gitflow Workflow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow).
