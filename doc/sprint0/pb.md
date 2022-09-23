@@ -3,12 +3,13 @@
  User Story |Priority|
 | ---------- | -------- |
 | App user |
-| Create my profile where I will fill in my details such as upload my resume if I'm a job seeker, upload company information if I'm a recruiter, etc, so I can provide information to the other app users| Highest|
+| Create my profile where I will fill in my details such as upload my resume if I'm a job seeker, so I can provide information to the other app users| Highest|
 | Directly message other users on the platform so that I can have an organized and guided interaction within the community | Highest|
 | Reminders on my calendar about upcoming interviews so I remember when to attend my interviews | Highest|
 |           |
 | Recruiter |
 | As a recruiter Linda, Sign-up and login into a recruiter account and view my profile so I can proceed with recruiting job-seekers | Medium|
+| As a recruiter Linda, Create company page and fill/update the company information if company page does not already exists so job-seekers can search jobs by specific company | Medium|
 | As a recruiter Linda, Create job postings and create posts so I can communicate potential job opportunities to the job-seekers | Medium|
 | As a recruiter Linda, See and review all the job applications for a particular job post so I can see the applicants for this particular job | Medium|
 | As a recruiter Linda, Select job-seekers/applicant who is going to move forward so I can select the candidates that have potential | Highest |
