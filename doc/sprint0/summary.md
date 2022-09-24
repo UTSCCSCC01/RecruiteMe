@@ -2,7 +2,7 @@
 To build a web application that assists in job searching. For job seekers, this app helps them apply to jobs, conduct research on companies, and receive interviews. For the recruiters, the app allows them to look for candidates, post jobs, conduct interviews, and network with other users on the platform.
 
 ## The Key Personas:
-- Linda Jones is a 30 year old recruiter from Amazon who likes to efficient with her time and uses produces that streamline her day to day activities. She primarily reaches out to candidates for technology and engineering roles.
+- Linda Jones is a 30 year old recruiter from Amazon who likes to be efficient with her time and uses products that streamline her day to day activities. She primarily reaches out to candidates for technology and engineering roles.
 - John Smith is a recent graduate who majored in Computer Science from the University of Toronto that is seeking for jobs but lacks knowledge of their industry and the application process.
 
 ## The Key Usage Scenarios:
