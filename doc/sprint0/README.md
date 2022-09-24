@@ -13,8 +13,8 @@ npm install
 ```
 3. Create a file named ```.env``` in the ```backend``` directory and copy the following.
 ```
-PORT = 3000
-MONGO_PASS = yikMlMV1gB8wcAZo
+PORT = 4000
+MONGO_PASS = "yikMlMV1gB8wcAZo"
 ```
 4. Start the frontend.
 ```
