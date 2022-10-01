@@ -27,7 +27,7 @@ nodemon index.js
     <u><h2 align="center">User Authentication</h2></u>
 </p>
 
--   **Login User Recruiter** : POST {/auth/login}
+-   **Login User ** : POST {/auth/login}
     - Endpoint to login a user : http://localhost:4000/auth/login
     - Sample body request
       ```
@@ -39,7 +39,7 @@ nodemon index.js
     - Return 200 for success and 401 for aunthentication failure , with a error in the resposne body
 
 
--   **Register User Recruiter** : POST {/auth/register}
+-   **Register User ** : POST {/auth/register}
     - Endpoint to register a user : http://localhost:4000/auth/register 
     - Sample body request:
       ```
