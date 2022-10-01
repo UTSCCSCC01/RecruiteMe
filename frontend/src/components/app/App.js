@@ -1,6 +1,7 @@
 import React from "react";
 import "./App.css";
 import UserController from "../../controller/UserController";
+import Button from "@mui/material/Button";
 
 function App() {
     const [user, setUser] = React.useState(null);
@@ -10,12 +11,12 @@ function App() {
     };
     return (
         <div className="App">
-            <button
+            <Button
                 style={{ width: "500px", height: "100px", fontSize: "60px" }}
                 onClick={handleClick}
             >
                 Get User
-            </button>
+            </Button>
 
             {user && <div>{JSON.stringify(user)}</div>}
         </div>
