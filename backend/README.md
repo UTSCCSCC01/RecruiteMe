@@ -23,7 +23,39 @@ or
 nodemon index.js
 ```
 
--   **Get sample Recruiter** : GET {/recruiters/:id}
-    -   In the request url replace $id with thec recruiter id u want to view
-    -   Sample Request: http://localhost:3000/recruiters/632e3f93538a67e9e21cd068
-    -   Sample Ouput/schema: {"\_id":"632e3f93538a67e9e21cd068","name":"Pritish","email":"pritish@mail.com","age":21,"company":"UTSC","\_\_v":0}
+<p align="center">
+    <u><h2 align="center">User Authentication</h2></u>
+</p>
+
+-   **Login User Recruiter** : POST {/auth/login}
+    - Endpoint to login a user : http://localhost:4000/auth/login
+    - Sample body request
+      ```
+      {
+        "email": "test2mail.com",
+        "password": "lol1"
+      }
+      ```
+    - Return 200 for success and 401 for aunthentication failure , with a error in the resposne body
+
+
+-   **Register User Recruiter** : POST {/auth/register}
+    - Endpoint to register a user : http://localhost:4000/auth/register 
+    - Sample body request:
+      ```
+      {
+        "name": "Pritish",
+        "email": "test2mail.com",
+        "password": "lol1",
+        "age": 20,
+        "recruiter": false,
+        "company": ""
+      }
+      ```
+    - Return 200 for success and 400 for user creation failure , with a error in the resposne body
+
+-   **Logout User** : POST {/auth/logot}
+    - Logs out the user : http://localhost:4000/auth/logout
+    - No request body
+    - Return 200 for success and 400 for user creation failure , with a error in the response body
+
