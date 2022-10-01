@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema;
 
-const recruiterSchema = new Schema({
+const userSchema = new Schema({
     name: {
         type: String,
         required: true
@@ -10,18 +10,26 @@ const recruiterSchema = new Schema({
         type: String,
         required: true
     },
+    password: {
+        type: String,
+        required: true
+    },
     age: {
         type: Number,
         required: true
     },
+    recruiter: {
+        type: Boolean,
+        required: true
+    },
     company: {
         type: String,
-        required: true
+        required: false
     },
 
 }
 );
 
-const Recruiter = mongoose.model('Recruiters', recruiterSchema)
+const User = mongoose.model('Users', userSchema)
 
-module.exports = Recruiter;
+module.exports = User;

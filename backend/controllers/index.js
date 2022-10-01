@@ -1,0 +1,1 @@
+module.exports.AuthenticationController = require("./auth");
