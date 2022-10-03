@@ -11,17 +11,18 @@ export default function JobSeekerForm() {
         ResumeInput.current.click();
     };
     const handlePictureClick = event => {
-        ResumeInput.current.click();
+        PictureInput.current.click();
     };
 
     const handleResumeChange = event => {
         const resumeUploaded = event.target.files[0];
         console.log(resumeUploaded)
+        console.log('resume uploaded')
     };
     const handlePictureChange = event => {
         const pictureUploaded = event.target.files[0];
         console.log(pictureUploaded)
-
+        console.log('picture uploaded')
     };
 
     return (
@@ -35,7 +36,7 @@ export default function JobSeekerForm() {
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                     <input
                         type="file"
-                        ref={ResumeInput}
+                        ref={PictureInput}
                         onChange={handlePictureChange}
                         style={{ display: 'none' }}
                     />
