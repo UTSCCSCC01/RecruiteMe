@@ -64,6 +64,7 @@ nodemon index.js
 
 -   **Add recruiter** : POST {/recruiter/add}
     - Endpoint to add recruiter : http://localhost:4000/recruiter/add
+    - The user has to be loggedIn to use this endpoint
     - Sample body request
       ```
       {
@@ -80,6 +81,7 @@ nodemon index.js
 
 -   **Update recruiter** : PUT {/recruiter/update}
     - Endpoint to update recruiter profile : http://localhost:4000/recruiter/update 
+    - The user has to be loggedIn to use this endpoint
     - Sample body request can include any of the below fields
       ```
       {
@@ -91,8 +93,80 @@ nodemon index.js
       ```
     - Return 200 for success and 400 for user creation failure , with a error in the resposne body
 
--   **View Recruiter** : GET {/recruiter/logot}
-    - View Recruiter : http://localhost:4000/recruiter/:id
-    - TODO
+-   **View Recruiter profile** : GET {/recruiter/profile}
+    - View the profile of the current loggedIn user who is a recruiter
+    - View Recruiter : http://localhost:4000/recruiter/profile
+    - Sample Response:
+      ```
+      [
+        {
+        "_id": "633b877883b4dabc802e382f",
+        "name": "Pritish",
+        "uid": "6338949197b101fd3b6c38a9",
+        "company": "UTM",
+        "email": "testmail.com",
+        "age": 21,
+        "bio": "Hello world",
+        "workExperience": {
+          "USTC": 1
+        },
+        "jobPosts": [],
+        "currStatus": "SEEKING FOR JOB IN WINTER 2023",
+        "__v": 0}
+      ]
+      ```
+
+-   **View All Recruiter profiles** : GET {/recruiter/viewall}
+    - View profiles of all recruiters
+    - The user has to be loggedIn to use this endpoint
+    - View Recruiter : http://localhost:4000/recruiter/viewall
+    - Sample Response:
+      ```
+      [
+        {
+          "_id": "633b877883b4dabc802e382f",
+          "name": "Pritish",
+          "uid": "6338949197b101fd3b6c38a9",
+          "company": "UTM",
+          "email": "testmail.com",
+          "age": 21,
+          "bio": "Hello world",
+          "workExperience": {
+            "USTC": 1
+          },
+          "jobPosts": [],
+          "currStatus": "SEEKING FOR JOB IN WINTER 2023",
+          "__v": 0
+        },
+        {
+          "_id": "633b877883b4dabc802e382e",
+          "name": "Pritish2",
+          "uid": "6338949197b101fd3b6c38a9",
+          "company": "UTM2",
+          "email": "test2mail.com",
+          "age": 22,
+          "bio": "Hello world",
+          "workExperience": {
+            "USM": 2
+          },
+          "jobPosts": [],
+          "currStatus": "SEEKING FOR JOB IN Summer 2023",
+          "__v": 0
+        }
+      ]
+      ```
 
 
+
+
+
+
+
+
+
+
+GET http://localhost:4000/recruiter/profile HTTP/1.1
+
+###
+
+GET http://localhost:4000/recruiter/viewall HTTP/1.1

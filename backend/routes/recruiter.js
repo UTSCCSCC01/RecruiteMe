@@ -6,6 +6,7 @@ const { loggedIn } = require("../middleware/loggedIn")
 
 router.post('/add', loggedIn, RecruiterController.add_recruiter)
 router.put('/update', loggedIn, RecruiterController.update_recruiter)
-// router.get('/:id', loggedIn, RecruiterController.view_recruiter)
+router.get('/profile', loggedIn, RecruiterController.view_recruiter_profile)
+router.get('/viewall', loggedIn, RecruiterController.view_recruiters)
 
 module.exports = router
