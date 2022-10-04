@@ -22,12 +22,7 @@ const postsSchema = new Schema({
     recruiter: {
         type: Boolean,
         required: true
-    },
-    status: {
-        type: [],
-        required: false
     }
-
 }
 );
 
