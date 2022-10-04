@@ -10,7 +10,7 @@ const login = async (req, res, next) => {
         if (user) {
             req.login(user, function (err) {
                 if (err) { return next(err); }
-                return res.status(200).send("User logged in succesfully");
+                return res.status(200).send("User logged in Succesfully");
             });
 
         } else {
@@ -22,7 +22,7 @@ const login = async (req, res, next) => {
 
 const register = async (req, res, next) => {
 
-    if (!req.body.name || !req.body.email || !req.body.password || !req.body.age) {
+    if (!req.body.name || !req.body.email || !req.body.password || !req.body.recruiter) {
         console.log("fail")
         return res.status(400).send("There are missing fields in request body");
     }
@@ -43,9 +43,7 @@ const register = async (req, res, next) => {
                         name: req.body.name,
                         email: req.body.email,
                         password: hash,
-                        age: req.body.age,
                         recruiter: req.body.recruiter,
-                        company: req.body.company,
                     }).save()
                     return res.status(201).send("User resgistered succesfully")// res.redirect('/login');
                 });
@@ -55,6 +53,7 @@ const register = async (req, res, next) => {
 }
 
 const logout = async (req, res, next) => {
+
     req.logout(function (err) {
         if (err) { return next(err); }
         res.status(200).send("User Successfully logged out");
