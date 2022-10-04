@@ -5,7 +5,6 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import whitelogo from "./WhiteLogo.png";
-import "./Navbar.css";
 import { useState } from "react";
 const sections = [{title:"Home", href:"#header"}, {title:"About", href:"#about"}, {title:"Contact Us", href:"#contact"}];
 
