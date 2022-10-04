@@ -155,18 +155,3 @@ nodemon index.js
         }
       ]
       ```
-
-
-
-
-
-
-
-
-
-
-GET http://localhost:4000/recruiter/profile HTTP/1.1
-
-###
-
-GET http://localhost:4000/recruiter/viewall HTTP/1.1
