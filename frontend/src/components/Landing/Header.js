@@ -1,5 +1,5 @@
 import React from "react";
-import background from "./background.jpg";
+import background from "../../assets/background.jpg";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Collapse, IconButton } from "@mui/material";
 import { useState, useEffect } from "react";

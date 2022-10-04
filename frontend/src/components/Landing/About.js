@@ -1,9 +1,9 @@
 import React from "react";
 import ImageCard from "./ImageCard";
-import recruiter from "./recruiter.jpg";
-import jobSeeker from "./jobSeeker.jpg";
+import recruiter from "../../assets/recruiter.jpg";
+import jobSeeker from "../../assets/jobSeeker.jpg";
 import { productAboutData } from "./productAboutData";
-import useWindowPosition from "./useWindowPosition";
+import useWindowPosition from "../../hooks/useWindowPosition";
 import Typography from "@mui/material/Typography";
 import { breakpoints } from "@mui/system";
 
