@@ -1,4 +1,4 @@
-import JobSeekerForm from '../Forms/JobSeekerForm';
+import JobSeekerForm from '../components/CreateJobSeekerForm/JobSeekerForm';
 
 export default function JobSeekerFormPage() {
     return (

@@ -40,7 +40,7 @@ export default function JobSeekerForm() {
                         onChange={handlePictureChange}
                         style={{ display: 'none' }}
                     />
-                    <img style={{ width: 282 / 2, height: 319 / 2 }} src={require('./JobSeekerFormImageUpload.png') } onClick={() => handlePictureClick()}/>
+                    <img style={{ width: 282 / 2, height: 319 / 2 }} src={require('../../assets/JobSeekerFormImageUpload.png') } onClick={() => handlePictureClick()}/>
                     <div>
                         <TextField
                             label='First Name'
