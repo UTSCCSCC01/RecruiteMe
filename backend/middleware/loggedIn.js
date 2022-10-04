@@ -7,4 +7,4 @@ const loggedIn = async (req, res, next) => {
     }
 }
 
-modules.export({ loggedIn })
+module.exports = { loggedIn }

@@ -3,7 +3,7 @@ require("dotenv").config();
 const { json, urlencoded } = require("body-parser");
 const cors = require("cors");
 const express = require("express");
-const { AuthRoutes } = require('./routes')
+const { AuthRoutes, RecruiterRoutes } = require('./routes')
 const { passport, store } = require("./mongodb_setup/setup")
 const session = require('express-session')
 
@@ -41,6 +41,7 @@ app.use(
 
 
 app.use("/auth", AuthRoutes);
+app.use("/recruiter", RecruiterRoutes);
 
 // app.get("/users", loggedIn, (req, res) => {
 //     User.find()
