@@ -1,3 +1,4 @@
+const { Binary } = require('mongodb');
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema;
 
@@ -20,11 +21,20 @@ const jobseekerSchema = new Schema({
         required: false
     },
     workExperience: {
-        type: {},
+        type: new Schema({
+            company: String,
+            jobTitle: String,
+            date: String,
+            description: String
+        }),
         required: false
     },
     education: {
-        type: {},
+        type: new Schema({
+            school: String,
+            program: String,
+            gradDate: String
+        }),
         required: false
     },
     appliedPost: {
@@ -36,6 +46,22 @@ const jobseekerSchema = new Schema({
     },
     currStatus: {
         type: String,
+        required: false
+    },
+    profilePicture: {
+        type: new Schema({
+            image: { // Front end developers must use base64 to view image (https://www.geeksforgeeks.org/upload-and-retrieve-image-on-mongodb-using-mongoose/)
+                data: Buffer,
+                contentType: String
+            }
+        }),
+        required: false
+    },
+    resume: {
+        type: new Schema({
+            name: String,
+            file: Binary
+        }),
         required: false
     }
 }
