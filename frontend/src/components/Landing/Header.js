@@ -30,10 +30,10 @@ function Header() {
         <h1
           style={{ fontSize: "4.5rem", color: "whitesmoke", marginBottom: "0" }}
         >
-          Recruit<span style={{ color: "#91A4E8" }}>Me</span>
+          <span style={{ color: "#91A4E8" }}>Recruit</span>Me
         </h1>
         <h2 style={{ fontSize: "2rem", color: "whitesmoke" }}>
-          Recruitment Made Simple
+          Recruitment <span style={{ color: "#91A4E8" }}>Made Simple</span>
         </h2>
         <IconButton href="#about">
           <ExpandMoreIcon style={{ fontSize: "4rem", color: "#F26419" }} />
