@@ -22,7 +22,7 @@ const login = async (req, res, next) => {
 
 const register = async (req, res, next) => {
 
-    if (!req.body.name || !req.body.email || !req.body.password || !req.body.recruiter) {
+    if (!req.body.email || !req.body.password) {
         console.log("fail")
         return res.status(400).send("There are missing fields in request body");
     }
@@ -40,7 +40,6 @@ const register = async (req, res, next) => {
                 bcrypt.hash(req.body.password, salt, function (err, hash) {
                     if (err) return next(err);
                     new User({
-                        name: req.body.name,
                         email: req.body.email,
                         password: hash,
                         recruiter: req.body.recruiter,
@@ -52,6 +51,19 @@ const register = async (req, res, next) => {
     }
 }
 
+const current_user = async (req, res, next) => {
+    if (req.isAuthenticated()) {
+        output = {}
+        output["_id"] = req.user._id
+        output["email"] = req.user.email
+        output["recruiter"] = req.user.recruiter
+        res.status(200).send(output)
+    } else {
+        res.status(401).send("login first")
+    }
+}
+
+
 const logout = async (req, res, next) => {
 
     req.logout(function (err) {
@@ -60,4 +72,4 @@ const logout = async (req, res, next) => {
     });
 }
 
-module.exports = { register, login, logout }
+module.exports = { register, login, logout, current_user }

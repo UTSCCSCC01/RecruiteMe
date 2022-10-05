@@ -49,6 +49,9 @@ const update_recruiter = async (req, res) => {
             filter = { uid: req.user._id }
 
             let update = {}
+            if (req.body.name) {
+                update["name"] = req.body.name
+            }
             if (req.body.company) {
                 update["company"] = req.body.company
             }
