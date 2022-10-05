@@ -1,5 +1,5 @@
 const User = require("../models/User");
-const Job_Seeker = require("../models/Job-Seeker");
+const JobSeeker = require("../models/JobSeeker");
 
 const add_job_seeker = async (req, res) => {
 
@@ -7,20 +7,22 @@ const add_job_seeker = async (req, res) => {
         return res.status(400).send("There are missing fields in request body");
     }
     else {
-        Job_Seeker.exists({ uid: req.user._uid }, function (err, docs) {
-            if (!err) {
-                res.status(403).send("User already exist, use 'put' endpoint for update")
+        JobSeeker.exists({ uid: req.user._uid }, function (err, docs) {
+            if (docs != null) {
+                res.status(403).send("User already exists, use 'put' endpoint for update")
             } else {
-                const new_job_seeker = new Job_Seeker({
+                const new_job_seeker = new JobSeeker({
                     name: req.body.name,
                     uid: req.user._id,
-                    phoneNumber: req.body.company,
+                    phoneNumber: req.body.phoneNumber,
                     age: req.body.age,
                     bio: req.body.bio,
                     workExperience: req.body.workExp,
                     education: req.body.education,
                     appliedPost: [],
                     currStatus: req.body.currStatus,
+                    profilePicture: req.body.profilePicture,
+                    resume: req.body.resume
                 });
                 new_job_seeker
                     .save()
@@ -41,13 +43,16 @@ const add_job_seeker = async (req, res) => {
 
 const update_job_seeker = async (req, res) => {
 
-    Job_Seeker.exists({ uid: req.user._uid }, function (err, docs) {
+    JobSeeker.exists({ uid: req.user._uid }, function (err, docs) {
         if (err) {
             res.status(403).send("User doesn't exist")
         } else {
             filter = { uid: req.user._id }
 
             let update = {}
+            if (req.body.name) {
+                update["name"] = req.body.name
+            }
             if (req.body.phoneNumber) {
                 update["phoneNumber"] = req.body.phoneNumber
             }
@@ -64,7 +69,7 @@ const update_job_seeker = async (req, res) => {
                 update["currStatus"] = req.body.currStatus
             }
 
-            Job_Seeker.findOneAndUpdate(filter, update).then((result) => {
+            JobSeeker.findOneAndUpdate(filter, update).then((result) => {
                 res.status(200).send(result);
             }).catch((err) => {
                 console.log(err);
@@ -74,15 +79,29 @@ const update_job_seeker = async (req, res) => {
 
         }
     });
-
-
 }
 
-const view_job_seeker = async (req, res) => {
-
+const view_job_seeker_profile = async (req, res) => {
+    // JobSeeker.find({ uid: req.user._id }, function (err, docs) {
+    //     if (err) {
+    //         res.send(400).send("User doesnt exist")
+    //         console.log(err);
+    //     }
+    //     else {
+    //         res.status(200).send(docs)
+    //     }
+    // });
+}
+const view_job_seekers = async (req, res) => {
+    // JobSeeker.find({}, function (err, jobseekers) {
+    //     if (err) {
+    //         res.send(500).send("Internal Err")
+    //         console.log(err);
+    //     }
+    //     else {
+    //         res.status(200).send(jobseekers)
+    //     }
+    // });
 }
 
-
-
-
-module.exports = { add_job_seeker, update_job_seeker, view_job_seeker }
+module.exports = { add_job_seeker, update_job_seeker,view_job_seeker_profile, view_job_seekers }
