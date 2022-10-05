@@ -32,7 +32,7 @@ nodemon index.js
     - Sample body request
       ```
       {
-        "email": "test2mail.com",
+        "username": "test2mail.com",
         "password": "lol1"
       }
       ```
