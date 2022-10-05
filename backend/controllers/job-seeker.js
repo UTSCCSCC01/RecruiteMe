@@ -1,6 +1,5 @@
 const User = require("../models/User");
 const Job_Seeker = require("../models/Job-Seeker");
-const JobSeeker = require("../models/Job-Seeker");
 
 const add_job_seeker = async (req, res) => {
 
