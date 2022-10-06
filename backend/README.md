@@ -44,13 +44,22 @@ nodemon index.js
     - Sample body request:
       ```
       {
-        "name": "Pritish",
         "email": "test2mail.com", 
         "password": "lol1",
         "recruiter": false,
       }
       ```
     - Return 200 for success and 400 for user creation failure , with a error in the resposne body
+-   **Current User** : GET {/auth/currUser}
+    - Returnt the data of the current loggedIn user: http://localhost:4000/auth/currUser
+    - Sample Response 
+      ```
+      {
+        "_id": "633db44ea20a4ba95d79120d",
+        "email": "testmail.com",
+        "recruiter": false,
+      }
+      ```  
 
 -   **Logout User** : POST {/auth/logout}
     - Logs out the user : http://localhost:4000/auth/logout
