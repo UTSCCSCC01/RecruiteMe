@@ -7,7 +7,7 @@ const add_job_seeker = async (req, res) => {
         return res.status(400).send("There are missing fields in request body");
     }
     else {
-        JobSeeker.exists({ uid: req.user._uid }, function (err, docs) {
+        JobSeeker.exists({ uid: req.user._id }, function (err, docs) {
             if (docs != null) {
                 res.status(403).send("User already exists, use 'put' endpoint for update")
             } else {
@@ -43,8 +43,8 @@ const add_job_seeker = async (req, res) => {
 
 const update_job_seeker = async (req, res) => {
 
-    JobSeeker.exists({ uid: req.user._uid }, function (err, docs) {
-        if (err) {
+    JobSeeker.exists({ uid: req.user._id }, function (err, docs) {
+        if (docs == null) {
             res.status(403).send("User doesn't exist")
         } else {
             filter = { uid: req.user._id }
@@ -82,26 +82,26 @@ const update_job_seeker = async (req, res) => {
 }
 
 const view_job_seeker_profile = async (req, res) => {
-    // JobSeeker.find({ uid: req.user._id }, function (err, docs) {
-    //     if (err) {
-    //         res.send(400).send("User doesnt exist")
-    //         console.log(err);
-    //     }
-    //     else {
-    //         res.status(200).send(docs)
-    //     }
-    // });
+    JobSeeker.find({ uid: req.user._id }, function (err, docs) {
+        if (err) {
+            res.send(400).send("User doesnt exist")
+            console.log(err);
+        }
+        else {
+            res.status(200).send(docs)
+        }
+    });
 }
 const view_job_seekers = async (req, res) => {
-    // JobSeeker.find({}, function (err, jobseekers) {
-    //     if (err) {
-    //         res.send(500).send("Internal Err")
-    //         console.log(err);
-    //     }
-    //     else {
-    //         res.status(200).send(jobseekers)
-    //     }
-    // });
+    JobSeeker.find({}, function (err, jobseekers) {
+        if (err) {
+            res.send(500).send("Internal Err")
+            console.log(err);
+        }
+        else {
+            res.status(200).send(jobseekers)
+        }
+    });
 }
 
 module.exports = { add_job_seeker, update_job_seeker,view_job_seeker_profile, view_job_seekers }

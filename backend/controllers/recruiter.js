@@ -8,7 +8,7 @@ const add_recruiter = async (req, res) => {
         return res.status(400).send("There are missing fields in request body");
     }
     else {
-        Recruiter.exists({ uid: req.user._uid }, function (err, docs) {
+        Recruiter.exists({ uid: req.user._id }, function (err, docs) {
             if (docs != null) {
                 res.status(403).send("User already exists, use 'put' endpoint for update")
             } else {
