@@ -10,32 +10,7 @@ export const BioSection = (props) => {
                 About Me
             </Typography>
             <Typography variant="body1" mb={2}>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in culpa qui officia deserunt mollit anim id est laborum.
-                Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-                accusantium doloremque laudantium, totam rem aperiam, eaque ipsa
-                quae ab illo inventore veritatis et quasi architecto beatae
-                vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia
-                voluptas sit aspernatur aut odit aut fugit, sed quia
-                consequuntur magni dolores eos qui ratione voluptatem sequi
-                nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor
-                sit amet, consectetur, adipisci velit, sed quia non numquam eius
-                modi tempora incidunt ut labore et dolore magnam aliquam quaerat
-                voluptatem.
-            </Typography>
-            <Typography variant="body1">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in culpa qui officia deserunt mollit anim id est laborum.
+                {props.bio}
             </Typography>
         </Box>
     );
@@ -53,13 +28,13 @@ const WorkExperienceTile = (props) => {
             >
                 <Box sx={{ display: "flex" }}>
                     <Typography variant="h6" fontWeight={"500"}>
-                        Job Title
+                        {props.jobTitle}
                     </Typography>
                     <Typography
                         variant="h6"
                         sx={{ color: "gray", paddingLeft: "8px" }}
                     >
-                        • Company
+                        • {props.company}
                     </Typography>
                 </Box>
 
@@ -70,18 +45,11 @@ const WorkExperienceTile = (props) => {
                         fontSize: "18px",
                     }}
                 >
-                    Jan 2021 - Mar 2022
+                    {props.startDate} - {props.endDate}
                 </Typography>
             </Box>
 
-            <Typography variant="body1">
-                Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit
-                aut fugit, sed quia consequuntur magni dolores eos qui ratione
-                voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem
-                ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia
-                non numquam eius modi tempora incidunt ut labore et dolore
-                magnam aliquam quaerat voluptatem.
-            </Typography>
+            <Typography variant="body1">{props.description}</Typography>
         </Box>
     );
 };
@@ -92,9 +60,72 @@ export const WorkExperienceSection = (props) => {
             <Typography variant="h4" mb={1}>
                 Work Experience
             </Typography>
-            <WorkExperienceTile />
-            <WorkExperienceTile />
-            <WorkExperienceTile />
+            {props.workExperience?.map((workExp) => (
+                <WorkExperienceTile
+                    key={workExp._id}
+                    company={workExp.company}
+                    jobTitle={workExp.jobTitle}
+                    startDate={workExp.startDate}
+                    endDate={workExp.endDate}
+                    description={workExp.description}
+                />
+            ))}
+        </Box>
+    );
+};
+
+const EducationTile = (props) => {
+    return (
+        <Box my={2}>
+            <Box
+                sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    padding: "10px 0px",
+                }}
+            >
+                <Box sx={{ display: "flex" }}>
+                    <Typography variant="h6" fontWeight={"500"}>
+                        {props.school}
+                    </Typography>
+                    <Typography
+                        variant="h6"
+                        sx={{ color: "gray", paddingLeft: "8px" }}
+                    >
+                        • {props.program}
+                    </Typography>
+                </Box>
+
+                <Typography
+                    sx={{
+                        color: "#898989",
+                        fontStyle: "italic",
+                        fontSize: "18px",
+                    }}
+                >
+                    {props.gradDate}
+                </Typography>
+            </Box>
+            <Typography variant="body1">{props.description}</Typography>
+        </Box>
+    );
+};
+
+export const EducationSection = (props) => {
+    return (
+        <Box mt={3} mb={4}>
+            <Typography variant="h4" mb={1}>
+                Education
+            </Typography>
+            {props.education?.map((edu) => (
+                <EducationTile
+                    key={edu._id}
+                    school={edu.school}
+                    program={edu.program}
+                    gradDate={edu.gradDate}
+                    description={edu.description}
+                />
+            ))}
         </Box>
     );
 };
@@ -103,17 +134,24 @@ export const SkillsSection = (props) => {
     return (
         <Box mt={3} mb={4}>
             <Typography variant="h4" mb={1}>
-                Work Experience
+                Skills
             </Typography>
-            <WorkExperienceTile />
-            <WorkExperienceTile />
-            <WorkExperienceTile />
+            {props.skills && (
+                <ul>
+                    {props.skills?.map((skill) => (
+                        <li key={skill} className="skill-item">
+                            {skill}
+                        </li>
+                    ))}
+                </ul>
+            )}
         </Box>
     );
 };
 
 export const ResumeSection = (props) => {
-    const [showResume, setShowResume] = React.useState(props.showResume);
+    const [showResume, setShowResume] = React.useState(false);
+
     return (
         <Box mt={3} mb={4}>
             <Typography variant="h4" mb={1} mr={2}>
@@ -172,7 +210,7 @@ export const ResumeSection = (props) => {
                         width: "100%",
                         height: "900px",
                     }}
-                    src={resume}
+                    src={resume} //TODO: display real resume
                     type="application/pdf"
                     title="title"
                 />
