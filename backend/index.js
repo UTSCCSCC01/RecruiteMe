@@ -3,7 +3,7 @@ require("dotenv").config();
 const { json, urlencoded } = require("body-parser");
 const cors = require("cors");
 const express = require("express");
-const { AuthRoutes, RecruiterRoutes } = require('./routes')
+const { AuthRoutes, RecruiterRoutes, JobSeekerRoutes } = require('./routes')
 const { passport, store } = require("./mongodb_setup/setup")
 const session = require('express-session')
 
@@ -42,6 +42,7 @@ app.use(
 
 app.use("/auth", AuthRoutes);
 app.use("/recruiter", RecruiterRoutes);
+app.use("/jobseeker", JobSeekerRoutes);
 
 app.listen(port, () => console.log(`Listening on port ${port}..`));
 
