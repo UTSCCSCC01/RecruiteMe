@@ -76,11 +76,28 @@ const update_recruiter = async (req, res) => {
 
 }
 
-const view_recruiter = async (req, res) => {
+const view_recruiter_profile = async (req, res) => {
 
+    Recruiter.find({ uid: req.user._id }, function (err, docs) {
+        if (err) {
+            res.send(400).send("User doesnt exist")
+            console.log(err);
+        }
+        else {
+            res.status(200).send(docs)
+        }
+    });
+}
+const view_recruiters = async (req, res) => {
+    Recruiter.find({}, function (err, recruiters) {
+        if (err) {
+            res.send(500).send("Internal Err")
+            console.log(err);
+        }
+        else {
+            res.status(200).send(recruiters)
+        }
+    });
 }
 
-
-
-
-module.exports = { add_recruiter, update_recruiter, view_recruiter }
+module.exports = { add_recruiter, update_recruiter, view_recruiter_profile, view_recruiters }
