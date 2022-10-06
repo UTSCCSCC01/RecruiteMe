@@ -22,8 +22,7 @@ const login = async (req, res, next) => {
 
 const register = async (req, res, next) => {
 
-    if (!req.body.email || !req.body.password) {
-        console.log("fail")
+    if (!req.body.email || !req.body.password || req.body.recruiter == null) {
         return res.status(400).send("There are missing fields in request body");
     }
     else {
@@ -31,9 +30,9 @@ const register = async (req, res, next) => {
             email: req.body.email
         })
         if (user) {
-            req.status(400).send("Sorry, that email is already  taken.")
+            res.status(400).send("Sorry, that email is already  taken.")
         } else if (req.body.email == "" || req.body.password == "") {
-            req.status(400).send("Please fill out all the fields.")
+            res.status(400).send("Please fill out all the fields.")
         } else {
             bcrypt.genSalt(10, function (err, salt) {
                 if (err) return next(err);
