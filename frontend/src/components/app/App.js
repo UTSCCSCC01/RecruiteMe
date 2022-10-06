@@ -2,20 +2,32 @@ import React from "react";
 import "./App.css";
 import UserController from "../../controller/UserController";
 import Button from "@mui/material/Button";
+import { ProfilePage } from "../profile/ProfilePage";
 
 function App() {
     const [logged, setLogged] = React.useState();
     const [user, setUser] = React.useState(null);
 
     const handleLogin = async () => {
-        UserController.login({username:'test4@mail.com', password: 'lol1'}).then(res => {if (res.status == 200){setLogged(true);}});
+        UserController.login({
+            username: "test4@mail.com",
+            password: "lol1",
+        }).then((res) => {
+            if (res.status == 200) {
+                setLogged(true);
+            }
+        });
     };
     const handleLogout = async () => {
-        UserController.logout({}).then(res => {if(res.status == 200){setLogged(false); console.log(res.body);}});
-        
+        UserController.logout({}).then((res) => {
+            if (res.status == 200) {
+                setLogged(false);
+                console.log(res.body);
+            }
+        });
     };
     const handleClick = async () => {
-        UserController.getCurrent().then(res=> setUser(res));
+        UserController.getCurrent().then((res) => setUser(res));
     };
     return (
         <div className="App">
@@ -33,7 +45,9 @@ function App() {
                 Log Out
             </Button>
 
-            <div>{logged == null ? '' : logged ? 'Logged In': 'Not Logged In'}</div>
+            <div>
+                {logged == null ? "" : logged ? "Logged In" : "Not Logged In"}
+            </div>
             <Button
                 style={{ width: "500px", height: "100px", fontSize: "60px" }}
                 onClick={handleClick}
@@ -41,7 +55,7 @@ function App() {
                 Get User
             </Button>
 
-            {user && <div>{(JSON.stringify(user))}</div>}
+            {user && <ProfilePage />}
         </div>
     );
 }
