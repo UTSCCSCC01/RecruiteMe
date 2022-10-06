@@ -42,13 +42,16 @@ const add_recruiter = async (req, res) => {
 
 const update_recruiter = async (req, res) => {
 
-    Recruiter.exists({ uid: req.user._uid }, function (err, docs) {
-        if (err) {
+    Recruiter.exists({ uid: req.user._id }, function (err, docs) {
+        if (docs == null) {
             res.status(403).send("User doesn't exist")
         } else {
             filter = { uid: req.user._id }
 
             let update = {}
+            if (req.body.name) {
+                update["name"] = req.body.name
+            }
             if (req.body.company) {
                 update["company"] = req.body.company
             }
