@@ -35,39 +35,13 @@ const port = process.env.PORT || 4000;
 
 app.use(
     cors({
-        origin: "http://localhost:4000",
+        origin: "http://localhost:3000",
     })
 );
 
 
 app.use("/auth", AuthRoutes);
 app.use("/recruiter", RecruiterRoutes);
-
-// app.get("/users", loggedIn, (req, res) => {
-//     User.find()
-//         .then((result) => {
-//             res.send(result);
-//         })
-//         .catch((err) => {
-//             console.log(err);
-//         });
-// });
-
-// app.get("/users/:id", loggedIn, (req, res) => {
-//     if (req.params.id) {
-//         User.findById(req.params.id)
-//             .then((result) => {
-//                 res.send(result);
-//             })
-//             .catch((err) => {
-//                 console.log(err);
-//             });
-//     } else {
-//         res.status(400).send("There are missing fields in request body");
-//     }
-// });
-
-
 
 app.listen(port, () => console.log(`Listening on port ${port}..`));
 
