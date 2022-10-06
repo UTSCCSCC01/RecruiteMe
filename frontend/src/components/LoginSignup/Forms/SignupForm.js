@@ -8,13 +8,16 @@ export default function SignupForm() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [reenteredPassword, setReenteredPassword] = useState("");
-    const [name, setName] = useState("");
     const [recruiter, setRecruiter] = useState(false);
 
 
     const handleRegister = (e) => {
         e.preventDefault();
-        console.log(email, password, name, recruiter);
+        // Check if passwords match
+        if (password !== reenteredPassword) {
+            alert("Passwords do not match");
+            return;
+        }
         // Send email and password to backend using post request
         AuthenticationController.register(email, password, recruiter).then((res) => console.log(res));
         
@@ -24,19 +27,11 @@ export default function SignupForm() {
         <Grid>
             <Paper 
                 variant="outlined"
-                sx={{border: "3px solid black", backgroundColor: "#f3f1f1", textAlign:"center", padding: 7, borderRadius: 2, borderColor: "#91a4e8", height: 500, width: 280, margin: "100px auto"}}
+                sx={{border: "3px solid black", backgroundColor: "#f3f1f1", textAlign:"center", padding: 7, borderRadius: 2, borderColor: "#91a4e8", height: 425, width: 280, margin: "100px auto"}}
             >
                 <Grid align='center'>
                     <h2>Register</h2>
                 </Grid>
-                <TextField 
-                    label='Name' 
-                    placeholder='Enter name'
-                    fullWidth
-                    sx={{ paddingBottom: "0.5em" }}
-                    required
-                    onChange={(e) => setName(e.target.value)}
-                />
                 <TextField 
                     label='Email' 
                     placeholder='Enter email'

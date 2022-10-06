@@ -8,7 +8,6 @@ export default function LoginForm() {
 
     const handleLogin = (e) => {
         e.preventDefault();
-        console.log(email, password);
         // Send email and password to backend using post request
         AuthenticationController.login(email, password).then((res) => console.log(res));
     };
