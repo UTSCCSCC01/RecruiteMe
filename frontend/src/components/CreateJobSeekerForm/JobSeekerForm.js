@@ -55,9 +55,9 @@ const JobSeekerForm = (props) => {
         delete body.workExperience;
         body[0].workExp = workFormValues
         if (notNewProfile) {
-            JobSeekerController.updateJobSeeker(body[0]).then((res) => { if (res.status == 200) {props.close();}});
+            JobSeekerController.updateJobSeeker(body[0]).then((res) => { if (!res.status) {props.close() } });
         } else {
-            JobSeekerController.addJobSeeker(body[0]).then((res) => { if (res.status == 200) {props.close()}});
+            JobSeekerController.addJobSeeker(body[0]).then((res) => { if (!res.status) {props.close()}});
         }
     }
     return (

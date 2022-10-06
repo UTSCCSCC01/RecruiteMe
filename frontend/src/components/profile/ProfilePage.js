@@ -25,7 +25,8 @@ export const ProfilePage = () => {
 
     return (
         <Profile
-            name={user?.name}
+            firstName={user?.firstName}
+            lastName={user?.lastName}
             email={email}
             isRecruiter={isRecruiter}
             company={user?.company}
@@ -34,7 +35,6 @@ export const ProfilePage = () => {
             education={user?.education}
             status={user?.currStatus}
             skills={user?.skills}
-
             // name={"john smith"}
             // email={"john@mail.com"}
             // isRecruiter={isRecruiter}
@@ -45,3 +45,4 @@ export const ProfilePage = () => {
         />
     );
 };
+export default ProfilePage
