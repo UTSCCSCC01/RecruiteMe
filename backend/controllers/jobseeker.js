@@ -8,13 +8,13 @@ const add_job_seeker = async (req, res) => {
     }
     else {
         JobSeeker.exists({ uid: req.user._uid }, function (err, docs) {
-            if (!err) {
+            if (docs != null) {
                 res.status(403).send("User already exists, use 'put' endpoint for update")
             } else {
                 const new_job_seeker = new JobSeeker({
                     name: req.body.name,
                     uid: req.user._id,
-                    phoneNumber: req.body.company,
+                    phoneNumber: req.body.phoneNumber,
                     age: req.body.age,
                     bio: req.body.bio,
                     workExperience: req.body.workExp,

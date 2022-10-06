@@ -21,16 +21,19 @@ const jobseekerSchema = new Schema({
         required: false
     },
     workExperience: {
-        type: new Schema({
+        type: Array,
+        of: new Schema({
             company: String,
             jobTitle: String,
-            date: String,
+            startDate: String,
+            endDate: String,
             description: String
         }),
         required: false
     },
     education: {
-        type: new Schema({
+        type: Array,
+        of: new Schema({
             school: String,
             program: String,
             gradDate: String
@@ -60,7 +63,7 @@ const jobseekerSchema = new Schema({
     resume: {
         type: new Schema({
             name: String,
-            file: Binary
+            binData: Buffer
         }),
         required: false
     }

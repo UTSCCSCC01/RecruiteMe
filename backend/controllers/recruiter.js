@@ -9,7 +9,7 @@ const add_recruiter = async (req, res) => {
     }
     else {
         Recruiter.exists({ uid: req.user._uid }, function (err, docs) {
-            if (!err) {
+            if (docs != null) {
                 res.status(403).send("User already exists, use 'put' endpoint for update")
             } else {
                 const new_recruiter = new Recruiter({
