@@ -23,7 +23,10 @@ app.use(session({
     saveUninitialized: true,
     cookie: { secure: false }
 }));
-
+app.use((req, res, next) => {
+    res.setHeader("Access-Control-Allow-Credentials", true)
+    next();
+})
 app.use(passport.initialize());
 app.use(passport.session());
 
