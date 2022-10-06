@@ -22,7 +22,7 @@ const login = async (req, res, next) => {
 
 const register = async (req, res, next) => {
 
-    if (!req.body.email || !req.body.password) {
+    if (!req.body.email || !req.body.password || req.body.recruiter == null) {
         console.log("fail")
         return res.status(400).send("There are missing fields in request body");
     }
