@@ -4,28 +4,17 @@
 
 ## Installation
 1. Install [Node](https://nodejs.org/en/download/current/)
-2. Install the dependencies starting from the main project directory.
+2. To Install the dependencies starting from the main project directory and run in the command prompt.
 ```
-cd backend
-npm install
-cd ../frontend
-npm install
+sh firstinstall.sh
 ```
-3. Create a file named ```.env``` in the ```backend``` directory and copy the following.
+3. To start the web app run.
 ```
-PORT = 4000
-MONGO_PASS = "yikMlMV1gB8wcAZo"
+sh ruanpp.sh
 ```
-4. Start the frontend.
-```
-cd frontend
-npm start
-```
-5. Start the backend.
-```
-cd backend
-npm run devstart
-```
+4. The sh script takes care of the installation and activation
+5. The default port  for accessing the frontend by which the app can be accessed is http://localhost:3000
+
 ## Contributing
 We use the [Gitflow Workflow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow).
 - the ```master``` branch is for the latest stable production release.
