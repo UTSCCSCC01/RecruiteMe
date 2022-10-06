@@ -4,7 +4,7 @@ const Recruiter = require("../models/Recruiter");
 
 const add_recruiter = async (req, res) => {
 
-    if (!req.body.name || !req.body.company || !req.body.age || !req.body.bio || !req.body.workExp || !req.body.currStatus) {
+    if (!req.body.firstName || !req.body.lastName || !req.body.company || !req.body.age || !req.body.bio || !req.body.workExp || !req.body.currStatus) {
         return res.status(400).send("There are missing fields in request body");
     }
     else {
@@ -13,7 +13,8 @@ const add_recruiter = async (req, res) => {
                 res.status(403).send("User already exists, use 'put' endpoint for update")
             } else {
                 const new_recruiter = new Recruiter({
-                    name: req.body.name,
+                    firstName: req.body.firstName,
+                    lastName: req.body.lastName,
                     uid: req.user._id,
                     company: req.body.company,
                     email: req.user.email,
@@ -49,8 +50,11 @@ const update_recruiter = async (req, res) => {
             filter = { uid: req.user._id }
 
             let update = {}
-            if (req.body.name) {
-                update["name"] = req.body.name
+            if (req.body.firstName) {
+                update["firstName"] = req.body.firstName
+            }
+            if (req.body.lastName) {
+                update["lastName"] = req.body.lastName
             }
             if (req.body.company) {
                 update["company"] = req.body.company
