@@ -3,7 +3,7 @@ const JobSeeker = require("../models/JobSeeker");
 
 const add_job_seeker = async (req, res) => {
 
-    if (!req.body.name || !req.body.phoneNumber || !req.body.age || !req.body.bio || !req.body.workExp || !req.body.education || !req.body.currStatus) {
+    if (!req.body.firstName || !req.body.lastName || !req.body.phoneNumber || !req.body.age || !req.body.bio || !req.body.workExp || !req.body.education || !req.body.currStatus) {
         return res.status(400).send("There are missing fields in request body");
     }
     else {
@@ -12,7 +12,8 @@ const add_job_seeker = async (req, res) => {
                 res.status(403).send("User already exists, use 'put' endpoint for update")
             } else {
                 const new_job_seeker = new JobSeeker({
-                    name: req.body.name,
+                    firstName: req.body.firstName,
+                    lastName: req.body.lastName,
                     uid: req.user._id,
                     phoneNumber: req.body.phoneNumber,
                     age: req.body.age,
@@ -50,8 +51,11 @@ const update_job_seeker = async (req, res) => {
             filter = { uid: req.user._id }
 
             let update = {}
-            if (req.body.name) {
-                update["name"] = req.body.name
+            if (req.body.firstName) {
+                update["firstName"] = req.body.firstName
+            }
+            if (req.body.lastName) {
+                update["lastName"] = req.body.lastName
             }
             if (req.body.phoneNumber) {
                 update["phoneNumber"] = req.body.phoneNumber
