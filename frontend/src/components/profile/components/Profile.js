@@ -219,16 +219,19 @@ export const Profile = (props) => {
     React.useEffect(() => {
         if(!resume){
             JobSeekerController.getResume().then((res) => {
-                const base64String = btoa(new Uint8Array(res.data.data).reduce(function (data, byte) {
-                    return data + String.fromCharCode(byte);
-                }, ''));
-                setViewResume(base64String)
-                const url = window.URL.createObjectURL(new Blob([new Uint8Array(res.data.data).buffer]));
-                const link = document.createElement('a');
-                link.href = url;
-                link.setAttribute('download', res.name);
-                document.body.appendChild(link);
-                setResume(link)
+                if(res){
+                    const base64String = btoa(new Uint8Array(res.data.data).reduce(function (data, byte) {
+                        return data + String.fromCharCode(byte);
+                    }, ''));
+                    setViewResume(base64String)
+                    const url = window.URL.createObjectURL(new Blob([new Uint8Array(res.data.data).buffer]));
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.setAttribute('download', res.name);
+                    document.body.appendChild(link);
+                    setResume(link)
+                }
+                
             });
         }
     });
