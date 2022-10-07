@@ -1,4 +1,3 @@
-const { Binary } = require('mongodb');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
@@ -55,13 +54,6 @@ const jobseekerSchema = new Schema({
         type: String,
         required: false
     },
-    resume: {
-        type: new Schema({
-            name: String,
-            binData: Buffer
-        }),
-        required: false
-    }
 }
 );
 

@@ -167,7 +167,7 @@ const view_recruiter_profile_picture = async (req, res) => {
             console.log(err);
         }
         else {
-            res.status(200).send(docs)
+            res.status(200).send(docs[0])
         }
     });
 }
