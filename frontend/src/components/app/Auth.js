@@ -19,7 +19,7 @@ export default function (props) {
     const [user, setUser] = React.useState(null);
 
     const handleLogin = async () => {
-        UserController.login({ username: 'test11mail.com', password: 'lol1' }).then(res => { if (res.status == 200) { setLogged(true); } });
+        UserController.login({ username: 'testemail0@gmail.com', password: 'test1234' }).then(res => { if (res.status == 200) { setLogged(true); } });
     };
     const handleLogout = async () => {
         UserController.logout({}).then((res) => {

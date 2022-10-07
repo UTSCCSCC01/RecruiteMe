@@ -18,6 +18,7 @@ import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import profilePic from "./example-assets/profile-pic-example.png";
 import Modal from '@mui/material/Modal';
 import JobSeekerController from "../../../controller/JobSeekerController";
+import RecruiterController from "../../../controller/RecruiterController";
 import UserController from "../../../controller/UserController";
 import {
     BioSection,
@@ -28,6 +29,7 @@ import {
 } from "./ProfileSections";
 import * as React from "react";
 import JobSeekerForm from '../../CreateJobSeekerForm/JobSeekerForm';
+import RecruiterForm from '../../CreateJobSeekerForm/RecruiterForm';
 
 const ProfileHeader = (props) => {
     const [open, setOpen] = React.useState(false);
@@ -37,7 +39,11 @@ const ProfileHeader = (props) => {
     const handleClick = () => {
         UserController.getCurrent().then((res) => {
             setUser(res);
-            JobSeekerController.getJobSeeker().then((res) => {setProfile(res); setOpen(true);});
+            if(res.recruiter){
+                RecruiterController.getRecruiter().then((res) => {setProfile(res); setOpen(true);});
+            }else{
+                JobSeekerController.getJobSeeker().then((res) => {setProfile(res); setOpen(true);});
+            }            
         });
     };
     const handleClose = () => {setOpen(false); window.location.reload(false);
@@ -50,7 +56,11 @@ const ProfileHeader = (props) => {
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
-                <JobSeekerForm close={handleClose} profile={profile} user={user}></JobSeekerForm>
+                {props.isrecruiter
+                ? <RecruiterForm close={handleClose} profile={profile} user={user}></RecruiterForm>
+                : <RecruiterForm close={handleClose} profile={profile} user={user}></RecruiterForm>
+                }
+                
             </Modal>
             <Box
                 sx={{
