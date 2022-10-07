@@ -19,6 +19,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import profilePic from "./example-assets/profile-pic-example.png";
 import Modal from '@mui/material/Modal';
 import JobSeekerController from "../../../controller/JobSeekerController";
+import RecruiterController from "../../../controller/RecruiterController";
 import UserController from "../../../controller/UserController";
 import {
     BioSection,
@@ -54,7 +55,12 @@ const ProfileHeader = (props) => {
     const handleClick = () => {
         UserController.getCurrent().then((res) => {
             setUser(res);
-            JobSeekerController.getJobSeeker().then((res) => { setProfile(res); setOpen(true); });
+            if (res.recruiter) {
+                RecruiterController.getRecruiter().then((res) => { setProfile(res); setOpen(true); });
+            } else {
+                JobSeekerController.getJobSeeker().then((res) => { setProfile(res); setOpen(true); });
+            }
+        
         });
     };
     const handleLogout = () => {
@@ -198,8 +204,9 @@ const ProfileInfo = (props) => {
                 <EducationSection education={props.education} />
             )}
             {props.skills && <SkillsSection skills={props.skills} />}
-            <ResumeSection resume={props.resume}
-                    setResume={props.setResume} viewResume={props.viewResume}/>
+
+            {!props.isRecruiter &&  <ResumeSection resume={props.resume}
+                    setResume={props.setResume} viewResume={props.viewResume}/>}
         </Box>
     );
 };
@@ -303,7 +310,7 @@ export const Profile = (props) => {
                                 </ListItemButton>
                             </ListItem>
                         )}
-                        <ListItem key={"Resume"} disablePadding>
+                        {!props.isRecruiter && <ListItem key={"Resume"} disablePadding>
                             <ListItemButton sx={{ textAlign: "end" }}>
                                 <ListItemText
                                     primaryTypographyProps={{
@@ -313,6 +320,7 @@ export const Profile = (props) => {
                                 />
                             </ListItemButton>
                         </ListItem>
+                        }
                     </List>
 
                     {props.email && (
@@ -368,6 +376,7 @@ export const Profile = (props) => {
                     workExperience={props.workExperience}
                     education={props.education}
                     skills={props.skills}
+                    isRecruiter={props.isRecruiter}
                 ></ProfileInfo>
             </Box>
         </Box>
