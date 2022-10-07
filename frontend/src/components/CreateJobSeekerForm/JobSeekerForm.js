@@ -57,7 +57,7 @@ const JobSeekerForm = (props) => {
         if (notNewProfile) {
             JobSeekerController.updateJobSeeker(body[0]).then((res) => { if (!res.status) {props.close() } });
         } else {
-            JobSeekerController.addJobSeeker(body[0]).then((res) => { if (!res.status) {props.close()}});
+            JobSeekerController.addJobSeeker(body[0]).then((res) => { props.close()});
         }
     }
     return (
