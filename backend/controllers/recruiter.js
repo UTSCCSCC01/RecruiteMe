@@ -1,8 +1,6 @@
 const User = require("../models/User");
 const Recruiter = require("../models/Recruiter");
 const ProfilePicture = require("../models/Image.js");
-var fs = require('fs');
-var path = require('path');
 
 const add_recruiter = async (req, res) => {
 
@@ -110,20 +108,17 @@ const view_recruiters = async (req, res) => {
 }
 
 const add_recruiter_profile_picture = async (req, res) => {
-    if (!req.file.filename) {
-        return res.status(400).send("Missing filename in the request body");
+    if (!req.files.image.name) {
+        return res.status(400).send("File is missing a name");
     }
     else {
         ProfilePicture.exists({ _id: req.user._id }, function (err, docs) {
             if (docs != null) {
-                res.status(403).send("Profile picture already exists, use 'put' endpoint for update")
+                res.status(403).send("Profile picture for this user already exists, use 'put' endpoint for update")
             } else {
                 const new_profile_picture = new ProfilePicture({
                     _id: req.user._id,
-                    img: {
-                        data: fs.readFileSync(path.join(__dirname, '..', 'profile_picture_uploads', req.file.filename)),
-                        contentType: 'image/png'
-                    }
+                    data: mongodb.Binary(req.files.image.data)
                 });
                 new_profile_picture
                     .save()
@@ -143,12 +138,12 @@ const update_recruiter_profile_picture = async (req, res) => {
 
     ProfilePicture.exists({ _id: req.user._id }, function (err, docs) {
         if (docs == null) {
-            res.status(403).send("User doesn't exist")
+            res.status(403).send("Profile picture doesn't exist")
         } else {
-            filter = { uid: req.user._id }
+            filter = { _id: req.user._id }
 
             let update = {}
-            update["data"] = fs.readFileSync(path.join(__dirname, '..', 'profile_picture_uploads', req.file.filename))
+            update["data"] = mongodb.Binary(req.files.image.data)
 
             ProfilePicture.findOneAndUpdate(filter, update).then((result) => {
                 res.status(200).send(result);

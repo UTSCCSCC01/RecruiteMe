@@ -362,5 +362,14 @@ nodemon index.js
     - View Job Seeker : http://localhost:4000/<jobseeker OR recruiter>/profilepicture
     - Sample Response:
       ```
-      
+      {
+        "_id": "633e2eb14988c2467ea47872",
+        "data": {
+          "type": "Buffer",
+          "data": [
+          {Binary Data}
+          ]
+        },
+        "__v": 0
+      }
       ```
