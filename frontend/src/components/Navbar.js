@@ -6,12 +6,25 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import whitelogo from "../assets/WhiteLogo.png";
 import { useState } from "react";
-const sections = [{title:"Home", href:"#header"}, {title:"About", href:"#about"}, {title:"Contact Us", href:"#contact"}];
+import { useNavigate } from "react-router-dom";
+
+const sections = [{ title: "Home", href: "#header" }, { title: "About", href: "#about" }, { title: "Contact Us", href: "#contact" }];
 
 export default function Navbar() {
   //style={{ backgroundColor: "#91A4E8" }}
   const [navActive, setNavActive] = useState(false);
+  const navigate = useNavigate();
 
+  const handleLogin = (e) => {
+    e.preventDefault();
+    // Send email and password to backend using post request
+    navigate('/login')
+  };
+  const handleSignup = (e) => {
+    e.preventDefault();
+    // Send email and password to backend using post request
+    navigate('/signup')
+  };
   return (
     <AppBar
       position="sticky"
@@ -43,10 +56,10 @@ export default function Navbar() {
           ))}
         </Box>
 
-        <Button color="inherit" variant="outlined" sx={{ mr: 1 }}>
+        <Button color="inherit" variant="outlined" onClick={handleLogin} sx={{ mr: 1 }}>
           Login
         </Button>
-        <Button color="inherit" variant="outlined">
+        <Button color="inherit" variant="outlined" onClick={handleSignup}>
           Sign Up
         </Button>
       </Toolbar>
