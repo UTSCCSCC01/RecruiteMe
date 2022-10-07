@@ -1,6 +1,6 @@
 import React from "react";
 import { Grid, Paper, TextField, Button, Divider } from '@mui/material'
-import AuthenticationController from "../../../controller/AuthenticationController";
+import AuthenticationController from "../../controller/AuthenticationController";
 
 export default function LoginForm() {
     const [email, setEmail] = React.useState("");
@@ -9,7 +9,11 @@ export default function LoginForm() {
     const handleLogin = (e) => {
         e.preventDefault();
         // Send email and password to backend using post request
-        AuthenticationController.login(email, password).then((res) => console.log(res));
+        AuthenticationController.login(email, password).then((res) => {
+            console.log(res);
+            let token = res.headers.authorization;
+            console.log(token);
+        });
     };
 
     return (

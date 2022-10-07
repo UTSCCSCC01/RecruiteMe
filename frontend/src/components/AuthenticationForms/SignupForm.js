@@ -1,7 +1,7 @@
 import { Grid, Paper, TextField, Button, Divider } from '@mui/material'
 import { FormControl, RadioGroup, Radio, FormControlLabel } from '@mui/material';
 import { useState } from 'react';
-import AuthenticationController from "../../../controller/AuthenticationController";
+import AuthenticationController from "../../controller/AuthenticationController";
 
 
 export default function SignupForm() {
