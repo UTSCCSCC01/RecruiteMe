@@ -15,10 +15,10 @@ import {
 import "./Profile.css";
 import EditIcon from "@mui/icons-material/Edit";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
-import LogoutIcon from '@mui/icons-material/Logout';
 import profilePic from "./example-assets/profile-pic-example.png";
 import Modal from '@mui/material/Modal';
 import JobSeekerController from "../../../controller/JobSeekerController";
+import RecruiterController from "../../../controller/RecruiterController";
 import UserController from "../../../controller/UserController";
 import {
     BioSection,
@@ -29,10 +29,9 @@ import {
 } from "./ProfileSections";
 import * as React from "react";
 import JobSeekerForm from '../../CreateJobSeekerForm/JobSeekerForm';
-import { useNavigate } from "react-router-dom";
+import RecruiterForm from '../../CreateJobSeekerForm/RecruiterForm';
 
 const ProfileHeader = (props) => {
-    const navigate = useNavigate();
     const [open, setOpen] = React.useState(false);
     const [profile, setProfile] = React.useState(null);
     const [user, setUser] = React.useState(null);
@@ -40,12 +39,11 @@ const ProfileHeader = (props) => {
     const handleClick = () => {
         UserController.getCurrent().then((res) => {
             setUser(res);
-            JobSeekerController.getJobSeeker().then((res) => {setProfile(res); setOpen(true);});
-        });
-    };
-    const handleLogout = () => {
-        UserController.logout().then((res) => {
-            navigate('/')
+            if(res.recruiter){
+                RecruiterController.getRecruiter().then((res) => {setProfile(res); setOpen(true);});
+            }else{
+                JobSeekerController.getJobSeeker().then((res) => {setProfile(res); setOpen(true);});
+            }            
         });
     };
     const handleClose = () => {setOpen(false); window.location.reload(false);
@@ -58,7 +56,11 @@ const ProfileHeader = (props) => {
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
-                <JobSeekerForm close={handleClose} profile={profile} user={user}></JobSeekerForm>
+                {props.isrecruiter
+                ? <RecruiterForm close={handleClose} profile={profile} user={user}></RecruiterForm>
+                : <RecruiterForm close={handleClose} profile={profile} user={user}></RecruiterForm>
+                }
+                
             </Modal>
             <Box
                 sx={{
@@ -134,20 +136,6 @@ const ProfileHeader = (props) => {
                         size="145px"
                     >
                         Edit Profile
-                    </Button>
-                    <Button
-                        onClick={handleLogout}
-                        startIcon={<LogoutIcon fontSize="large" />}
-                        sx={{
-                            top:'100',
-                            color: "white",
-                            fontSize: "20px",
-                            fontWeight: "400",
-                            textTransform: "none",
-                        }}
-                        size="145px"
-                    >
-                        Log Out
                     </Button>
                 </Box>
 
