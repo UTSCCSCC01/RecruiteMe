@@ -1,3 +1,4 @@
+
 -   To install all the dependencies run
 
 ```bash
@@ -22,6 +23,175 @@ or
 ```bash
 nodemon index.js
 ```
+
+
+<p align="center">
+    <u><h2 align="center">Models/Schema:</h2></u>
+</p>
+
+- User:
+const userSchema = new Schema({
+
+   email: {
+       type: String,
+       required: true},
+
+   password: {
+       type: String,
+       required: true},
+
+   recruiter: {
+       type: Boolean,
+       required: true}
+}
+);
+
+- Recruiter:
+const recruiterSchema = new Schema({
+
+   firstName: {
+       type: String,
+       required: true},
+   lastName: {
+       type: String,
+       required: true
+   },
+   uid: { type: Schema.Types.ObjectId, ref: 'User'},
+   company: {
+       type: String,
+       required: true
+   },
+   email: {
+       type: String,
+       required: true
+   },
+   age: {
+       type: Number,
+       required: true
+   },
+   bio: {
+       type: String,
+       required: false
+   },
+   workExperience: {
+       type: {},
+       required: false
+   },
+   jobPosts: [
+       { type: Schema.Types.ObjectId, ref: 'Posts' }
+   ],
+   currStatus: {
+       type: String,
+       required: false
+   }
+ 
+}
+);
+
+- Job-seeker:
+const jobseekerSchema = new Schema({
+   
+firstName: {
+       type: String,
+       required: true
+   },
+   
+lastName: {
+       type: String,
+       required: true
+   },
+   uid: { type: Schema.Types.ObjectId, ref: 'User'},
+   phoneNumber: {
+       type: Number,
+       required: true
+   },
+   
+age: {
+       type: Number,
+       required: true
+   },
+   
+bio: {
+       type: String,
+       required: false
+   },
+   workExperience: {
+       type: Array,
+       of: new Schema({
+           company: String,
+           jobTitle: String,
+           startDate: String,
+           endDate: String,
+           description: String
+       }),
+       required: false
+   },
+   education: {
+       type: Array,
+       of: new Schema({
+           school: String,
+           program: String,
+           gradDate: String
+       }),
+       required: false
+   },
+   appliedPost: {
+       type: Map,
+       of: new Schema({
+           postId: { type: Schema.Types.ObjectId, ref: 'Posts' },
+           status: Boolean
+       })
+   },
+   currStatus: {
+       type: String,
+       required: false
+   },
+}
+);
+
+- Posts:
+const postsSchema = new Schema({
+   companyName: {
+       type: String,
+       required: true
+   },
+   role: {
+       type: String,
+       required: true
+   },
+   description: {
+       type: String,
+       required: true
+   },
+   numofApplicants: {
+       type: Number,
+       default: 0,
+       required: true
+   },
+   recruiter: {
+       type: Boolean,
+       required: true
+   }
+}
+);
+
+- Image
+var imageSchema = new mongoose.Schema({
+   _id: mongoose.Types.ObjectId,
+   data: Buffer
+});
+ 
+- Resume
+ var resumeSchema = new mongoose.Schema({
+   _id: mongoose.Types.ObjectId,
+   name: String,
+   data: Buffer
+});
+
+
+<p align="center">
+    <u><h2 align="center">Endpoints</h2></u>
+</p>
 
 <p align="center">
     <u><h2 align="center">User Authentication</h2></u>
@@ -416,4 +586,3 @@ nodemon index.js
         },
         "__v": 0
       }
-      ```
