@@ -1,21 +1,54 @@
-import React from "react";
-import { Grid, Paper, TextField, Button, Divider } from '@mui/material'
-import AuthenticationController from "../../controller/AuthenticationController";
+import React, { useState } from "react";
+import { Grid, Paper, TextField, Button, Divider, Alert } from '@mui/material'
+import UserController from "../../controller/UserController";
+import RecruiterController from "../../controller/RecruiterController";
+import JobSeekerController from "../../controller/JobSeekerController";
+import { useNavigate } from "react-router-dom";
 
 export default function LoginForm() {
+    const navigate = useNavigate();
+
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
-
+    const [error, setError] = useState(false)
     const handleLogin = (e) => {
         e.preventDefault();
         // Send email and password to backend using post request
-        AuthenticationController.login(email, password).then((res) => {
-            console.log(res);
-            let token = res.headers.authorization;
-            console.log(token);
-        });
-    };
+        UserController.login({username:email, password:password}).then((res) => {
+            if(res.status == 200){
+                UserController.getCurrent().then((res) => {
+                    if(res.recruiter){
+                        RecruiterController.getRecruiter().then((res) => {
+                            console.log(res)
+                            if(res.length == 0){
+                                navigate('/form')
+                            }else{
+                                navigate('/profile')
+                            }
+                        });
+                    }
+                    else{
+                        JobSeekerController.getJobSeeker().then((res) => {
+                            console.log(res)
+                            if(res.length == 0){
+                                navigate('/form')
+                            }else{
+                                navigate('/profile')
+                            }
+                    });
+                }
 
+                });
+            }else{
+                setError(true);
+            }
+        })
+    };
+    const handleSignup = (e) => {
+        e.preventDefault();
+        // Send email and password to backend using post request
+        navigate('/signup')
+    };
     return (
         <Grid>
             <Paper
@@ -50,10 +83,13 @@ export default function LoginForm() {
                     onClick={handleLogin} 
                     fullWidth
                 >
-                    Sign in
+                    Log In
                 </Button>
+                {error ? 
+                <Alert sx={{ width:250}} severity="error">Login failed</Alert>
+                :null}
                 <Divider textAlign='center' sx={{paddingTop: "1em", paddingBottom: "1em"}}>or</Divider>
-                <Button type='submit' color='secondary' variant='contained' fullWidth>Register</Button>
+                <Button type='button' color='secondary' variant='contained' fullWidth sx={{ textTransform: 'none'}} onClick={handleSignup}>Sign Up </Button>
             </Paper>
         </Grid>
     );

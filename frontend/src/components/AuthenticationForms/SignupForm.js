@@ -1,15 +1,17 @@
-import { Grid, Paper, TextField, Button, Divider } from '@mui/material'
+import { Grid, Paper, TextField, Button, Divider, Alert } from '@mui/material'
 import { FormControl, RadioGroup, Radio, FormControlLabel } from '@mui/material';
 import { useState } from 'react';
-import AuthenticationController from "../../controller/AuthenticationController";
+import { useNavigate } from "react-router-dom";
+import UserController from "../../controller/UserController";
 
 
 export default function SignupForm() {
+    const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [reenteredPassword, setReenteredPassword] = useState("");
     const [recruiter, setRecruiter] = useState(false);
-
+    const [error, setError] = useState(false)
 
     const handleRegister = (e) => {
         e.preventDefault();
@@ -19,10 +21,19 @@ export default function SignupForm() {
             return;
         }
         // Send email and password to backend using post request
-        AuthenticationController.register(email, password, recruiter).then((res) => console.log(res));
-        
+        UserController.register({email:email, password:password, recruiter: recruiter}).then((res) => {
+            if(res.status == 201){
+                navigate('/login')
+            }
+        else{
+            setError(true);
+
+        }});
     };
-    
+    const handleSignin = (e) => {
+        e.preventDefault();
+        navigate('/login')
+    };
     return (
         <Grid>
             <Paper 
@@ -80,8 +91,10 @@ export default function SignupForm() {
                 >
                     Sign Up
                 </Button>
-                <Divider textAlign='center' sx={{paddingTop: "1em", paddingBottom: "1em"}}>or</Divider>
-                <Button type='submit' color='secondary' variant='contained' fullWidth>Sign In</Button>
+                {error ? 
+                <Alert sx={{ width:250}} severity="error">Sign up failed</Alert>
+                :null}                <Divider textAlign='center' sx={{paddingTop: "1em", paddingBottom: "1em"}}>or</Divider>
+                <Button type='button' color='secondary' variant='contained' fullWidth sx={{ textTransform: 'none'}} onClick={handleSignin}>Log In</Button>
             </Paper>
         </Grid>
     );
