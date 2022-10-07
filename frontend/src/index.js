@@ -8,6 +8,7 @@ import JobSeekerForm from './pages/CreateProfilePage';
 import { useNavigate } from "react-router-dom";
 import Login from "./pages/LoginPage"
 import Signup from "./pages/SignupPage"
+
 import Auth from "./components/app/Auth"
 import Landing from "./pages/Landing";
 
