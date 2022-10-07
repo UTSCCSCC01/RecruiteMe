@@ -407,16 +407,13 @@ nodemon index.js
     - Sample Response:
       ```
       {
-        "img": {
-          "data": {
-            "type": "Buffer",
-             "data": [
-             {Binary data}
-             ]
-          },
-          "contentType": "image/png"
-        },
         "_id": "633e2eb14988c2467ea47872",
+        "data": {
+          "type": "Buffer",
+          "data": [
+          {Binary Data}
+          ]
+        },
         "__v": 0
       }
       ```
