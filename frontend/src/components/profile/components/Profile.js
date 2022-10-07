@@ -30,6 +30,7 @@ import {
 import * as React from "react";
 import JobSeekerForm from '../../CreateJobSeekerForm/JobSeekerForm';
 import { useNavigate } from "react-router-dom";
+import RecruiterForm from "../../CreateJobSeekerForm/RecruiterForm";
 
 const ProfileHeader = (props) => {
     const navigate = useNavigate();
@@ -72,7 +73,10 @@ const ProfileHeader = (props) => {
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
-                <JobSeekerForm close={handleClose} profile={profile} user={user} pfp={pfp} resume={props.resume}></JobSeekerForm>
+                {props.isRecruiter
+                ?<RecruiterForm close={handleClose} profile={profile} user={user} pfp={pfp} resume={props.resume}></RecruiterForm>
+                :<JobSeekerForm close={handleClose} profile={profile} user={user} pfp={pfp} resume={props.resume}></JobSeekerForm>}
+                
             </Modal>
             <Box
                 sx={{
