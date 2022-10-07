@@ -4,10 +4,10 @@
 Different parts of the frontend are organized into components. Components are located in the src/components folder.
 
 Landing Component
-- Conatins different parts for the landing page
+- Contains different parts for the landing page
 
 AuthenticationForms Component
-- Conatins the Login and Register forms
+- Contains the Login and Register forms
 
 CreateJobSeekerForm Component
 - Contains the form for creating a job seeker profile
@@ -49,14 +49,14 @@ UserController.js
 
 RecruiterController.js
 - Provides functionallity for recruiter related requests:
-    - getRecruiter: GET request to /recruiter/profile gets the profile of the loggedin recruiter
+    - getRecruiter: GET request to /recruiter/profile gets the profile of the logged-in recruiter
     - addRecruiter: POST request to /recruiter/add adds a new recruiter profile
     - updateRecruiter: PUT request to /recruiter/update updates the recruiter profile
     - getAllRecruiter: GET request to /recruiter/all gets all the recruiters
 
 JobSeekerController.js
 - Provides functionallity for job seeker related requests:
-    - getJobSeeker: GET request to /jobseeker/profile gets the profile of the loggedin job seeker
+    - getJobSeeker: GET request to /jobseeker/profile gets the profile of the logged-in job seeker
     - addJobSeeker: POST request to /jobseeker/add adds a new job seeker profile
     - updateJobSeeker: PUT request to /jobseeker/update updates the job seeker profile
     - getAllJobSeeker: GET request to /jobseeker/all gets all the job seekers
