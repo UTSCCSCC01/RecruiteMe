@@ -86,7 +86,7 @@ const update_job_seeker = async (req, res) => {
 }
 
 const view_job_seeker_profile = async (req, res) => {
-    JobSeeker.find({ _id: req.user._id }, function (err, docs) {
+    JobSeeker.find({ uid: req.user._id }, function (err, docs) {
         if (err) {
             res.send(400).send("User doesnt exist")
             console.log(err);

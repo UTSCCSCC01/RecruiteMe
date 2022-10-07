@@ -1,6 +1,8 @@
-
 const User = require("../models/User");
 const Recruiter = require("../models/Recruiter");
+const ProfilePicture = require("../models/Image.js");
+var fs = require('fs');
+var path = require('path');
 
 const add_recruiter = async (req, res) => {
 
@@ -107,4 +109,67 @@ const view_recruiters = async (req, res) => {
     });
 }
 
-module.exports = { add_recruiter, update_recruiter, view_recruiter_profile, view_recruiters }
+const add_recruiter_profile_picture = async (req, res) => {
+    if (!req.file.filename) {
+        return res.status(400).send("Missing filename in the request body");
+    }
+    else {
+        ProfilePicture.exists({ _id: req.user._id }, function (err, docs) {
+            if (docs != null) {
+                res.status(403).send("Profile picture already exists, use 'put' endpoint for update")
+            } else {
+                const new_profile_picture = new ProfilePicture({
+                    _id: req.user._id,
+                    img: {
+                        data: fs.readFileSync(path.join(__dirname, '..', 'profile_picture_uploads', req.file.filename)),
+                        contentType: 'image/png'
+                    }
+                });
+                new_profile_picture
+                    .save()
+                    .then((result) => {
+                        res.status(200).send(result);
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                        res.status(500).send(err)
+                    });
+            }
+        });
+    }
+};
+
+const update_recruiter_profile_picture = async (req, res) => {
+
+    ProfilePicture.exists({ _id: req.user._id }, function (err, docs) {
+        if (docs == null) {
+            res.status(403).send("User doesn't exist")
+        } else {
+            filter = { uid: req.user._id }
+
+            let update = {}
+            update["data"] = fs.readFileSync(path.join(__dirname, '..', 'profile_picture_uploads', req.file.filename))
+
+            ProfilePicture.findOneAndUpdate(filter, update).then((result) => {
+                res.status(200).send(result);
+            }).catch((err) => {
+                console.log(err);
+                res.status(500).send(err)
+            });
+        }
+    });
+}
+
+const view_recruiter_profile_picture = async (req, res) => {
+    ProfilePicture.find({ _id: req.user._id }, function (err, docs) {
+        if (err) {
+            res.send(400).send("User profile picture doesn't exist")
+            console.log(err);
+        }
+        else {
+            res.status(200).send(docs)
+        }
+    });
+}
+
+module.exports = { add_recruiter, update_recruiter, view_recruiter_profile, view_recruiters, add_recruiter_profile_picture, update_recruiter_profile_picture, view_recruiter_profile_picture }
