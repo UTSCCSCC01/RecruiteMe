@@ -21,8 +21,10 @@ export default function LoginForm() {
                         RecruiterController.getRecruiter().then((res) => {
                             console.log(res)
                             if(res.length == 0){
+                                console.log("S-H-I-T");
                                 navigate('/form')
                             }else{
+                                console.log("HUH?");
                                 navigate('/profile')
                             }
                         });
