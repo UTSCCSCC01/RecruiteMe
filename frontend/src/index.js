@@ -6,8 +6,9 @@ import ProfilePage from './components/profile/ProfilePage';
 import JobSeekerForm from './pages/CreateProfilePage';
 
 import { useNavigate } from "react-router-dom";
-import Login from "./components/LoginSignup/Pages/LoginPage"
-import Signup from "./components/LoginSignup/Pages/SignupPage"
+import Login from "./pages/LoginPage"
+import Signup from "./pages/SignupPage"
+
 import Auth from "./components/app/Auth"
 import Landing from "./pages/Landing";
 
