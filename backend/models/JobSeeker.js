@@ -1,8 +1,13 @@
-const mongoose = require('mongoose')
+const { Binary } = require('mongodb');
+const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const jobseekerSchema = new Schema({
-    name: {
+    firstName: {
+        type: String,
+        required: true
+    },
+    lastName: {
         type: String,
         required: true
     },
@@ -20,11 +25,23 @@ const jobseekerSchema = new Schema({
         required: false
     },
     workExperience: {
-        type: {},
+        type: Array,
+        of: new Schema({
+            company: String,
+            jobTitle: String,
+            startDate: String,
+            endDate: String,
+            description: String
+        }),
         required: false
     },
     education: {
-        type: {},
+        type: Array,
+        of: new Schema({
+            school: String,
+            program: String,
+            gradDate: String
+        }),
         required: false
     },
     appliedPost: {
@@ -36,6 +53,13 @@ const jobseekerSchema = new Schema({
     },
     currStatus: {
         type: String,
+        required: false
+    },
+    resume: {
+        type: new Schema({
+            name: String,
+            binData: Buffer
+        }),
         required: false
     }
 }
