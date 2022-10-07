@@ -3,7 +3,7 @@ import { Grid, Paper, TextField, Button } from '@mui/material'
 import JobSeekerController from "../../controller/JobSeekerController";
 
 const JobSeekerForm = (props) => {
-    const [profileFormValues, setProfileFormValues] = useState((props.profile && props.profile.length !== 0) ? props.profile : [{ firstName: "", lastName: "", phoneNumber: "", age: 20, bio: "", currStatus: "asd",  education: [{school: "UTSC", program: "Computer Science", gradDate: "2024"}],}])
+    const [profileFormValues, setProfileFormValues] = useState((props.profile && props.profile.length !== 0) ? props.profile : [{ firstName: "", lastName: "", phoneNumber: "", age: 20, bio: "", currStatus: "asd", education: [{ school: "UTSC", program: "Computer Science", gradDate: "2024" }], }])
     const [workFormValues, setWorkFormValues] = useState((props.profile && props.profile.length !== 0) ? props.profile[0].workExperience : [{ company: "", jobTitle: "", startDate: "", description: "" }])
     const notNewProfile = (props.profile && props.profile.length !== 0)
     const [selectedPicture, setSelectedPicture] = useState();
@@ -55,9 +55,9 @@ const JobSeekerForm = (props) => {
         delete body.workExperience;
         body[0].workExp = workFormValues
         if (notNewProfile) {
-            JobSeekerController.updateJobSeeker(body[0]).then((res) => { if (!res.status) {props.close() } });
+            JobSeekerController.updateJobSeeker(body[0]).then((res) => { if (!res.status) { props.close() } });
         } else {
-            JobSeekerController.addJobSeeker(body[0]).then((res) => { props.close()});
+            JobSeekerController.addJobSeeker(body[0]).then((res) => { props.close() });
         }
     }
     return (

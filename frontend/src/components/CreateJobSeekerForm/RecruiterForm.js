@@ -3,7 +3,7 @@ import { Grid, Paper, TextField, Button } from '@mui/material'
 import RecruiterController from "../../controller/RecruiterController";
 
 const RecruiterForm = (props) => {
-    const [profileFormValues, setProfileFormValues] = useState((props.profile && props.profile.length !== 0) ? props.profile : [{ firstName: "", lastName: "", phoneNumber: "",company: "", age: 20, bio: "", currStatus: "asd",  education: [{school: "UTSC", program: "Computer Science", gradDate: "2024"}],}])
+    const [profileFormValues, setProfileFormValues] = useState((props.profile && props.profile.length !== 0) ? props.profile : [{ firstName: "", lastName: "", phoneNumber: "", company: "", age: 20, bio: "", currStatus: "asd",  education: [{school: "UTSC", program: "Computer Science", gradDate: "2024"}],}])
     const [workFormValues, setWorkFormValues] = useState((props.profile && props.profile.length !== 0) ? props.profile[0].workExperience : [{ company: "", jobTitle: "", startDate: "", description: "" }])
     const notNewProfile = (props.profile && props.profile.length !== 0)
     const [selectedPicture, setSelectedPicture] = useState();
@@ -55,9 +55,9 @@ const RecruiterForm = (props) => {
         delete body.workExperience;
         body[0].workExp = workFormValues
         if (notNewProfile) {
-          RecruiterController.updateRecruiter(body[0]).then((res) => { if (!res.status) {props.close() } });
+          RecruiterController.updateRecruiter(body[0]).then((res) => { if (!res.status) { } });
         } else {
-          RecruiterController.addRecruiter(body[0]).then((res) => { if (!res.status) {props.close()}});
+          RecruiterController.addRecruiter(body[0]).then((res) => { props.close()});
         }
     }
     return (
@@ -113,24 +113,15 @@ const RecruiterForm = (props) => {
                                     required
                                 />
                                 
-                                <TextField
-                                    label='Phone Number'
-                                    placeholder='Enter Phone Number'
-                                    name='phoneNumber'
-                                    type="number"
-                                    value={profileFormValues[0].phoneNumber}
-                                    sx={{ left: 8, width: 270, paddingBottom: "1em", paddingRight: "1em" }}
-                                    InputProps={{ sx: { backgroundColor: "#f3f1f1" } }}
-                                    onChange={e => handleProfileChange(e)}
-                                    required
-                                />
+                                
                                 <TextField
                                     label='Company Page'
                                     placeholder='Enter Link to Company Page'
                                     name='company'
                                     value={profileFormValues[0].company}
-                                    sx={{ left: 8, width: 270, paddingBottom: "1em" }}
-                                    InputProps={{ sx: { backgroundColor: "#f3f1f1" } }}
+                                    fullWidth
+                                    sx={{ left: 60, paddingBottom: "1em" }}
+                                    InputProps={{ sx: { width: 560, backgroundColor: "#f3f1f1" } }}
                                     onChange={e => handleProfileChange(e)}
                                 />
                                 
