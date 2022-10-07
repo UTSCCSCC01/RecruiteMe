@@ -33,7 +33,8 @@ POST http://localhost:4000/recruiter/add HTTP/1.1
 content-type: application/json
 
 {
-    "name": "Pritish",
+    "firstName": "Pritish",
+    "lastName": "Panda",
     "company": "UTSC",
     "age": 21,
     "bio": "Hello world",
@@ -62,3 +63,37 @@ GET http://localhost:4000/recruiter/viewall HTTP/1.1
 ###
 
 GET http://localhost:4000/auth/currUser HTTP/1.1
+
+###
+
+POST http://localhost:4000/jobseeker/add HTTP/1.1
+content-type: application/json
+
+{
+    "firstName": "Alton",
+    "lastName": "Liu",
+    "phoneNumber": 9999999999,
+    "age": 20,
+    "bio": "Hello world",
+    "workExp": [{"company": "National Bank", "jobTitle": "IT Analyst", "startDate": "Aug 2021 - May 2022", "description": "a" }, {"company": "National Bank2", "jobTitle": "IT Analyst", "startDate": "Aug 2021", "endDate": "May 2022", "description": "a" }],
+    "education": {"school": "UTSC", "program": "Computer Science", "gradDate": "2024"},
+    "currStatus": "SEEKING FOR JOB IN SUMMER 2023"
+}
+
+###
+
+
+PUT http://localhost:4000/jobseeker/update HTTP/1.1
+content-type: application/json
+
+{
+    "currStatus": "Accepted a position at Google for summer 2023"
+}
+
+###
+
+GET http://localhost:4000/jobseeker/profile HTTP/1.1
+
+###
+
+GET http://localhost:4000/jobseeker/viewall HTTP/1.1
