@@ -57,7 +57,7 @@ const ProfileHeader = (props) => {
                 aria-describedby="modal-modal-description"
             >
                 {props.isrecruiter
-                ? <RecruiterForm close={handleClose} profile={profile} user={user}></RecruiterForm>
+                ? <JobSeekerForm close={handleClose} profile={profile} user={user}></JobSeekerForm>
                 : <RecruiterForm close={handleClose} profile={profile} user={user}></RecruiterForm>
                 }
                 
