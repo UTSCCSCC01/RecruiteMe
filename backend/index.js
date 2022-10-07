@@ -3,7 +3,7 @@ require("dotenv").config();
 const { json, urlencoded } = require("body-parser");
 const cors = require("cors");
 const express = require("express");
-const { AuthRoutes } = require('./routes')
+const { AuthRoutes, RecruiterRoutes, JobSeekerRoutes } = require('./routes')
 const { passport, store } = require("./mongodb_setup/setup")
 const session = require('express-session')
 
@@ -23,7 +23,10 @@ app.use(session({
     saveUninitialized: true,
     cookie: { secure: false }
 }));
-
+app.use((req, res, next) => {
+    res.setHeader("Access-Control-Allow-Credentials", true)
+    next();
+})
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -35,38 +38,14 @@ const port = process.env.PORT || 4000;
 
 app.use(
     cors({
-        origin: "http://localhost:4000",
+        origin: "http://localhost:3000",
     })
 );
 
 
 app.use("/auth", AuthRoutes);
-
-// app.get("/users", loggedIn, (req, res) => {
-//     User.find()
-//         .then((result) => {
-//             res.send(result);
-//         })
-//         .catch((err) => {
-//             console.log(err);
-//         });
-// });
-
-// app.get("/users/:id", loggedIn, (req, res) => {
-//     if (req.params.id) {
-//         User.findById(req.params.id)
-//             .then((result) => {
-//                 res.send(result);
-//             })
-//             .catch((err) => {
-//                 console.log(err);
-//             });
-//     } else {
-//         res.status(400).send("There are missing fields in request body");
-//     }
-// });
-
-
+app.use("/recruiter", RecruiterRoutes);
+app.use("/jobseeker", JobSeekerRoutes);
 
 app.listen(port, () => console.log(`Listening on port ${port}..`));
 
