@@ -10,7 +10,7 @@
 | Recruiter |
 | As a recruiter Linda, sign-up and login into a recruiter account and view my profile so I can proceed with recruiting job-seekers | Medium|
 | As a recruiter Linda, create and update company page with company information and job openings so job-seekers can search for jobs and find out more about the specific company | Medium|
-| As a recruiter Linda, create job postings and create posts so I can communicate potential job opportunities to the job-seekers | Medium|
+| As a recruiter Linda, create job postings and create posts so Id can communicate potential job opportunities to the job-seekers | Medium|
 | As a recruiter Linda, see and review all the job applications for a particular job post so I can see the applicants for this particular job | Medium|
 | As a recruiter Linda, select job-seekers/applicant who is going to move forward so I can select the candidates that have potential | Highest |
 | As a recruiter Linda, select interview scheduling dates and send invites so I can further assess the candidates for the job | Lowest |

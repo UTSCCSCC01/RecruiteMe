@@ -30,8 +30,8 @@ nodemon index.js
 </p>
 
 - User:
-```
 const userSchema = new Schema({
+
    email: {
        type: String,
        required: true},
@@ -45,11 +45,10 @@ const userSchema = new Schema({
        required: true}
 }
 );
-```
 
 - Recruiter:
-```
 const recruiterSchema = new Schema({
+
    firstName: {
        type: String,
        required: true},
@@ -88,11 +87,10 @@ const recruiterSchema = new Schema({
  
 }
 );
-```
 
 - Job-seeker:
-```
 const jobseekerSchema = new Schema({
+   
 firstName: {
        type: String,
        required: true
@@ -150,10 +148,8 @@ bio: {
    },
 }
 );
-```
 
 - Posts:
-```
 const postsSchema = new Schema({
    companyName: {
        type: String,
@@ -178,24 +174,20 @@ const postsSchema = new Schema({
    }
 }
 );
-```
 
 - Image
-```
 var imageSchema = new mongoose.Schema({
    _id: mongoose.Types.ObjectId,
    data: Buffer
 });
-```
-
+ 
 - Resume
-```
  var resumeSchema = new mongoose.Schema({
    _id: mongoose.Types.ObjectId,
    name: String,
    data: Buffer
 });
-```
+
 
 <p align="center">
     <u><h2 align="center">Endpoints</h2></u>

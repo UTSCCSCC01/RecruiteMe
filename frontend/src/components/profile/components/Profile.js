@@ -15,10 +15,10 @@ import {
 import "./Profile.css";
 import EditIcon from "@mui/icons-material/Edit";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
+import LogoutIcon from '@mui/icons-material/Logout';
 import profilePic from "./example-assets/profile-pic-example.png";
 import Modal from '@mui/material/Modal';
 import JobSeekerController from "../../../controller/JobSeekerController";
-import RecruiterController from "../../../controller/RecruiterController";
 import UserController from "../../../controller/UserController";
 import {
     BioSection,
@@ -29,24 +29,40 @@ import {
 } from "./ProfileSections";
 import * as React from "react";
 import JobSeekerForm from '../../CreateJobSeekerForm/JobSeekerForm';
-import RecruiterForm from '../../CreateJobSeekerForm/RecruiterForm';
+import { useNavigate } from "react-router-dom";
 
 const ProfileHeader = (props) => {
+    const navigate = useNavigate();
     const [open, setOpen] = React.useState(false);
     const [profile, setProfile] = React.useState(null);
     const [user, setUser] = React.useState(null);
+    const [pfp, setPfp] = React.useState(null);
+
+    React.useEffect(() => {
+        if (!pfp) {
+            JobSeekerController.getPfp().then((res) => {
+                const base64String = btoa(new Uint8Array(res.data.data).reduce(function (data, byte) {
+                    return data + String.fromCharCode(byte);
+                }, ''));
+                setPfp(base64String)
+            });
+        }
+
+    });
 
     const handleClick = () => {
         UserController.getCurrent().then((res) => {
             setUser(res);
-            if(res.recruiter){
-                RecruiterController.getRecruiter().then((res) => {setProfile(res); setOpen(true);});
-            }else{
-                JobSeekerController.getJobSeeker().then((res) => {setProfile(res); setOpen(true);});
-            }            
+            JobSeekerController.getJobSeeker().then((res) => { setProfile(res); setOpen(true); });
         });
     };
-    const handleClose = () => {setOpen(false); window.location.reload(false);
+    const handleLogout = () => {
+        UserController.logout().then((res) => {
+            navigate('/')
+        });
+    };
+    const handleClose = () => {
+        setOpen(false); window.location.reload(false);
     };
     return (
         <>
@@ -56,11 +72,7 @@ const ProfileHeader = (props) => {
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
-                {!props.isrecruiter
-                ? <RecruiterForm close={handleClose} profile={profile} user={user}></RecruiterForm>
-                : <JobSeekerForm close={handleClose} profile={profile} user={user}></JobSeekerForm>
-                }
-                
+                <JobSeekerForm close={handleClose} profile={profile} user={user} pfp={pfp} resume={props.resume}></JobSeekerForm>
             </Modal>
             <Box
                 sx={{
@@ -137,12 +149,26 @@ const ProfileHeader = (props) => {
                     >
                         Edit Profile
                     </Button>
+                    <Button
+                        onClick={handleLogout}
+                        startIcon={<LogoutIcon fontSize="large" />}
+                        sx={{
+                            top: '100',
+                            color: "white",
+                            fontSize: "20px",
+                            fontWeight: "400",
+                            textTransform: "none",
+                        }}
+                        size="145px"
+                    >
+                        Log Out
+                    </Button>
                 </Box>
 
                 <Avatar
                     className="profile-pic"
                     alt={props.name}
-                    src={profilePic} //TODO: display pic
+                    src={`data:image/png;base64,${pfp}`}//TODO: display pic
                     sx={{
                         width: 225,
                         height: 225,
@@ -168,12 +194,32 @@ const ProfileInfo = (props) => {
                 <EducationSection education={props.education} />
             )}
             {props.skills && <SkillsSection skills={props.skills} />}
-            <ResumeSection />
+            <ResumeSection resume={props.resume}
+                    setResume={props.setResume} viewResume={props.viewResume}/>
         </Box>
     );
 };
 
 export const Profile = (props) => {
+    const [resume, setResume] = React.useState(null);
+    const [viewResume, setViewResume] = React.useState();
+
+    React.useEffect(() => {
+        if(!resume){
+            JobSeekerController.getResume().then((res) => {
+                const base64String = btoa(new Uint8Array(res.data.data).reduce(function (data, byte) {
+                    return data + String.fromCharCode(byte);
+                }, ''));
+                setViewResume(base64String)
+                const url = window.URL.createObjectURL(new Blob([new Uint8Array(res.data.data).buffer]));
+                const link = document.createElement('a');
+                link.href = url;
+                link.setAttribute('download', res.name);
+                document.body.appendChild(link);
+                setResume(link)
+            });
+        }
+    });
     return (
         <Box sx={{ display: "flex" }}>
             <AppBar
@@ -183,6 +229,7 @@ export const Profile = (props) => {
                 <ProfileHeader
                     firstName={props.firstName}
                     lastName={props.lastName}
+                    resume={resume}
                     isRecruiter={props.isRecruiter}
                     company={props.company}
                     status={props.status}
@@ -310,6 +357,9 @@ export const Profile = (props) => {
             <Box component="main" sx={{ flexGrow: 1, p: 3, pr: 0 }}>
                 <Toolbar sx={{ height: 250 }} />
                 <ProfileInfo
+                    resume={resume}
+                    setResume={setResume}
+                    viewResume={viewResume}
                     bio={props.bio}
                     workExperience={props.workExperience}
                     education={props.education}

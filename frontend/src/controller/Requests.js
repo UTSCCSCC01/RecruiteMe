@@ -30,6 +30,34 @@
             console.log(err);
         }
     };
+    const PostFile = async (path, data) => {
+        try {
+            let response = null;
+            response = await fetch(baseUrl + path, {
+                method: 'POST',
+                credentials: 'include',
+                body: data,
+            });
+                return response;
+
+        } catch (err) {
+            console.log(err);
+        }
+    };
+    const PutFile = async (path, data) => {
+        try {
+            let response = null;
+            response = await fetch(baseUrl + path, {
+                method: 'PUT',
+                credentials: 'include',
+                body: data,
+            });
+                return response;
+
+        } catch (err) {
+            console.log(err);
+        }
+    };
     const Put = async (path, data) => {
         try {
             let response = null;
@@ -48,4 +76,4 @@
         }
     };
 
-export {Get, Post, Put};
+export {Get, Post, Put, PostFile, PutFile};
