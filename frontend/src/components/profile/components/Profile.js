@@ -79,6 +79,7 @@ const ProfileHeader = (props) => {
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
+
                 {props.isRecruiter
                 ?<RecruiterForm close={handleClose} profile={profile} user={user} pfp={pfp} resume={props.resume}></RecruiterForm>
                 :<JobSeekerForm close={handleClose} profile={profile} user={user} pfp={pfp} resume={props.resume}></JobSeekerForm>}
