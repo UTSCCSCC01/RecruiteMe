@@ -217,6 +217,7 @@ const update_job_seeker_resume = async (req, res) => {
             filter = { uid: req.user._id }
 
             let update = {}
+            update["name"] = req.files.resume.name
             update["data"] = mongodb.Binary(req.files.resume.data)
 
             Resume.findOneAndUpdate(filter, update).then((result) => {
