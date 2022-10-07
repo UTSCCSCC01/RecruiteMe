@@ -1,6 +1,6 @@
 import { Box, Button, Typography } from "@mui/material";
 import "./Profile.css";
-import resume from "./example-assets/resume-example.pdf";
+import JobSeekerController from "../../../controller/JobSeekerController";
 import * as React from "react";
 
 export const BioSection = (props) => {
@@ -152,6 +152,9 @@ export const SkillsSection = (props) => {
 export const ResumeSection = (props) => {
     const [showResume, setShowResume] = React.useState(false);
 
+    const handleDownload= () => {
+        props.resume.click();
+    };
     return (
         <Box mt={3} mb={4}>
             <Typography variant="h4" mb={1} mr={2}>
@@ -169,7 +172,7 @@ export const ResumeSection = (props) => {
                         border: "#91A4E8 1px solid",
                         height: "30px",
                     }}
-                    href={resume}
+                    onClick={handleDownload}
                     download
                 >
                     Download
@@ -210,7 +213,7 @@ export const ResumeSection = (props) => {
                         width: "100%",
                         height: "900px",
                     }}
-                    src={resume} //TODO: display real resume
+                    src={`data:application/pdf;base64,${props.viewResume}`} //TODO: display real resume
                     type="application/pdf"
                     title="title"
                 />

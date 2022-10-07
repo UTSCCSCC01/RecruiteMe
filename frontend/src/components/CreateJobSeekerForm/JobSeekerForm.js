@@ -3,13 +3,16 @@ import { Grid, Paper, TextField, Button } from '@mui/material'
 import JobSeekerController from "../../controller/JobSeekerController";
 
 const JobSeekerForm = (props) => {
-    const [profileFormValues, setProfileFormValues] = useState((props.profile && props.profile.length != 0) ? props.profile : [{ firstName: "", lastName: "", phoneNumber: "", age: 20, bio: "", currStatus: "asd",  education: [{school: "UTSC", program: "Computer Science", gradDate: "2024"}],}])
+    const [profileFormValues, setProfileFormValues] = useState((props.profile && props.profile.length != 0) ? props.profile : [{ firstName: "", lastName: "", phoneNumber: "", age: 20, bio: "", currStatus: "asd", education: [{ school: "UTSC", program: "Computer Science", gradDate: "2024" }], }])
     const [workFormValues, setWorkFormValues] = useState((props.profile && props.profile.length != 0) ? props.profile[0].workExperience : [{ company: "", jobTitle: "", startDate: "", description: "" }])
     const notNewProfile = (props.profile && props.profile.length != 0)
     const [selectedPicture, setSelectedPicture] = useState();
-    const [selectedPictureURL, setSelectedPictureURL] = useState();
+    const [selectedPictureURL, setSelectedPictureURL] = useState(props.pfp ? `data:image/png;base64,${props.pfp}` : null);
+    const pfpExist = props.pfp != null
+    const resumeExist = props.resume != null
+    console.log(props.resume)
     const [isPictureClicked, setIsPictureClicked] = useState(false);
-    const [selectedResume, setSelectedResume] = useState();
+    const [selectedResume, setSelectedResume] = useState(props.resume ? props.resume : null);
     const [isResumeClicked, setIsResumeClicked] = useState(false);
     const ResumeInput = useRef(null);
     const PictureInput = useRef(null);
@@ -54,10 +57,24 @@ const JobSeekerForm = (props) => {
         let body = profileFormValues
         delete body.workExperience;
         body[0].workExp = workFormValues
+        if (selectedPicture != null && isPictureClicked) {
+            if (pfpExist) {
+                JobSeekerController.updatePfp(selectedPicture).then((res) => { console.log('image uploaded') });
+            } else {
+                JobSeekerController.addPfp(selectedPicture).then((res) => { console.log('image uploaded') });
+            }
+        }
+        if (selectedResume != null && isResumeClicked) {
+            if (resumeExist) {
+                JobSeekerController.updateResume(selectedResume).then((res) => { console.log('resume uploaded') });
+            } else {
+                JobSeekerController.addResume(selectedResume).then((res) => { console.log('resume uploaded') });
+            }
+        }
         if (notNewProfile) {
             JobSeekerController.updateJobSeeker(body[0]).then((res) => { if (!res.status) {props.close() } });
         } else {
-            JobSeekerController.addJobSeeker(body[0]).then((res) => { props.close()});
+            JobSeekerController.addJobSeeker(body[0]).then((res) => {props.close()});
         }
     }
     return (
@@ -74,10 +91,11 @@ const JobSeekerForm = (props) => {
                             <input
                                 ref={PictureInput}
                                 type="file"
+                                accept="image/png, image/jpeg"
                                 onChange={handlePictureChange}
                                 style={{ display: 'none' }}
                             />
-                            <img style={{ width: 282 / 2, height: 319 / 2 }} src={isPictureClicked ? selectedPictureURL : require('../../assets/JobSeekerFormImageUpload.png')} onClick={() => handlePictureClick()} />
+                            <img style={{ width: 282 / 2, height: 319 / 2 }} src={selectedPictureURL ? selectedPictureURL : require('../../assets/JobSeekerFormImageUpload.png')} onClick={() => handlePictureClick()} />
                             <div>
                                 <TextField
                                     label='First Name'
@@ -205,12 +223,15 @@ const JobSeekerForm = (props) => {
                     <div style={{ paddingTop: 10 }}>
                         <input
                             type="file"
+                            id="image"
+                            name="image"
                             ref={ResumeInput}
+                            accept="application/pdf"
                             onChange={handleResumeChange}
                             style={{ display: 'none' }}
                         />
 
-                        <Button type='button' color='primary' variant='filled' onClick={handleResumeClick} sx={{ borderRadius: 3, right: 250, width: 300, backgroundColor: "#f3f1f1 ", border: 2, borderColor: "#91a4e8", color: "#91a4e8", textTransform: 'none', fontSize: 19 }} fullWidth>{isResumeClicked ? selectedResume.name + ' Uploaded!' : 'Upload Resume'}</Button>
+                        <Button type='button' color='primary' variant='filled' onClick={handleResumeClick} sx={{ borderRadius: 3, right: 250, width: 300, backgroundColor: "#f3f1f1 ", border: 2, borderColor: "#91a4e8", color: "#91a4e8", textTransform: 'none', fontSize: 19 }} fullWidth>{isResumeClicked ? selectedResume.name: 'Upload Resume'}</Button>
                     </div>
                     <div >
                         <Button type='submit' color='secondary' variant='filled' sx={{ borderRadius: 3, left: 295, width: 130, height: 45, backgroundColor: "#91a4e8", textTransform: 'none', color: "#FFFFFF", fontSize: 19 }} fullWidth>Save</Button>
