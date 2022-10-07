@@ -241,5 +241,67 @@ const view_job_seeker_resume = async (req, res) => {
     });
 }
 
+// Resume API
+const add_job_seeker_resume = async (req, res) => {
+    if (!req.files.resume.name) {
+        return res.status(400).send("File is missing a name");
+    }
+    else {
+        Resume.exists({ _id: req.user._id }, function (err, docs) {
+            if (docs != null) {
+                res.status(403).send("Resume for this user already exists, use 'put' endpoint for update")
+            } else {
+                const new_resume = new Resume({
+                    _id: req.user._id,
+                    name: req.files.resume.name,
+                    data: mongodb.Binary(req.files.resume.data)
+                });
+                new_resume
+                    .save()
+                    .then((result) => {
+                        res.status(200).send(result);
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                        res.status(500).send(err)
+                    });
+            }
+        });
+    }
+};
+
+const update_job_seeker_resume = async (req, res) => {
+
+    Resume.exists({ _id: req.user._id }, function (err, docs) {
+        if (docs == null) {
+            res.status(403).send("Resume doesn't exist")
+        } else {
+            filter = { uid: req.user._id }
+
+            let update = {}
+            update["data"] = mongodb.Binary(req.files.resume.data)
+
+            Resume.findOneAndUpdate(filter, update).then((result) => {
+                res.status(200).send(result);
+            }).catch((err) => {
+                console.log(err);
+                res.status(500).send(err)
+            });
+        }
+    });
+}
+
+const view_job_seeker_resume = async (req, res) => {
+    Resume.find({ _id: req.user._id }, function (err, docs) {
+        if (err) {
+            res.send(400).send("User resume doesn't exist")
+            console.log(err);
+        }
+        else {
+            res.status(200).send(docs)
+        }
+    });
+}
+
 module.exports = { add_job_seeker, update_job_seeker,view_job_seeker_profile, view_job_seekers, add_job_seeker_profile_picture,
     update_job_seeker_profile_picture, view_job_seeker_profile_picture, add_job_seeker_resume, update_job_seeker_resume, view_job_seeker_resume }
