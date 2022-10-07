@@ -327,12 +327,55 @@ nodemon index.js
       ]
       ```
       
+-   **Add Resume** : POST {/jobseeker/addresume}
+    - Endpoint to add resume to the current loggedIn job seeker: http://localhost:4000/jobseeker/addresume
+    - The user has to be loggedIn to use this endpoint
+    - Files must be sent as form-data
+    - When taking in the file from the front end, the name of the input must be "resume" as shown below:
+      <input type="file" name="resume" value="" required>
+    - Sample body request
+      
+      ![image](https://user-images.githubusercontent.com/68790482/194496469-d09f4917-88e9-4145-969d-383e4734dfb9.png)
+
+    - Return 200 for success and 401 for aunthentication failure, with an error in the response body
+
+-   **Update Resume** : PUT {/jobseeker/updateresume}
+    - Endpoint to update resume of the current loggedIn job seeker : http://localhost:4000/jobseeker/updateresume
+    - The user has to be loggedIn to use this endpoint
+    - Files must be sent as form-data
+    - When taking in the file from the front end, the name of the input must be "resume" as shown below:
+      <input type="file" name="resume" value="" required>
+    - Sample body request
+      
+      ![image](https://user-images.githubusercontent.com/68790482/194496894-770ebe0b-bf1f-4148-bb5f-39b0ae12e608.png)
+
+
+    - Return 200 for success and 401 for aunthentication failure, with an error in the response body
+
+-   **Get Resume** : GET {/jobseeker/resume}
+    - Get the resume of the current loggedIn job seeker in the form of binary data
+    - Get Resume : http://localhost:4000/jobseeker/resume
+    - Sample Response:
+      ```
+      {
+        "_id": "633e2eb14988c2467ea47872",
+        "name": "mock_resume.pdf",
+        "data": {
+          "type": "Buffer",
+          "data": [
+          {Binary Data}
+          ]
+        },
+        "__v": 0
+      }
+      ```
+      
 <p align="center">
     <u><h2 align="center">Profile Picture</h2></u>
 </p>
 
--   **Add Profile Picture** : POST {/<jobseeker OR recruiter>/addpfp}
-    - Endpoint to add profile picture : http://localhost:4000/<jobseeker OR recruiter>/addpfp
+-   **Add Profile Picture** : POST {/{jobseeker OR recruiter}/addpfp}
+    - Endpoint to add profile picture : http://localhost:4000/{jobseeker OR recruiter}/addpfp
     - The user has to be loggedIn to use this endpoint
     - Pictures must be sent as form-data
     - When taking in the picture from the front end, the name of the input must be "image" as shown below:
@@ -344,8 +387,8 @@ nodemon index.js
       
     - Return 200 for success and 401 for aunthentication failure, with an error in the response body
 
--   **Update Profile Picture** : PUT {/<jobseeker OR recruiter>/updatepfp}
-    - Endpoint to update profile picture : http://localhost:4000/<jobseeker OR recruiter>/updatepfp
+-   **Update Profile Picture** : PUT {/{jobseeker OR recruiter}/updatepfp}
+    - Endpoint to update profile picture : http://localhost:4000/{jobseeker OR recruiter}/updatepfp
     - The user has to be loggedIn to use this endpoint
     - Pictures must be sent as form-data
     - When taking in the picture from the front end, the name of the input must be "image" as shown below:
@@ -357,9 +400,10 @@ nodemon index.js
 
     - Return 200 for success and 401 for aunthentication failure, with an error in the response body
 
--   **View Profile Picture** : GET {/<jobseeker OR recruiter>/profile}
+-   **View Profile Picture** : GET {/{jobseeker OR recruiter}/profilepicture}
     - View the profile picture of the current loggedIn user
-    - View Job Seeker : http://localhost:4000/<jobseeker OR recruiter>/profilepicture
+    - View Profile Picture : http://localhost:4000/{jobseeker OR recruiter}/profilepicture
+    - Front end developers must use base64 to display image (check step 10 of https://www.geeksforgeeks.org/upload-and-retrieve-image-on-mongodb-using-mongoose/)
     - Sample Response:
       ```
       {
