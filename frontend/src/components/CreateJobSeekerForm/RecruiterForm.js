@@ -75,7 +75,9 @@ const RecruiterForm = (props) => {
             }
         }
         if (notNewProfile) {
+
           RecruiterController.updateRecruiter(body[0]).then((res) => { if (!res.status) { props.close() } });
+
         } else {
           RecruiterController.addRecruiter(body[0]).then((res) => { props.close()});
         }
