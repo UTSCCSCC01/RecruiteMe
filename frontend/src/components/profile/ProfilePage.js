@@ -1,7 +1,7 @@
 import { Profile } from "./components/Profile";
 import * as React from "react";
 import UserController from "../../controller/UserController";
-import RecruiterController from "../../controller/UserController";
+import RecruiterController from "../../controller/RecruiterController";
 import JobSeekerController from "../../controller/JobSeekerController";
 
 export const ProfilePage = () => {
@@ -14,7 +14,9 @@ export const ProfilePage = () => {
             setEmail(res.email);
             if (res.recruiter) {
                 setIsRecruiter(true);
-                RecruiterController.getRecruiter().then((res) => setUser(res));
+                RecruiterController.getRecruiter().then((res) => {
+                    setUser(res[0]);
+                });
             } else {
                 JobSeekerController.getJobSeeker().then((res) => {
                     setUser(res[0]);
