@@ -1,0 +1,99 @@
+POST http://localhost:4000/auth/register HTTP/1.1
+content-type: application/json
+
+{
+    "email": "testmail.com",
+    "password": "lol1",
+    "recruiter": false
+}
+
+###
+
+POST http://localhost:4000/auth/logout HTTP/1.1
+
+###
+
+POST http://localhost:4000/auth/login HTTP/1.1
+content-type: application/json
+
+{
+    "username": "testmail.com",
+    "password": "lol1"
+}
+
+
+###
+
+GET http://localhost:4000/users HTTP/1.1
+
+
+###
+
+POST http://localhost:4000/recruiter/add HTTP/1.1
+content-type: application/json
+
+{
+    "firstName": "Pritish",
+    "lastName": "Panda",
+    "company": "UTSC",
+    "age": 21,
+    "bio": "Hello world",
+    "workExp": {"USTC": 1},
+    "currStatus": "SEEKING FOR JOB IN WINTER 2023"
+}
+
+###
+
+
+PUT http://localhost:4000/recruiter/update HTTP/1.1
+content-type: application/json
+
+{
+    "company": "UTM"
+}
+
+###
+
+GET http://localhost:4000/recruiter/profile HTTP/1.1
+
+###
+
+GET http://localhost:4000/recruiter/viewall HTTP/1.1
+
+###
+
+GET http://localhost:4000/auth/currUser HTTP/1.1
+
+###
+
+POST http://localhost:4000/jobseeker/add HTTP/1.1
+content-type: application/json
+
+{
+    "firstName": "Alton",
+    "lastName": "Liu",
+    "phoneNumber": 9999999999,
+    "age": 20,
+    "bio": "Hello world",
+    "workExp": [{"company": "National Bank", "jobTitle": "IT Analyst", "startDate": "Aug 2021 - May 2022", "description": "a" }, {"company": "National Bank2", "jobTitle": "IT Analyst", "startDate": "Aug 2021", "endDate": "May 2022", "description": "a" }],
+    "education": {"school": "UTSC", "program": "Computer Science", "gradDate": "2024"},
+    "currStatus": "SEEKING FOR JOB IN SUMMER 2023"
+}
+
+###
+
+
+PUT http://localhost:4000/jobseeker/update HTTP/1.1
+content-type: application/json
+
+{
+    "currStatus": "Accepted a position at Google for summer 2023"
+}
+
+###
+
+GET http://localhost:4000/jobseeker/profile HTTP/1.1
+
+###
+
+GET http://localhost:4000/jobseeker/viewall HTTP/1.1
