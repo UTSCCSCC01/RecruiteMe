@@ -47,7 +47,7 @@ const jobseekerSchema = new Schema({
         type: Map,
         of: new Schema({
             postId: { type: Schema.Types.ObjectId, ref: 'Posts' },
-            status: Boolean
+            status: Number
         })
     },
     currStatus: {
