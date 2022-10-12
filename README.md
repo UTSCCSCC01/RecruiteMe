@@ -4,13 +4,13 @@
 
 ## Installation
 1. Install [Node](https://nodejs.org/en/download/current/)
-2. To Install the dependencies starting from the main project directory and run in the command prompt.
+2. To Install the dependencies starting from the main project directory and run the following command on prompt.
 ```
 sh firstinstall.sh
 ```
 3. To start the web app run.
 ```
-sh ruanpp.sh
+sh runapp.sh
 ```
 4. The sh script takes care of the installation and activation
 5. The default port  for accessing the frontend by which the app can be accessed is http://localhost:3000
