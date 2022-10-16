@@ -8,6 +8,7 @@ const mongodb = require('mongodb');
 
 const ProfilePicture = require("../models/Image");
 const Resume = require("../models/Resume");
+const Post = require("../models/Posts");
 
 // Profile text data API
 const add_job_seeker = async (req, res) => {
@@ -102,6 +103,7 @@ const view_job_seeker_profile = async (req, res) => {
         }
     });
 }
+
 const view_job_seekers = async (req, res) => {
     JobSeeker.find({}, function (err, jobseekers) {
         if (err) {
@@ -237,5 +239,18 @@ const view_job_seeker_resume = async (req, res) => {
     });
 }
 
+// Job post API
+const view_open_job_posts = async (req, res) => {
+    Post.find({isHiring: true}, function (err, posts) {
+        if (err) {
+            res.send(500).send("Internal Err")
+            console.log(err);
+        }
+        else {
+            res.status(200).send(posts)
+        }
+    });
+}
+
 module.exports = { add_job_seeker, update_job_seeker,view_job_seeker_profile, view_job_seekers, add_job_seeker_profile_picture,
-    update_job_seeker_profile_picture, view_job_seeker_profile_picture, add_job_seeker_resume, update_job_seeker_resume, view_job_seeker_resume }
+    update_job_seeker_profile_picture, view_job_seeker_profile_picture, add_job_seeker_resume, update_job_seeker_resume, view_job_seeker_resume, view_open_job_posts }
