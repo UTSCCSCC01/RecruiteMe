@@ -174,6 +174,18 @@ const view_job_seeker_profile_picture = async (req, res) => {
     });
 }
 
+const view_others_profile_picture = async (req, res) => {
+    ProfilePicture.find({ _id: req.body._id }, function (err, docs) {
+        if (err) {
+            res.send(400).send("User profile picture doesn't exist")
+            console.log(err);
+        }
+        else {
+            res.status(200).send(docs[0])
+        }
+    });
+}
+
 // Resume API
 const add_job_seeker_resume = async (req, res) => {
     if (!req.files.resume.name) {
@@ -238,4 +250,4 @@ const view_job_seeker_resume = async (req, res) => {
 }
 
 module.exports = { add_job_seeker, update_job_seeker,view_job_seeker_profile, view_job_seekers, add_job_seeker_profile_picture,
-    update_job_seeker_profile_picture, view_job_seeker_profile_picture, add_job_seeker_resume, update_job_seeker_resume, view_job_seeker_resume }
+    update_job_seeker_profile_picture, view_job_seeker_profile_picture, add_job_seeker_resume, update_job_seeker_resume, view_job_seeker_resume, view_others_profile_picture }
