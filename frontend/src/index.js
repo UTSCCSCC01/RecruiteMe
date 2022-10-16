@@ -5,6 +5,7 @@ import App from "./components/app/App";
 import ProfilePage from './components/profile/ProfilePage';
 import JobSeekerForm from './pages/CreateProfilePage';
 import RecruiterForm from './pages/CreateProfilePage';
+import JobDetailPage from './pages/JobDetailPage';
 
 import { useNavigate } from "react-router-dom";
 import Login from "./pages/LoginPage"
@@ -28,6 +29,7 @@ root.render(
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/job" element={<JobDetailPage />} />
             <Route path="/auth" element={<Auth />} />
           </Routes>
         </BrowserRouter>
