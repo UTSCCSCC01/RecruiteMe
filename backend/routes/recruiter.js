@@ -13,4 +13,7 @@ router.post('/addpfp', loggedIn, RecruiterController.add_recruiter_profile_pictu
 router.put('/updatepfp', loggedIn, RecruiterController.update_recruiter_profile_picture)
 router.get('/profilepicture', loggedIn, RecruiterController.view_recruiter_profile_picture)
 
+// For recruiter job post data
+router.post('/addjobpost', loggedIn, RecruiterController.add_job_post)
+
 module.exports = router
