@@ -195,4 +195,16 @@ const add_job_post = async (req, res) => {
     }
 };
 
-module.exports = { add_recruiter, update_recruiter, view_recruiter_profile, view_recruiters, add_recruiter_profile_picture, update_recruiter_profile_picture, view_recruiter_profile_picture, add_job_post }
+const view_others_profile_picture = async (req, res) => {
+    ProfilePicture.find({ _id: req.body._id }, function (err, docs) {
+        if (err) {
+            res.send(400).send("User profile picture doesn't exist")
+            console.log(err);
+        }
+        else {
+            res.status(200).send(docs[0])
+        }
+    });
+}
+
+module.exports = { add_recruiter, update_recruiter, view_recruiter_profile, view_recruiters, add_recruiter_profile_picture, update_recruiter_profile_picture, view_recruiter_profile_picture, add_job_post, view_others_profile_picture }

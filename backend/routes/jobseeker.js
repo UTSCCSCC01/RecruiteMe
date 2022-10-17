@@ -13,10 +13,14 @@ router.get('/viewall', loggedIn, JobSeekerController.view_job_seekers)
 router.post('/addpfp', loggedIn, JobSeekerController.add_job_seeker_profile_picture)
 router.put('/updatepfp', loggedIn, JobSeekerController.update_job_seeker_profile_picture)
 router.get('/profilepicture', loggedIn, JobSeekerController.view_job_seeker_profile_picture)
+router.get('/othersprofilepicture', loggedIn, JobSeekerController.view_others_profile_picture)
 
 // For job seeker resume data
 router.post('/addresume', loggedIn, JobSeekerController.add_job_seeker_resume)
 router.put('/updateresume', loggedIn, JobSeekerController.update_job_seeker_resume)
 router.get('/resume', loggedIn, JobSeekerController.view_job_seeker_resume)
+
+// For job seeker job post data
+router.get('/openjobposts', loggedIn, JobSeekerController.view_open_job_posts)
 
 module.exports = router
