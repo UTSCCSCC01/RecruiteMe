@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const Recruiter = require("../models/Recruiter");
-const ProfilePicture = require("../models/Image.js");
+const ProfilePicture = require("../models/Image");
+const Post = require("../models/Posts");
 
 const add_recruiter = async (req, res) => {
 
@@ -167,6 +168,33 @@ const view_recruiter_profile_picture = async (req, res) => {
     });
 }
 
+const add_job_post = async (req, res) => {
+    if (!req.body.companyName || !req.body.role || !req.body.description || !req.body.qualification || !req.body.deadline) {
+        return res.status(400).send("There are missing fields in request body");
+    } else {
+        const new_job_post = new Post({
+            companyName: req.body.companyName,
+            role: req.body.role,
+            description: req.body.description,
+            qualification: req.body.qualification,
+            applicants: [],
+            recruiter: req.user._id,
+            isHiring: true,
+            posted: Date(),
+            deadline: req.body.deadline,
+        });
+        new_job_post
+            .save()
+            .then((result) => {
+                res.status(200).send(result);
+            })
+            .catch((err) => {
+                console.log(err);
+                res.status(500).send(err)
+            });
+    }
+};
+
 const view_others_profile_picture = async (req, res) => {
     ProfilePicture.find({ _id: req.body._id }, function (err, docs) {
         if (err) {
@@ -179,4 +207,4 @@ const view_others_profile_picture = async (req, res) => {
     });
 }
 
-module.exports = { add_recruiter, update_recruiter, view_recruiter_profile, view_recruiters, add_recruiter_profile_picture, update_recruiter_profile_picture, view_recruiter_profile_picture, view_others_profile_picture }
+module.exports = { add_recruiter, update_recruiter, view_recruiter_profile, view_recruiters, add_recruiter_profile_picture, update_recruiter_profile_picture, view_recruiter_profile_picture, add_job_post, view_others_profile_picture }
