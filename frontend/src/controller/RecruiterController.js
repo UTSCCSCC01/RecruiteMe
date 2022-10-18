@@ -65,6 +65,12 @@ const RecruiterController = (function () {
                 "/recruiter/resume"
             );
         },
+        addJobPost: async (body) => {
+            return await Post(
+                "/recruiter/addjobpost",
+                body
+            );
+        },
     });
 })();
 
