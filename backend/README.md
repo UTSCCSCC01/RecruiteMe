@@ -690,13 +690,20 @@ var imageSchema = new mongoose.Schema({
     - The job seeker has to be loggedIn to use this endpoint
     - Sample response:
       ```
-      {
+      [{
         "companyName": "Google",
         "role": "Software Engineer",
         "description": "Engineer some software",
         "qualification": "Good at software engineering",
         "deadline": "2022-10-31T23:59"
-      }
+      },
+      {
+        "companyName": "Google",
+        "role": "SWE Intern",
+        "description": "Engineer some software",
+        "qualification": "Good at software engineering",
+        "deadline": "2022-10-31T23:59"
+      }]
       ```
 
 -   **Apply to Job Post** : POST GET {/jobseeker/apply}
