@@ -24,5 +24,6 @@ router.get('/resume', loggedIn, JobSeekerController.view_job_seeker_resume)
 // For job seeker job post data
 router.get('/openjobposts', loggedIn, JobSeekerController.view_open_job_posts)
 router.post('/apply', loggedIn, JobSeekerController.apply_job_post)
+router.get('/myapplications', loggedIn, JobSeekerController.my_job_applications)
 
 module.exports = router

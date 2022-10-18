@@ -147,6 +147,14 @@ content-type: application/json
     "deadline": "2022-11-01T03:59:00.000+00:00"
 }
 
+###
+
+
+
+GET http://localhost:4000/jobseeker/myapplications HTTP/1.1
+
+###
+
 
 
 
