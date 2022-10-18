@@ -19,7 +19,7 @@ const postsSchema = new Schema({
         required: true
     },
     applicants: [
-        { type: Schema.Types.ObjectId, ref: 'JobSeeker' }
+        { type: Schema.Types.ObjectId, ref: 'User' }
     ],
     numofApplicants: {
         type: Number,

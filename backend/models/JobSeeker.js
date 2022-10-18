@@ -43,13 +43,12 @@ const jobseekerSchema = new Schema({
         }),
         required: false
     },
-    appliedPost: {
-        type: Map,
-        of: new Schema({
-            postId: { type: Schema.Types.ObjectId, ref: 'Posts' },
-            status: Number
-        })
-    },
+    appliedPost: [{
+        postId: String,
+        status: Number
+    }
+    ]
+    ,
     currStatus: {
         type: String,
         required: false
