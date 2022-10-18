@@ -1,16 +1,12 @@
 // Create a form for posting jobs
-import React, { useState, useRef } from 'react';
-import { Grid, Paper, TextField, Button, Box, Chip } from '@mui/material'
+import React, { useState } from 'react';
+import { Grid, Paper, TextField, Button, Chip } from '@mui/material'
 import RecruiterController from '../../controller/RecruiterController';
 
 const JobPostingForm = (props) => {
     const [role, setRole] = useState("");
     const [description, setDescription] = useState("");
     const [qualifications, setQualifications] = useState([]);
-    const [error, setError] = useState(false)
-    const [success, setSuccess] = useState(false)
-    const [loading, setLoading] = useState(false)
-    const [job, setJob] = useState(null)
     const [deadline, setDeadline] = useState(null)
 
 
@@ -23,12 +19,14 @@ const JobPostingForm = (props) => {
     }
 
     const handleSubmit = (e) => {
+        if (role === '' || description === '' || deadline === null) {
+            return
+        }
         e.preventDefault();
         // Send job information to backend
         // If successful, set success to true
         // If unsuccessful, set error to true
         console.log("Submitting job posting form");
-        setLoading(true);
         // Get the recruiter's company name
         RecruiterController.getRecruiter().then((res) => {
             console.log(res);
@@ -42,14 +40,12 @@ const JobPostingForm = (props) => {
 
             RecruiterController.addJobPost(job).then((res) => {
                 console.log(res);
-                if (res.status == 200) {
-                    setSuccess(true);
-                    setJob(res.job);
+                if (res.status === 200) {
                     props.close();
-                } else {
-                    setError(true);
                 }
-                setLoading(false);
+                else {
+                    console.log("Error adding job post");
+                }
             })
         });
     };
@@ -63,9 +59,9 @@ const JobPostingForm = (props) => {
                 <Grid align='center'>
                     <h2>Post a Job</h2>
                 </Grid>
-                {/* <form onSubmit={handleSubmit}> */}
-                    <TextField label='Role' placeholder='Enter role' fullWidth sx={{ paddingBottom: "0.5em" }}  required onChange={(e) => setRole(e.target.value)}/>
-                    <TextField label='Description' placeholder='Enter description' fullWidth rows={4} multiline sx={{ paddingBottom: "0.5em" }} InputProps={{ sx: { height: 125, backgroundColor: "#f3f1f1" } }} required onChange={(e) => setDescription(e.target.value)}/>
+                <form>
+                    <TextField label='Role' placeholder='Enter role' fullWidth required sx={{ paddingBottom: "0.5em" }} onChange={(e) => setRole(e.target.value)}/>
+                    <TextField label='Description' placeholder='Enter description' fullWidth required rows={4} multiline sx={{ paddingBottom: "0.5em" }} InputProps={{ sx: { height: 125, backgroundColor: "#f3f1f1" } }} onChange={(e) => setDescription(e.target.value)}/>
                     <TextField label='Qualifications' placeholder='Enter qualifiactions' fullWidth onKeyDown={(e) => handleQualificationsTag(e)}/>
                     {/* For every skill entered, create a deletable chip */}
                     {/* Map the skills to chips */}
@@ -90,12 +86,14 @@ const JobPostingForm = (props) => {
                         InputLabelProps={{
                             shrink: true,
                         }}
+                        required
                         onChange={(e) => setDeadline(e.target.value)}
                     />
 
                     
                     <Button type='submit' color='primary' variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handleSubmit} >Submit</Button>
-                {/* </form> */}
+                    <Button type='close' color='secondary' variant="contained" sx={{ mt: 3, mb: 2, marginLeft: "1em" }} onClick={props.close}>Cancel</Button>
+                </form>
             </Paper>
         </Grid>
     )
