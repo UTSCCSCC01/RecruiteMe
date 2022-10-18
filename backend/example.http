@@ -128,6 +128,7 @@ GET http://localhost:4000/jobseeker/viewall HTTP/1.1
 
 ###
 
+GET http://localhost:4000/jobseeker/openjobposts HTTP/1.1
 
 
 POST http://localhost:4000/jobseeker/apply HTTP/1.1
@@ -150,7 +151,6 @@ content-type: application/json
     "deadline": "2022-11-01T03:59:00.000+00:00"
 }
 
-
 ###
 
 GET http://localhost:4000/recruiter/myposts HTTP/1.1
@@ -159,9 +159,3 @@ GET http://localhost:4000/recruiter/myposts HTTP/1.1
 ###
 
 GET http://localhost:4000/post/view/634e1ab0298e3e3ce79850e3 HTTP/1.1
-
-
-
-
-
-

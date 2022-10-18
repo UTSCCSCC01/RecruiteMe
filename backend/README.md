@@ -696,13 +696,72 @@ var imageSchema = new mongoose.Schema({
         },
         "__v": 0
       }
-
-
+      
+-   **View Specific User's Profile Picture** : GET {/{jobseeker OR recruiter}/othersprofilepicture}
+    - View the profile picture of a specified user in the database
+    - View Specific User's Profile Picture : http://localhost:4000/{jobseeker OR recruiter}/othersprofilepicture
+    - Front end developers must use base64 to display image (check step 10 of https://www.geeksforgeeks.org/upload-and-retrieve-image-on-mongodb-using-mongoose/)
+    - Sample Request Body:
+      ```
+      {
+        "_id": "633e2eb14988c2467ea47872"
+      }
+      ```
+      
+    - Sample Response:
+      ```
+      {
+        "_id": "633e2eb14988c2467ea47872",
+        "data": {
+          "type": "Buffer",
+          "data": [
+          {Binary Data}
+          ]
+        },
+        "__v": 0
+      }
+      
 <p align="center">
-    <u><h2 align="center">Post</h2></u>
+    <u><h2 align="center">Job Post</h2></u>
 </p>
 
--   **Apply to Job Pos** : POST {/jobseeker/apply}
+-   **Add New Job Post** : POST {/recruiter/addjobpost}
+    - Endpoint to add new job post : http://localhost:4000/recruiter/addjobpost
+    - The recruiter has to be loggedIn to use this endpoint
+    - Sample body request
+      ```
+      {
+        "companyName": "Google",
+        "role": "Software Engineer",
+        "description": "Engineer some software",
+        "qualification": "Good at software engineering",
+        "deadline": "2022-10-31T23:59"
+      }
+      ```
+    - Return 200 for success and 401 for aunthentication failure, with an error in the response body
+    
+-   **View All Open Job Posts** : GET {/jobseeker/openjobposts}
+    - Endpoint to get all open job posts : http://localhost:4000/jobseeker/openjobposts
+    - The job seeker has to be loggedIn to use this endpoint
+    - Sample response:
+      ```
+      [{
+        "companyName": "Google",
+        "role": "Software Engineer",
+        "description": "Engineer some software",
+        "qualification": "Good at software engineering",
+        "deadline": "2022-10-31T23:59"
+      },
+      {
+        "companyName": "Google",
+        "role": "SWE Intern",
+        "description": "Engineer some software",
+        "qualification": "Good at software engineering",
+        "deadline": "2022-10-31T23:59"
+      }]
+      ```
+
+-   **Apply to Job Post** : POST {/jobseeker/apply}
     - Endpoint that allows a job seeker to apply to a specific Job Post
     - The user has to be loggedIn to use this endpoint
     - Sample body request:
