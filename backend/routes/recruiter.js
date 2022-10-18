@@ -18,5 +18,6 @@ router.get('/othersprofilepicture', loggedIn, RecruiterController.view_others_pr
 
 // For recruiter job post data
 router.post('/addjobpost', loggedIn, RecruiterController.add_job_post)
+router.get('/myposts', loggedIn, RecruiterController.view_my_posts)
 
 module.exports = router
