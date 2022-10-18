@@ -649,6 +649,26 @@ var imageSchema = new mongoose.Schema({
         "__v": 0
       }
       ```
+
+-   **View My Job application** : GET {/jobseeker/myapplications}
+    - Endpoint to view all job applications of a curetn user who is a job seeker
+    - Sample Request : http://localhost:4000/jobseeker/myapplications
+    - Sample Response:
+      ```
+      [
+        {
+          "postId": "634f07c5806f133bdc5957e7",
+          "status": 0,
+          "_id": "634f185c35c72a8d9182c460"
+        },
+        {
+          "postId": "634e1ab0298e3e3ce79850e3",
+          "status": 0,
+          "_id": "634f188035c72a8d9182c473"
+        }
+      ]
+      ```
+      
       
 <p align="center">
     <u><h2 align="center">Profile Picture</h2></u>
