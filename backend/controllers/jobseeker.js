@@ -3,11 +3,14 @@ const fileUpload = require('express-fileupload')
 const User = require("../models/User");
 const JobSeeker = require("../models/JobSeeker");
 var fs = require('fs');
-var path = require('path');
 const mongodb = require('mongodb');
+const mongoose = require('mongoose');
+
 
 const ProfilePicture = require("../models/Image");
 const Resume = require("../models/Resume");
+const Post = require("../models/Posts");
+const { Schema } = require('mongoose');
 
 // Profile text data API
 const add_job_seeker = async (req, res) => {
@@ -102,6 +105,7 @@ const view_job_seeker_profile = async (req, res) => {
         }
     });
 }
+
 const view_job_seekers = async (req, res) => {
     JobSeeker.find({}, function (err, jobseekers) {
         if (err) {
@@ -110,6 +114,18 @@ const view_job_seekers = async (req, res) => {
         }
         else {
             res.status(200).send(jobseekers)
+        }
+    });
+}
+
+const view_job_seeker = async (req, res) => {
+    JobSeeker.find({ _id: req.params.id }, function (err, recruiter) {
+        if (err) {
+            res.send(500).send("Internal Err")
+            console.log(err);
+        }
+        else {
+            res.status(200).send(recruiter)
         }
     });
 }
@@ -164,6 +180,18 @@ const update_job_seeker_profile_picture = async (req, res) => {
 
 const view_job_seeker_profile_picture = async (req, res) => {
     ProfilePicture.find({ _id: req.user._id }, function (err, docs) {
+        if (err) {
+            res.send(400).send("User profile picture doesn't exist")
+            console.log(err);
+        }
+        else {
+            res.status(200).send(docs[0])
+        }
+    });
+}
+
+const view_others_profile_picture = async (req, res) => {
+    ProfilePicture.find({ _id: req.body._id }, function (err, docs) {
         if (err) {
             res.send(400).send("User profile picture doesn't exist")
             console.log(err);
@@ -237,5 +265,82 @@ const view_job_seeker_resume = async (req, res) => {
     });
 }
 
-module.exports = { add_job_seeker, update_job_seeker,view_job_seeker_profile, view_job_seekers, add_job_seeker_profile_picture,
-    update_job_seeker_profile_picture, view_job_seeker_profile_picture, add_job_seeker_resume, update_job_seeker_resume, view_job_seeker_resume }
+// Job post API
+const view_open_job_posts = async (req, res) => {
+    Post.find({ isHiring: true }, function (err, posts) {
+        if (err) {
+            res.send(500).send("Internal Err")
+            console.log(err);
+        }
+        else {
+            res.status(200).send(posts)
+        }
+    });
+}
+
+
+//APPLY TO JOB POST
+const apply_job_post = async (req, res) => {
+
+    if (!req.body.post_id) {
+        res.send(400).send("Missing post_id from body")
+    }
+    else {
+        // Add post to appliedPost list in JobSeeker schema
+        await JobSeeker.findOne({ uid: req.user._id }).then((result) => {
+            var posts = result.appliedPost
+            if (!req.body.post_id in posts || posts.length == 0) {
+                posts.push({
+                    postId: req.body.post_id,
+                    status: 0
+                })
+                JobSeeker.findOneAndUpdate(
+                    { uid: req.user._id },
+                    {
+                        $set: {
+                            appliedPost: posts
+                        }
+                    }, (err, _) => {
+                        if (err) {
+                            return res.status(400).send(err);
+                        }
+                        else {
+                            // Add applicant to applicants list in post schema
+                            const update = {
+                                $push: { applicants: req.user._id },
+                                $inc: { numofApplicants: 1 }
+                            }
+                            Post.findOneAndUpdate(
+                                { _id: req.body.post_id },
+                                update
+                                ,
+                                (err, _) => {
+                                    if (err) {
+                                        return res.status(400).send("Internal Error")
+                                    }
+                                    else {
+                                        return res.status(200).send("Applied Succesfully");
+                                    }
+                                });
+                        }
+                    }
+                )
+            }
+            else {
+                return res.status(201).send("Already Applied");
+            }
+        }).catch((err) => {
+            console.log(err);
+            res.status(500).send(err)
+        });
+
+
+    }
+
+}
+
+
+module.exports = {
+    add_job_seeker, update_job_seeker, view_job_seeker_profile, view_job_seekers, add_job_seeker_profile_picture,
+    update_job_seeker_profile_picture, view_job_seeker_profile_picture, add_job_seeker_resume, update_job_seeker_resume, view_job_seeker_resume, view_open_job_posts, view_others_profile_picture, apply_job_post, view_job_seeker
+}
