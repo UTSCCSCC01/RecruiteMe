@@ -7,6 +7,8 @@ router.post('/add', loggedIn, RecruiterController.add_recruiter)
 router.put('/update', loggedIn, RecruiterController.update_recruiter)
 router.get('/profile', loggedIn, RecruiterController.view_recruiter_profile)
 router.get('/viewall', loggedIn, RecruiterController.view_recruiters)
+router.get('/view/:id', loggedIn, RecruiterController.view_recruiter)
+
 
 // For recruiter picture data
 router.post('/addpfp', loggedIn, RecruiterController.add_recruiter_profile_picture)
