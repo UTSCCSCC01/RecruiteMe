@@ -303,6 +303,30 @@ var imageSchema = new mongoose.Schema({
       ]
       ```
 
+-   **View Specifc Recruiter profile** : GET {/recruiter/view/$id}
+    - View the profile of a recruiter of specific recruiter
+    - Replace $id with _id of recruiter you want to view
+    - View Recruiter : http://localhost:4000/recruiter/view/633b877883b4dabc802e382f
+    - Sample Response:
+      ```
+      [
+        {
+        "_id": "633b877883b4dabc802e382f",
+        "name": "Pritish",
+        "uid": "6338949197b101fd3b6c38a9",
+        "company": "UTM",
+        "email": "testmail.com",
+        "age": 21,
+        "bio": "Hello world",
+        "workExperience": {
+          "USTC": 1
+        },
+        "jobPosts": [],
+        "currStatus": "SEEKING FOR JOB IN WINTER 2023",
+        "__v": 0}
+      ]
+      ```
+
 -   **View All Recruiter profiles** : GET {/recruiter/viewall}
     - View profiles of all recruiters
     - The user has to be loggedIn to use this endpoint
@@ -427,6 +451,29 @@ var imageSchema = new mongoose.Schema({
         "currStatus": "SEEKING FOR JOB IN SUMMER 2023",
         "__v": 0
       }
+      ```
+-   **View Specifc JobSeeker profile** : GET {/jobseeker/view/$id}
+    - View the profile of a recruiter 
+    - Replace $id with _id of Job_seeker you want to view
+    - View Recruiter : http://localhost:4000/jobseeker/view/633b877883b4dabc802e382f
+    - Sample Response:
+      ```
+      [
+        {
+        "_id": "633b877883b4dabc802e382f",
+        "name": "Pritish",
+        "uid": "6338949197b101fd3b6c38a9",
+        "company": "UTM",
+        "email": "testmail.com",
+        "age": 21,
+        "bio": "Hello world",
+        "workExperience": {
+          "USTC": 1
+        },
+        "jobPosts": [],
+        "currStatus": "SEEKING FOR JOB IN WINTER 2023",
+        "__v": 0}
+      ]
       ```
 
 -   **View All Job Seeker profiles** : GET {/jobseeker/viewall}
@@ -651,3 +698,14 @@ var imageSchema = new mongoose.Schema({
         "deadline": "2022-10-31T23:59"
       }
       ```
+
+-   **Apply to Job Post** : POST GET {/jobseeker/apply}
+    - Endpoint that allows a job seeker to apply to a specific Job Post
+    - The user has to be loggedIn to use this endpoint
+    - Sample body request:
+      ```
+      {
+        "post_id": "634e1ab0298e3e3ce79850e3"
+      }
+      ```
+    - Return 200 for success and 400 or 500 for failure , with an error in the response body
