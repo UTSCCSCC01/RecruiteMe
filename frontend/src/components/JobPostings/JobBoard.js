@@ -4,6 +4,9 @@ import Pagination from "@mui/material/Pagination";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import AddIcon from "@mui/icons-material/Add";
 import companyLogo from "./example-logo.png";
+import UserController from "../../controller/UserController";
+import RecruiterController from "../../controller/RecruiterController";
+import JobSeekerController from "../../controller/JobSeekerController";
 
 const JobBoardHeader = (props) => {
     const handleClick = () => {
@@ -12,35 +15,49 @@ const JobBoardHeader = (props) => {
 
     return (
         <Box display={"flex"} mb={4} justifyContent={"space-between"}>
-            <Typography
-                sx={{
-                    fontWeight: 500,
-                    fontSize: "32px",
-                }}
-            >
-                Job Postings
-            </Typography>
-            <Button
-                onClick={handleClick}
-                startIcon={<AddIcon fontSize="medium" />}
-                sx={{
-                    color: "white",
-                    backgroundColor: "#6E8BF2",
-                    fontSize: "20px",
-                    fontWeight: "400",
-                    textTransform: "none",
-                }}
-                size="145px"
-            >
-                Create Job Post
-            </Button>
+            {!props.isRecruiter && (
+                <Typography
+                    sx={{
+                        fontWeight: 500,
+                        fontSize: "32px",
+                    }}
+                >
+                    Job Posts
+                </Typography>
+            )}
+            {props.isRecruiter && (
+                <>
+                    <Typography
+                        sx={{
+                            fontWeight: 500,
+                            fontSize: "32px",
+                        }}
+                    >
+                        My Job Posts
+                    </Typography>
+                    <Button
+                        onClick={handleClick}
+                        startIcon={<AddIcon fontSize="medium" />}
+                        sx={{
+                            color: "white",
+                            backgroundColor: "#6E8BF2",
+                            fontSize: "20px",
+                            fontWeight: "400",
+                            textTransform: "none",
+                        }}
+                        size="145px"
+                    >
+                        Create Job Post
+                    </Button>
+                </>
+            )}
         </Box>
     );
 };
 
 const JobPostCard = (props) => {
     const handleClick = () => {
-        console.log("open job post");
+        console.log("open job post for id %s", props.id);
     };
 
     return (
@@ -72,6 +89,7 @@ const JobPostCard = (props) => {
                 my={"10px"}
                 ml={"10px"}
                 display={"flex"}
+                width={"100%"}
                 flexDirection={"column"}
             >
                 <Box display={"flex"}>
@@ -82,10 +100,10 @@ const JobPostCard = (props) => {
                         }}
                         pr={1}
                     >
-                        Job title
+                        {props.role}
                     </Typography>
                     <Typography sx={{ fontWeight: 300, fontSize: "28px" }}>
-                        • Company
+                        • {props.company}
                     </Typography>
                 </Box>
 
@@ -98,37 +116,7 @@ const JobPostCard = (props) => {
                         lineHeight: "18px",
                     }}
                 >
-                    Sed ut perspiciatis unde omnis iste natus error sit
-                    voluptatem accusantium doloremque laudantium, totam rem
-                    aperiam, eaque ipsa quae ab illo inventore veritatis et
-                    quasi architecto beatae vitae dicta sunt explicabo. Sed ut
-                    perspiciatis unde omnis iste natus error sit voluptatem
-                    accusantium doloremque laudantium, totam rem aperiam, eaque
-                    ipsa quae ab illo inventore veritatis et quasi architecto
-                    beatae vitae dicta sunt explicabo.Sed ut perspiciatis unde
-                    omnis iste natus error sit voluptatem accusantium doloremque
-                    laudantium, totam rem aperiam, eaque ipsa quae ab illo
-                    inventore veritatis et quasi architecto beatae vitae dicta
-                    sunt explicabo. Sed ut perspiciatis unde omnis iste natus
-                    error sit voluptatem accusantium doloremque laudantium,
-                    totam rem aperiam, eaque ipsa quae ab illo inventore
-                    veritatis et quasi architecto beatae vitae dicta sunt
-                    explicabo.Sed ut perspiciatis unde omnis iste natus error
-                    sit voluptatem accusantium doloremque laudantium, totam rem
-                    aperiam, eaque ipsa quae ab illo inventore veritatis et
-                    quasi architecto beatae vitae dicta sunt explicabo. Sed ut
-                    perspiciatis unde omnis iste natus error sit voluptatem
-                    accusantium doloremque laudantium, totam rem aperiam, eaque
-                    ipsa quae ab illo inventore veritatis et quasi architecto
-                    beatae vitae dicta sunt explicabo.Sed ut perspiciatis unde
-                    omnis iste natus error sit voluptatem accusantium doloremque
-                    laudantium, totam rem aperiam, eaque ipsa quae ab illo
-                    inventore veritatis et quasi architecto beatae vitae dicta
-                    sunt explicabo. Sed ut perspiciatis unde omnis iste natus
-                    error sit voluptatem accusantium doloremque laudantium,
-                    totam rem aperiam, eaque ipsa quae ab illo inventore
-                    veritatis et quasi architecto beatae vitae dicta sunt
-                    explicabo.
+                    {props.description}
                 </Box>
 
                 <Button
@@ -154,20 +142,49 @@ const JobPostCard = (props) => {
 };
 
 export const JobBoard = (props) => {
+    const [isRecruiter, setIsRecruiter] = React.useState(false);
+    const [jobPosts, setJobPosts] = React.useState([]);
     const [page, setPage] = React.useState(1);
+
+    React.useEffect(() => {
+        UserController.getCurrent().then((res) => {
+            if (res.recruiter) {
+                setIsRecruiter(true);
+                RecruiterController.getRecruiter().then((res) => {
+                    setJobPosts(res[0].jobPosts);
+                });
+            } else {
+                JobSeekerController.getJobPosts().then((res) => {
+                    setJobPosts(res);
+                });
+            }
+        });
+    }, []);
+
     return (
         <Box sx={{ marginTop: "100px" }} width={"80%"} mx={"auto"}>
-            <JobBoardHeader />
-            <JobPostCard />
-            <JobPostCard />
-            <Pagination
-                count={10}
-                page={page}
-                sx={{
-                    justifyContent: "center",
-                    display: "flex",
-                }}
-            />
+            <JobBoardHeader isRecruiter={isRecruiter} />
+            {jobPosts.slice(10 * (page - 1), 10 * page).map((post) => (
+                <JobPostCard
+                    role={post.role}
+                    company={post.companyName}
+                    description={post.description}
+                    id={post._id}
+                    key={post._id}
+                />
+            ))}
+
+            {jobPosts.length > 10 && (
+                <Pagination
+                    count={Math.ceil(jobPosts.length / 10)}
+                    page={page}
+                    onChange={(event, value) => setPage(value)}
+                    sx={{
+                        justifyContent: "center",
+                        display: "flex",
+                    }}
+                />
+            )}
         </Box>
     );
 };

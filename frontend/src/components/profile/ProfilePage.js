@@ -37,14 +37,7 @@ export const ProfilePage = () => {
             education={user?.education}
             status={user?.currStatus}
             skills={user?.skills}
-            // name={"john smith"}
-            // email={"john@mail.com"}
-            // isRecruiter={isRecruiter}
-            // company={"google"}
-            // bio={"abc"}
-            // workExperience={user?.workExperience}
-            // status={"lookin for a job"}
         />
     );
 };
-export default ProfilePage
+export default ProfilePage;
