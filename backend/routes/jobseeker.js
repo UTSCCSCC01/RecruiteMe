@@ -14,7 +14,7 @@ router.get('/view/:id', loggedIn, JobSeekerController.view_job_seeker)
 router.post('/addpfp', loggedIn, JobSeekerController.add_job_seeker_profile_picture)
 router.put('/updatepfp', loggedIn, JobSeekerController.update_job_seeker_profile_picture)
 router.get('/profilepicture', loggedIn, JobSeekerController.view_job_seeker_profile_picture)
-router.get('/othersprofilepicture', loggedIn, JobSeekerController.view_others_profile_picture)
+router.get('/othersprofilepicture/:id', loggedIn, JobSeekerController.view_others_profile_picture)
 
 // For job seeker resume data
 router.post('/addresume', loggedIn, JobSeekerController.add_job_seeker_resume)

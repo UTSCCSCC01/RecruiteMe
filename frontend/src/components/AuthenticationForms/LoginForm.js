@@ -23,7 +23,7 @@ export default function LoginForm() {
                             if(res.length == 0){
                                 navigate('/form')
                             }else{
-                                navigate('/profile')
+                                navigate('/dashboard')
                             }
                         });
                     }
@@ -33,7 +33,7 @@ export default function LoginForm() {
                             if(res.length == 0){
                                 navigate('/form')
                             }else{
-                                navigate('/profile')
+                                navigate('/dashboard')
                             }
                     });
                 }
