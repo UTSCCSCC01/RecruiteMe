@@ -15,7 +15,8 @@ import {
 import "./Profile.css";
 import EditIcon from "@mui/icons-material/Edit";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
-import LogoutIcon from "@mui/icons-material/Logout";
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import LogoutIcon from '@mui/icons-material/Logout';
 import profilePic from "./example-assets/profile-pic-example.png";
 import Modal from "@mui/material/Modal";
 import JobSeekerController from "../../../controller/JobSeekerController";
@@ -32,10 +33,12 @@ import * as React from "react";
 import JobSeekerForm from "../../CreateJobSeekerForm/JobSeekerForm";
 import { useNavigate } from "react-router-dom";
 import RecruiterForm from "../../CreateJobSeekerForm/RecruiterForm";
+import JobPostingForm from '../../CreateJobPostingForm/JobPostingForm';
 
 const ProfileHeader = (props) => {
     const navigate = useNavigate();
     const [open, setOpen] = React.useState(false);
+    const [openJobPostingForm, setOpenJobPostingForm] = React.useState(false);
     const [profile, setProfile] = React.useState(null);
     const [user, setUser] = React.useState(null);
     const [pfp, setPfp] = React.useState(null);
@@ -69,6 +72,9 @@ const ProfileHeader = (props) => {
             }
         });
     };
+    const handleOpenPostJobForm = () => {
+        setOpenJobPostingForm(true);
+    };
     const handleLogout = () => {
         UserController.logout().then((res) => {
             navigate("/");
@@ -77,6 +83,9 @@ const ProfileHeader = (props) => {
     const handleClose = () => {
         setOpen(false);
         window.location.reload(false);
+    };
+    const handleCloseJobPostingForm = () => {
+        setOpenJobPostingForm(false); window.location.reload(false);
     };
     return (
         <>
@@ -103,6 +112,14 @@ const ProfileHeader = (props) => {
                         resume={props.resume}
                     ></JobSeekerForm>
                 )}
+            </Modal>
+            <Modal
+                open={openJobPostingForm}
+                onClose={handleCloseJobPostingForm}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <JobPostingForm close={handleCloseJobPostingForm}></JobPostingForm>
             </Modal>
             <Box
                 sx={{
@@ -179,6 +196,21 @@ const ProfileHeader = (props) => {
                     >
                         Edit Profile
                     </Button>
+                    {props.isRecruiter && 
+                        <Button
+                            onClick={handleOpenPostJobForm}
+                            startIcon={<AddCircleIcon fontSize="large" />}
+                            sx={{
+                                color: "white",
+                                fontSize: "20px",
+                                fontWeight: "400",
+                                textTransform: "none",
+                            }}
+                            size="145px"
+                        >
+                            Create Job Posting
+                        </Button>
+                    }
                     <Button
                         onClick={handleLogout}
                         startIcon={<LogoutIcon fontSize="large" />}
