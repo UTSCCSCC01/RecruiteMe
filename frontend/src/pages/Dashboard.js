@@ -6,6 +6,7 @@ import JobSeekerController from "../controller/JobSeekerController";
 import { useEffect, useState } from "react";
 import { sectionsType } from "../components/Dashboard/NavSections";
 import ApplicationTracker from "../components/Dashboard/ApplicationTracker";
+import JobPostTracker from "../components/Dashboard/JobPostTracker";
 
 function Dashboard() {
   const [pfp, setPfp] = useState(null);
@@ -55,6 +56,7 @@ function Dashboard() {
         }
       />
       {navtype === "jobseeker" ? <ApplicationTracker /> : ""}
+      {navtype === "recruiter" ? <JobPostTracker /> : ""}
     </div>
   );
 }

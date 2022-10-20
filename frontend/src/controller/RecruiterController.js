@@ -65,6 +65,11 @@ const RecruiterController = (function () {
                 "/recruiter/resume"
             );
         },
+        getPost: async () => {
+            return await Get(
+                "/recruiter/myposts"
+            );
+        },
     });
 })();
 

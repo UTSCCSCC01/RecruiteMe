@@ -10,56 +10,25 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import FolderIcon from '@mui/icons-material/Folder';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { ListItemButton } from '@mui/material';
+import { ListItemButton , ListSubheader } from '@mui/material';
 import Button from '@mui/material/Button';
+import RecruiterController from "../../controller/RecruiterController";
+import JobSeekerController from "../../controller/JobSeekerController";
 
 const Demo = styled('div')(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
 }));
 
-export default function ReviewApplicationsPage() {
+export default function JobPostTracker() {
   const [selectedIndex, setSelectedIndex] = React.useState(1);
-  const [curApps, setCurApps] = React.useState([{
-    text: 'App',
-    primary: 'Post Title1',
-    secondary: 'Post description',
-    avatar: < DeleteIcon/>,
-    jobSeekerId: 1
-  },
-
-  ]);
-  const jobPosts = [{
-    text: 'Post',
-    primary: 'Post Title1',
-    secondary: 'Post description',
-    avatar: <FolderIcon />,
-    postId: 1
-  },
-  {
-    text: 'Post2',
-    primary: 'Post Title2',
-    secondary: 'Post description',
-    avatar: <FolderIcon />,
-    postId: 2
-  },
-  {
-    text: 'Post3',
-    primary: 'Post Title3',
-    secondary: 'Post description',
-    avatar: <FolderIcon />,
-    postId: 3
-  },
-  {
-    text: 'Post4',
-    primary: 'Post Title4',
-    secondary: 'Post description',
-    avatar: <FolderIcon />,
-    postId: 4
-  }
-  ]
+  const [curApps, setCurApps] = React.useState([]);
+  const [curJobSeeker, setJobSeeker] = React.useState([]);
+  const [curJobSeekerPfp, setJobSeekerPfp] = React.useState(null);
+  const [jobPosts, setJobPosts] = React.useState([]);
 
   const handleJobPostClicked = (event, index) => {
     setSelectedIndex(index);
+    setCurApps([]);
     updateApplicants(index);
     console.log("Job Post "+index+" Clicked!")
   };
@@ -72,23 +41,35 @@ export default function ReviewApplicationsPage() {
     console.log("View more")
   }
 
+  React.useEffect(() => {
+    RecruiterController.getPost().then((res) =>{
+      console.log(res)
+    });
+  }, []);
+
   const updateApplicants = (index) => {
     //Fetch data from backend based on postId, get list of applicants that match
+    jobPosts[index].applicants.forEach(item => 
+      //How to get info of applicants off this, placeholder below
+      setJobSeeker(JobSeekerController.getJobSeeker(item)),
+      
+      JobSeekerController.getPfp().then((res) => {
+        const base64String = btoa(new Uint8Array(res.data.data).reduce(function (data, byte) {
+            return data + String.fromCharCode(byte);
+        }, ''));
+        setJobSeekerPfp(base64String)
+      }),
+
+      setCurApps(curApps.concat([{
+        text: curJobSeeker.firstName,
+        primary: curJobSeeker.firstName,
+        secondary: curJobSeeker.bio,
+        avatar: curJobSeekerPfp,
+        jobSeekerId: curJobSeeker.uid
+      }]))
+      
+      );
     
-    setCurApps([{
-      text: index,
-      primary: index,
-      secondary: 'Post description',
-      avatar: < DeleteIcon/>,
-      jobSeekerId: index+1
-    },
-    {
-      text: index+1,
-      primary: index+1,
-      secondary: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      avatar: < DeleteIcon/>,
-      jobSeekerId: index+2
-    }])
     console.log(curApps)
   }
 
@@ -97,23 +78,30 @@ export default function ReviewApplicationsPage() {
       <Grid container >
       <Box 
         sx={{
-          width: 300,
+          width: "25%",
           height: 200,
-        }}>
-        <Typography sx={{ mt: 4, mb: 2 }} variant="h6" component="div">
-          My Job Posts
-        </Typography>
+        }}
+        >
+        <Box
+          sx={{
+            height: 70,
+          }}>
+        </Box>
         <Demo>
-          <List>
+          <List sx={{ width: '100%', maxWidth: 350}}>
+            <ListSubheader sx={{fontSize:20}} color="inherit">
+              My Job Posts
+            </ListSubheader>
             {jobPosts.map(item => (
               <ListItemButton
-                selected={selectedIndex === item.postId}
-                onClick={(event) => handleJobPostClicked(event, item.postId)}
+                selected={selectedIndex === jobPosts.indexOf(item)}
+                onClick={(event) => handleJobPostClicked(event, selectedIndex)}
               >
               <ListItem 
-                key={item.text}>
+                key={item.text}
+                disableGutters>
                 <ListItemAvatar>
-                  <Avatar sx={{ width: 60, height: 60 }}>
+                  <Avatar variant="square" sx={{ width: 80, height: 80 }}>
                     {item.avatar}
                   </Avatar>
                 </ListItemAvatar>
@@ -130,13 +118,28 @@ export default function ReviewApplicationsPage() {
 
       <Box 
         sx={{
-          width: 600,
+          width: "72%",
           height: 10,
         }}>
-        <Typography sx={{ mt: 4, mb: 2 }} variant="h6" component="div">
-          Job Seekers
-        </Typography>
+        <Box sx={{height: 70,}}></Box>
         <List>
+          <Box style={{display:'flex'}}>
+            <Box sx={{width:150,}}>
+              <ListSubheader sx={{fontSize:20}} color="inherit">
+                Job Seekers
+              </ListSubheader>
+            </Box>
+            <Box sx={{
+              width: "87%",
+              display:'flex',
+              justifyContent:'flex-end',
+              }}>
+            <Button onClick = {() => handleViewMore()}>
+              View More -{'>'}
+            </Button>
+            </Box>
+          </Box>
+          
           {curApps.map(item => (
             <div>
             <ListItem 
