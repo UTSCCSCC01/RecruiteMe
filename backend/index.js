@@ -4,7 +4,7 @@ const { json, urlencoded } = require("body-parser");
 const cors = require("cors");
 const express = require("express");
 const fileUpload = require("express-fileupload");
-const { AuthRoutes, RecruiterRoutes, JobSeekerRoutes } = require('./routes')
+const { AuthRoutes, RecruiterRoutes, JobSeekerRoutes, PostRoutes } = require('./routes')
 const { passport, store } = require("./mongodb_setup/setup")
 const session = require('express-session');
 
@@ -48,6 +48,7 @@ app.use(
 app.use("/auth", AuthRoutes);
 app.use("/recruiter", RecruiterRoutes);
 app.use("/jobseeker", JobSeekerRoutes);
+app.use("/post", PostRoutes);
 
 app.listen(port, () => console.log(`Listening on port ${port}..`));
 

@@ -83,6 +83,9 @@ GET http://localhost:4000/recruiter/viewall HTTP/1.1
 
 ###
 
+GET http://localhost:4000/recruiter/view/634cd8d4f478c16b2fdfe111 HTTP/1.1
+
+###
 GET http://localhost:4000/auth/currUser HTTP/1.1
 
 ###
@@ -125,6 +128,7 @@ GET http://localhost:4000/jobseeker/viewall HTTP/1.1
 
 ###
 
+GET http://localhost:4000/jobseeker/openjobposts HTTP/1.1
 
 
 POST http://localhost:4000/jobseeker/apply HTTP/1.1
@@ -148,6 +152,16 @@ content-type: application/json
 }
 
 
+### 
+
+GET http://localhost:4000/jobseeker/myapplications HTTP/1.1
+
+###
 
 
+GET http://localhost:4000/recruiter/myposts HTTP/1.1
 
+
+###
+
+GET http://localhost:4000/post/view/634e1ab0298e3e3ce79850e3 HTTP/1.1

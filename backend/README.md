@@ -368,6 +368,61 @@ var imageSchema = new mongoose.Schema({
         }
       ]
       ```
+
+-   **View Specifc Recruiter's profile** : GET {/recruiter/view/$id}
+    - View the profile of a recruiter of specific recruiter
+    - Replace $id with _id of recruiter you want to view
+    - View Recruiter : http://localhost:4000/recruiter/view/633b877883b4dabc802e382f
+    - Sample Response:
+      ```
+      {
+      "_id": "633b877883b4dabc802e382f",
+      "name": "Pritish",
+      "uid": "6338949197b101fd3b6c38a9",
+      "company": "UTM",
+      "email": "testmail.com",
+      "age": 21,
+      "bio": "Hello world",
+      "workExperience": {
+        "USTC": 1
+      },
+      "jobPosts": [],
+      "currStatus": "SEEKING FOR JOB IN WINTER 2023",
+      "__v": 0
+      }
+      ```
+    - Return 200 for success and 404 if recruiter with $id doesnt exist
+
+-   **View Recruiter Job Posts ** : GET {/recruiter/view/myposts}
+    - View the all job post made by curetn loggedIn recruiter 
+    - View Recruiter : http://localhost:4000/recruiter/view/myposts
+    - Response is a list of all posts
+    - Sample Response:
+      ```
+      [
+        {
+          "_id": "634e1ab0298e3e3ce79850e3",
+          "companyName": "Amazon",
+          "role": "SDE Intern",
+          "description": "Work for us ",
+          "qualification": [
+            "Good at software engineering"
+          ],
+          "applicants": [
+            "633e2eac6068a665ef3ab2de"
+          ],
+          "numofApplicants": 1,
+          "recruiter": "634cd81df478c16b2fdfe107",
+          "isHiring": true,
+          "posted": "2022-10-18T03:17:04.000Z",
+          "deadline": "2022-11-01T03:59:00.000Z",
+          "__v": 0
+        }
+      ]
+      ```
+    - Return 200 for success and 404 if no post are made by a recruiter
+
+
 <p align="center">
     <u><h2 align="center">Job Seeker</h2></u>
 </p>
@@ -594,6 +649,26 @@ var imageSchema = new mongoose.Schema({
         "__v": 0
       }
       ```
+
+-   **View My Job application** : GET {/jobseeker/myapplications}
+    - Endpoint to view all job applications of a curetn user who is a job seeker
+    - Sample Request : http://localhost:4000/jobseeker/myapplications
+    - Sample Response:
+      ```
+      [
+        {
+          "postId": "634f07c5806f133bdc5957e7",
+          "status": 0,
+          "_id": "634f185c35c72a8d9182c460"
+        },
+        {
+          "postId": "634e1ab0298e3e3ce79850e3",
+          "status": 0,
+          "_id": "634f188035c72a8d9182c473"
+        }
+      ]
+      ```
+      
       
 <p align="center">
     <u><h2 align="center">Profile Picture</h2></u>
@@ -641,19 +716,106 @@ var imageSchema = new mongoose.Schema({
         },
         "__v": 0
       }
-
-
+      
+-   **View Specific User's Profile Picture** : GET {/{jobseeker OR recruiter}/othersprofilepicture}
+    - View the profile picture of a specified user in the database
+    - View Specific User's Profile Picture : http://localhost:4000/{jobseeker OR recruiter}/othersprofilepicture
+    - Front end developers must use base64 to display image (check step 10 of https://www.geeksforgeeks.org/upload-and-retrieve-image-on-mongodb-using-mongoose/)
+    - Sample Request Body:
+      ```
+      {
+        "_id": "633e2eb14988c2467ea47872"
+      }
+      ```
+      
+    - Sample Response:
+      ```
+      {
+        "_id": "633e2eb14988c2467ea47872",
+        "data": {
+          "type": "Buffer",
+          "data": [
+          {Binary Data}
+          ]
+        },
+        "__v": 0
+      }
+      
 <p align="center">
-    <u><h2 align="center">Post</h2></u>
+    <u><h2 align="center">Job Post</h2></u>
 </p>
 
--   **Apply to Job Pos** : POST GET {/jobseeker/apply}
+-   **Add New Job Post** : POST {/recruiter/addjobpost}
+    - Endpoint to add new job post : http://localhost:4000/recruiter/addjobpost
+    - The recruiter has to be loggedIn to use this endpoint
+    - Sample body request
+      ```
+      {
+        "companyName": "Google",
+        "role": "Software Engineer",
+        "description": "Engineer some software",
+        "qualification": "Good at software engineering",
+        "deadline": "2022-10-31T23:59"
+      }
+      ```
+    - Return 200 for success and 401 for aunthentication failure, with an error in the response body
+    
+-   **View All Open Job Posts** : GET {/jobseeker/openjobposts}
+    - Endpoint to get all open job posts : http://localhost:4000/jobseeker/openjobposts
+    - The job seeker has to be loggedIn to use this endpoint
+    - Sample response:
+      ```
+      [{
+        "companyName": "Google",
+        "role": "Software Engineer",
+        "description": "Engineer some software",
+        "qualification": "Good at software engineering",
+        "deadline": "2022-10-31T23:59"
+      },
+      {
+        "companyName": "Google",
+        "role": "SWE Intern",
+        "description": "Engineer some software",
+        "qualification": "Good at software engineering",
+        "deadline": "2022-10-31T23:59"
+      }]
+      ```
+
+-   **Apply to Job Post** : POST {/jobseeker/apply}
     - Endpoint that allows a job seeker to apply to a specific Job Post
     - The user has to be loggedIn to use this endpoint
     - Sample body request:
       ```
       {
         "post_id": "634e1ab0298e3e3ce79850e3"
+      }
+      ```
+    - Return 200 for success and 400 or 500 for failure , with an error in the response body
+
+-   **View Job Post** :  GET {/post/view/$id}
+    - Endpoint that allows anyone view a job post 
+    - The user has to be loggedIn to use this endpoint
+    - $pid should be replaced by post_id
+    - Sample request:  http://localhost:4000/post/view/634e1ab0298e3e3ce79850e3
+    - Sample Response:
+      ```
+      {
+        "_id": "634e1ab0298e3e3ce79850e3",
+        "companyName": "Amazon",
+        "role": "SDE Intern",
+        "description": "Work for us ",
+        "qualification": [
+          "Good at software engineering"
+        ],
+        "applicants": [
+          "633e2eac6068a665ef3ab2de"
+        ],
+        "numofApplicants": 1,
+        "recruiter": "634cd81df478c16b2fdfe107",
+        "isHiring": true,
+        "posted": "2022-10-18T03:17:04.000Z",
+        "deadline": "2022-11-01T03:59:00.000Z",
+        "__v": 0
       }
       ```
     - Return 200 for success and 400 or 500 for failure , with an error in the response body
