@@ -278,7 +278,6 @@ const view_open_job_posts = async (req, res) => {
     });
 }
 
-
 //APPLY TO JOB POST
 const apply_job_post = async (req, res) => {
 
@@ -287,9 +286,23 @@ const apply_job_post = async (req, res) => {
     }
     else {
         // Add post to appliedPost list in JobSeeker schema
-        await JobSeeker.findOne({ uid: req.user._id }).then((result) => {
+
+        JobSeeker.findOne({ uid: req.user._id }).then(async (result) => {
             var posts = result.appliedPost
-            if (!req.body.post_id in posts || posts.length == 0) {
+            var found = false
+            if (posts.length == 0) {
+                found = false
+            }
+            else {
+                posts.forEach((post, _) => {
+                    if (post.postId === req.body.post_id) {
+                        found = true
+                        return
+                    }
+                });
+
+            }
+            if (!found) {
                 posts.push({
                     postId: req.body.post_id,
                     status: 0
@@ -329,6 +342,7 @@ const apply_job_post = async (req, res) => {
             else {
                 return res.status(201).send("Already Applied");
             }
+
         }).catch((err) => {
             console.log(err);
             res.status(500).send(err)
@@ -339,8 +353,42 @@ const apply_job_post = async (req, res) => {
 
 }
 
+const my_job_applications = async (req, res) => {
+
+    if (!req.user.recruiter) {
+        JobSeeker.find({ uid: req.user._id }, function (err, docs) {
+            if (err) {
+                res.send(404).send("User doesn't exist")
+                console.log(err);
+            }
+            else {
+                if (docs.length == 0) {
+                    res.status(404).send("User doesn't exist")
+                }
+                else {
+                    res.status(200).send(docs[0].appliedPost)
+
+                }
+
+            }
+        });
+    }
+    else {
+        res.status(404).send("Only Job seeker can acces this endpoint")
+    }
+
+}
+
+
 
 module.exports = {
-    add_job_seeker, update_job_seeker, view_job_seeker_profile, view_job_seekers, add_job_seeker_profile_picture,
-    update_job_seeker_profile_picture, view_job_seeker_profile_picture, add_job_seeker_resume, update_job_seeker_resume, view_job_seeker_resume, view_open_job_posts, view_others_profile_picture, apply_job_post, view_job_seeker
+    add_job_seeker, update_job_seeker,
+    view_job_seeker_profile, view_job_seekers,
+    add_job_seeker_profile_picture,
+    update_job_seeker_profile_picture,
+    view_job_seeker_profile_picture, add_job_seeker_resume,
+    update_job_seeker_resume, view_job_seeker_resume,
+    view_open_job_posts, view_others_profile_picture,
+    apply_job_post, view_job_seeker,
+    my_job_applications
 }

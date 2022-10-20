@@ -228,9 +228,41 @@ const view_recruiter = async (req, res) => {
             console.log(err);
         }
         else {
-            res.status(200).send(recruiter)
+            if (recruiter.length != 0) {
+                res.status(200).send(recruiter[0])
+            }
+            else {
+                res.status(404).send("Recruiter doesnt exist, try to pass recruiter _id")
+            }
+
         }
     });
 }
 
-module.exports = { add_recruiter, update_recruiter, view_recruiter_profile, view_recruiters, add_recruiter_profile_picture, update_recruiter_profile_picture, view_recruiter_profile_picture, add_job_post, view_others_profile_picture, view_recruiter }
+const view_my_posts = async (req, res) => {
+    Post.find({ recruiter: req.user._id }, function (err, posts) {
+        if (err) {
+            res.send(500).send("Internal Err")
+            console.log(err);
+        }
+        else {
+            if (posts.length != 0) {
+                res.status(200).send(posts)
+            }
+            else {
+                res.status(404).send("Recruiter hasnt made any posts")
+            }
+        }
+    });
+}
+
+
+
+module.exports = {
+    add_recruiter, update_recruiter,
+    view_recruiter_profile, view_recruiters,
+    add_recruiter_profile_picture, update_recruiter_profile_picture,
+    view_recruiter_profile_picture, add_job_post,
+    view_others_profile_picture, view_recruiter,
+    view_my_posts
+}
