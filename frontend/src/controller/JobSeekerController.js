@@ -44,6 +44,11 @@ const JobSeekerController = (function () {
                 "/jobseeker/profilepicture"
             );
         },
+        getPfpid: async (body) => {
+            return await Get(
+                "/jobseeker/othersprofilepicture/"+body
+            );
+        },
         addResume: async (body) => {
             const formData = new FormData();
             formData.append("resume", body);
@@ -65,11 +70,11 @@ const JobSeekerController = (function () {
                 "/jobseeker/resume"
             );
         },
-        viewJobSeeker: async (body) => {
+        viewId: async (body) => {
             return await Get(
-                "/jobseeker/view/"+{body},
-            );
-        },
+                "/jobseeker/view/"+body
+            )
+        }
     });
 })();
 

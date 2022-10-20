@@ -42,7 +42,7 @@ function Dashboard() {
     }
   }, [navtype]);
 
-  return (
+    return (
     <div style={{ height: "100vh" }}>
       <Navbar
         type={navtype}
@@ -57,7 +57,7 @@ function Dashboard() {
       />
       {navtype === "jobseeker" ? <ApplicationTracker /> : ""}
       {navtype === "recruiter" ? <JobPostTracker /> : ""}
-    </div>
+        </div>
   );
 }
 
