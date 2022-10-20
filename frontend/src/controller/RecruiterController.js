@@ -68,6 +68,12 @@ const RecruiterController = (function () {
         getPost: async () => {
             return await Get(
                 "/recruiter/myposts"
+            )
+        },
+        addJobPost: async (body) => {
+            return await Post(
+                "/recruiter/addjobpost",
+                body
             );
         },
     });
