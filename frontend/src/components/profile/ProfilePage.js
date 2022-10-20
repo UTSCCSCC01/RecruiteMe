@@ -26,6 +26,8 @@ export const ProfilePage = () => {
     }, []);
 
     return (
+        <div>
+        {user &&
         <Profile
             firstName={user?.firstName}
             lastName={user?.lastName}
@@ -44,7 +46,8 @@ export const ProfilePage = () => {
             // bio={"abc"}
             // workExperience={user?.workExperience}
             // status={"lookin for a job"}
-        />
+        />}
+        </div>
     );
 };
 export default ProfilePage

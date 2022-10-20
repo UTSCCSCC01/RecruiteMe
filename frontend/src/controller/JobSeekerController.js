@@ -65,6 +65,17 @@ const JobSeekerController = (function () {
                 "/jobseeker/resume"
             );
         },
+        getAllOpenJobPosts: async () => {
+            return await Get(
+                "/jobseeker/openjobposts"
+            );
+        },
+        applyToJob: async (body) => {
+            return await Post(
+                "/jobseeker/apply",
+                body
+            );
+        },
     });
 })();
 
