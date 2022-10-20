@@ -58,6 +58,11 @@ const JobSeekerController = (function () {
                 body
             );
         },
+        getJobPost: async (body) => {
+            return await Get(
+                "/post/view/"+body
+            )
+        },
         viewId: async (body) => {
             return await Get(
                 "/jobseeker/view/"+body

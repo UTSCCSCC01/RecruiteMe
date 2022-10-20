@@ -55,7 +55,7 @@ const JobDetail = (props) => {
             >
                 <div style={{ display: 'flex'}}>
                     <div style={{ display: 'flex', marginBottom: 350, marginRight: 100 }}>
-                        <img style={{ width: 250, height: 250, marginLeft: 50 }} src={require('../../assets/amazon-logo-square.jpg')} />
+                        <img style={{ width: 250, height: 250, marginLeft: 50 }} src={require('../../assets/example-logo.png')} />
                         <div style={{ marginTop: 260, marginLeft: -220 }}>
                             <Link style={{fontSize:20}} to='/about'>Jane Smith</Link>
                             <text style={{fontSize:20}}>

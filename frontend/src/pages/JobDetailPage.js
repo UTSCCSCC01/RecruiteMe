@@ -7,11 +7,11 @@ import * as React from 'react';
 import JobSeekerController from "../controller/JobSeekerController";
 import RecruiterController from "../controller/RecruiterController";
 import UserController from "../controller/UserController";
-import { useNavigate, UseNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import JobDetail from '../components/JobDetail/JobDetail';
 import { useEffect, useState } from "react";
 import { sectionsType } from "../components/Dashboard/NavSections";
-export default function JobDetailPage() {
+export default function JobDetailPage({}) {
     const navigate = useNavigate();
     const [profile, setProfile] = React.useState(null);
     const [user, setUser] = React.useState(null);
@@ -20,6 +20,8 @@ export default function JobDetailPage() {
     const [job, setJob] = React.useState(null);
     const [pfp, setPfp] = useState(null);
     const [navtype, setNavtype] = useState(null);
+    const {state} = useLocation();
+    const { jobId } = state;
     useEffect(() => {
       UserController.getCurrent().then((res) => {
         if (res.recruiter) {
@@ -51,7 +53,7 @@ export default function JobDetailPage() {
       }
     }, [navtype]);
     if (!job) {
-        JobSeekerController.getAllOpenJobPosts().then((res) => { setJob(res[0]) });
+        JobSeekerController.getJobPost(jobId).then((res) => { setJob(res) });
     }
 
     const handleClose = () => { setOpen(false); navigate('/profile') };
