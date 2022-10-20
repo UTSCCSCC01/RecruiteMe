@@ -13,6 +13,7 @@ import Signup from "./pages/SignupPage";
 
 import Auth from "./components/app/Auth";
 import Landing from "./pages/Landing";
+import Dashboard from "./pages/Dashboard";
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -26,7 +27,8 @@ root.render(
                 <Route path="/signup" element={<Signup />} />
                 <Route path="/profile" element={<ProfilePage />} />
                 <Route path="/auth" element={<Auth />} />
-                <Route path="/jobs" element={<JobBoard />} />
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/jobs" element={<JobBoard limit={false} />} />
             </Routes>
         </BrowserRouter>
     </React.StrictMode>

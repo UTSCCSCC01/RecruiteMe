@@ -169,6 +169,10 @@ const view_recruiter_profile_picture = async (req, res) => {
 }
 
 const add_job_post = async (req, res) => {
+
+    if (!req.user.recruiter) {
+        res.status(401).send("User has to be a recruiter to add a job post")
+    }
     if (!req.body.companyName || !req.body.role || !req.body.description || !req.body.qualification || !req.body.deadline) {
         return res.status(400).send("There are missing fields in request body");
     } else {
@@ -186,7 +190,16 @@ const add_job_post = async (req, res) => {
         new_job_post
             .save()
             .then((result) => {
-                res.status(200).send(result);
+                Recruiter.findOneAndUpdate(
+                    { uid: req.user._id },
+                    { $push: { jobPosts: result._id } },
+                    (err, _) => {
+                        if (err) {
+                            res.status(500).send(err)
+                        } else {
+                            res.status(200).send("Added Succesfully");
+                        }
+                    });
             })
             .catch((err) => {
                 console.log(err);
@@ -207,4 +220,49 @@ const view_others_profile_picture = async (req, res) => {
     });
 }
 
-module.exports = { add_recruiter, update_recruiter, view_recruiter_profile, view_recruiters, add_recruiter_profile_picture, update_recruiter_profile_picture, view_recruiter_profile_picture, add_job_post, view_others_profile_picture }
+
+const view_recruiter = async (req, res) => {
+    Recruiter.find({ _id: req.params.id }, function (err, recruiter) {
+        if (err) {
+            res.send(500).send("Internal Err")
+            console.log(err);
+        }
+        else {
+            if (recruiter.length != 0) {
+                res.status(200).send(recruiter[0])
+            }
+            else {
+                res.status(404).send("Recruiter doesnt exist, try to pass recruiter _id")
+            }
+
+        }
+    });
+}
+
+const view_my_posts = async (req, res) => {
+    Post.find({ recruiter: req.user._id }, function (err, posts) {
+        if (err) {
+            res.send(500).send("Internal Err")
+            console.log(err);
+        }
+        else {
+            if (posts.length != 0) {
+                res.status(200).send(posts)
+            }
+            else {
+                res.status(404).send("Recruiter hasnt made any posts")
+            }
+        }
+    });
+}
+
+
+
+module.exports = {
+    add_recruiter, update_recruiter,
+    view_recruiter_profile, view_recruiters,
+    add_recruiter_profile_picture, update_recruiter_profile_picture,
+    view_recruiter_profile_picture, add_job_post,
+    view_others_profile_picture, view_recruiter,
+    view_my_posts
+}
