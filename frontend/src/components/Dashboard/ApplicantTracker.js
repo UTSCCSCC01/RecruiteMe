@@ -29,7 +29,7 @@ export const ApplicantTracker = (props) =>{
 
   return (
         <div>
-        <ListItem key={applicant.text} sx = {{paddingTop: 4, backgroundColor: "#d9d9d9"}}>
+        <ListItem sx = {{paddingTop: 4, backgroundColor: "#d9d9d9"}}>
         <ListItemAvatar>
           <Avatar sx={{ width: 150, height: 150 }} src={`data:image/png;base64,${pfp}`}></Avatar>
         </ListItemAvatar>

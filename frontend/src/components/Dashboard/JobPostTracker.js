@@ -38,10 +38,11 @@ export default function JobPostTracker() {
             
             {jobPosts.map(item => (
               <ListItemButton
+                key={item._id}
                 selected={selectedIndex === jobPosts.indexOf(item)}
                 onClick={(event) => handleJobPostClicked(event, jobPosts.indexOf(item))}
               >
-                <ListItem key={item.text} disableGutters>
+                <ListItem key={item._id} disableGutters>
                   <ListItemAvatar>
                     <Avatar variant="square" sx={{ width: 80, height: 80 }}>{item.avatar}</Avatar>
                   </ListItemAvatar>
@@ -75,7 +76,7 @@ export default function JobPostTracker() {
           </Box>
 
           {curApps.map(item => (
-            <ApplicantTracker
+            <ApplicantTracker key={item}
             applicant = {item}>
             </ApplicantTracker>
           ))}
