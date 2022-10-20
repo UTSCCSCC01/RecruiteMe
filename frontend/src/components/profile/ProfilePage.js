@@ -29,8 +29,8 @@ export const ProfilePage = () => {
         <div>
         {user &&
         <Profile
-            firstName={user?.firstName}
-            lastName={user?.lastName}
+            firstName={user?.firstName ?? ""}
+            lastName={user?.lastName ?? ""}
             email={email}
             isRecruiter={isRecruiter}
             company={user?.company}
@@ -50,4 +50,4 @@ export const ProfilePage = () => {
         </div>
     );
 };
-export default ProfilePage
+export default ProfilePage;
