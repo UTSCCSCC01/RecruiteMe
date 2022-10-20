@@ -12,7 +12,7 @@ import Signup from "./pages/SignupPage"
 
 import Auth from "./components/app/Auth"
 import Landing from "./pages/Landing";
-import ReviewApp from "./pages/ReviewApplicationsPage";
+import Dashboard from "./pages/Dashboard";
 
 import {
     BrowserRouter,
@@ -25,12 +25,12 @@ root.render(
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Landing />} />
-            <Route path="/form" element={<JobSeekerForm />} />
+            <Route path="/form" element={<RecruiterForm />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/auth" element={<Auth />} />
-            <Route path="/reviewapp" element={<ReviewApp />} />
+            <Route path="/dashboard" element={<Dashboard />} />
           </Routes>
         </BrowserRouter>
     </React.StrictMode>
