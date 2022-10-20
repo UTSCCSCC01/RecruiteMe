@@ -3,7 +3,7 @@ import { Avatar, Box, Button, Typography } from "@mui/material";
 import Pagination from "@mui/material/Pagination";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import AddIcon from "@mui/icons-material/Add";
-import companyLogo from "./example-logo.png";
+import companyLogo from "../../assets/example-logo.png";
 import UserController from "../../controller/UserController";
 import RecruiterController from "../../controller/RecruiterController";
 import JobSeekerController from "../../controller/JobSeekerController";
@@ -74,7 +74,10 @@ const JobBoardHeader = (props) => {
 };
 
 const JobPostCard = (props) => {
+    const navigate = useNavigate();
+
     const openJobPost = () => {
+        navigate('/job', {state: {jobId: props.id}})
         console.log("open job post for id %s", props.id);
     };
 
