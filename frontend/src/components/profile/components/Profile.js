@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import "./Profile.css";
 import EditIcon from "@mui/icons-material/Edit";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -42,7 +43,6 @@ const ProfileHeader = (props) => {
     const [profile, setProfile] = React.useState(null);
     const [user, setUser] = React.useState(null);
     const [pfp, setPfp] = React.useState(null);
-
     React.useEffect(() => {
         if (!pfp) {
             JobSeekerController.getPfp().then((res) => {
@@ -55,7 +55,9 @@ const ProfileHeader = (props) => {
             });
         }
     });
-
+    const handleBack = () => {
+        navigate('/dashboard')
+    };
     const handleClick = () => {
         UserController.getCurrent().then((res) => {
             setUser(res);
@@ -172,7 +174,20 @@ const ProfileHeader = (props) => {
                         {props.status}
                     </Typography>
                 </Box>
-
+                <Button
+                    onClick={handleBack}
+                    startIcon={<ArrowBackIcon fontSize="large" />}
+                    sx={{
+                        top: 20,
+                        left: 20,
+                        color: "white",
+                        fontSize: "20px",
+                        fontWeight: "400",
+                        textTransform: "none",
+                    }}
+                    size="145px"
+                >
+                    </Button>
                 <Box
                     sx={{
                         display: "flex",
@@ -196,7 +211,7 @@ const ProfileHeader = (props) => {
                     >
                         Edit Profile
                     </Button>
-                    {props.isRecruiter && 
+                    {props.isRecruiter &&
                         <Button
                             onClick={handleOpenPostJobForm}
                             startIcon={<AddCircleIcon fontSize="large" />}
@@ -283,7 +298,7 @@ export const Profile = (props) => {
                         ) {
                             return data + String.fromCharCode(byte);
                         },
-                        "")
+                            "")
                     );
                     setViewResume(base64String);
                     const url = window.URL.createObjectURL(

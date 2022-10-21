@@ -45,6 +45,13 @@ export default function Navbar({ type, pfp, sections }) {
       navigate("/");
     });
   };
+  const handleHome = () => {
+    if (type === 'landing'){
+      navigate("/");
+    }else{
+      navigate("/dashboard")
+    }
+  };
   return (
     <AppBar
       position="fixed"
@@ -61,7 +68,7 @@ export default function Navbar({ type, pfp, sections }) {
           component="div"
           style={{ textAlign: "left" }}
         >
-          <img src={whitelogo} width={250} style={{ marginTop: 5 }}></img>
+          <img src={whitelogo} width={250} style={{ marginTop: 5 }} onClick={handleHome}></img>
         </Typography>
         <Box sx={{ display: "flex", flexGrow: 1 }}>
           {sections.map((section) => (

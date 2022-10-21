@@ -19,21 +19,19 @@ export default function LoginForm() {
                 UserController.getCurrent().then((res) => {
                     if(res.recruiter){
                         RecruiterController.getRecruiter().then((res) => {
-                            console.log(res)
                             if(res.length == 0){
                                 navigate('/form')
                             }else{
-                                navigate('/profile')
+                                navigate('/dashboard')
                             }
                         });
                     }
                     else{
                         JobSeekerController.getJobSeeker().then((res) => {
-                            console.log(res)
                             if(res.length == 0){
                                 navigate('/form')
                             }else{
-                                navigate('/profile')
+                                navigate('/dashboard')
                             }
                     });
                 }
