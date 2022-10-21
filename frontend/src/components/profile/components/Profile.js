@@ -417,7 +417,6 @@ export const Profile = (props) => {
                     )}
                 </Box>
             </Drawer>
-            {resume && (
                 <Box component="main" sx={{ flexGrow: 1, p: 3, pr: 0 }}>
                     <Toolbar sx={{ height: 250 }} />
                     <ProfileInfo
@@ -431,7 +430,7 @@ export const Profile = (props) => {
                         isRecruiter={props.isRecruiter}
                     ></ProfileInfo>
                 </Box>
-            )}
+            )
         </Box>
     );
 };
