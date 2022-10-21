@@ -26,25 +26,22 @@ export const ProfilePage = () => {
     }, []);
 
     return (
-        <Profile
-            firstName={user?.firstName}
-            lastName={user?.lastName}
-            email={email}
-            isRecruiter={isRecruiter}
-            company={user?.company}
-            bio={user?.bio}
-            workExperience={user?.workExperience}
-            education={user?.education}
-            status={user?.currStatus}
-            skills={user?.skills}
-            // name={"john smith"}
-            // email={"john@mail.com"}
-            // isRecruiter={isRecruiter}
-            // company={"google"}
-            // bio={"abc"}
-            // workExperience={user?.workExperience}
-            // status={"lookin for a job"}
-        />
+        <div>
+            {user && (
+                <Profile
+                    firstName={user?.firstName ?? ""}
+                    lastName={user?.lastName ?? ""}
+                    email={email}
+                    isRecruiter={isRecruiter}
+                    company={user?.company}
+                    bio={user?.bio}
+                    workExperience={user?.workExperience}
+                    education={user?.education}
+                    status={user?.currStatus}
+                    skills={user?.skills}
+                />
+            )}
+        </div>
     );
 };
-export default ProfilePage
+export default ProfilePage;

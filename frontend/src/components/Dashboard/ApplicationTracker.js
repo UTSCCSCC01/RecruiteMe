@@ -1,10 +1,12 @@
 import React from "react";
 import { Box, Grid, Paper, IconButton, Typography } from "@mui/material";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
+
 import { useEffect, useState } from "react";
 import JobSeekerController from "../../controller/JobSeekerController";
 import PostController from "../../controller/PostController";
 import TrackerCard from "./TrackerCard";
+import { JobBoard } from "../JobPostings/JobBoard";
 function ApplicationTracker() {
   const [postData, setPostData] = useState([]);
   useEffect(() => {
@@ -85,8 +87,12 @@ function ApplicationTracker() {
           </IconButton>
         </Box>
       </Paper>
+            <Box width={"75%"} height={"100vh"} overflow={"scroll"}>
+                <JobBoard limit={true} customWidth={"90%"} />
+            </Box>
     </div>
   );
+
 }
 
 export default ApplicationTracker;
