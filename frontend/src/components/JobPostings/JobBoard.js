@@ -3,7 +3,7 @@ import { Avatar, Box, Button, Typography } from "@mui/material";
 import Pagination from "@mui/material/Pagination";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import AddIcon from "@mui/icons-material/Add";
-import companyLogo from "./example-logo.png";
+import companyLogo from "../../assets/example-logo.png";
 import UserController from "../../controller/UserController";
 import RecruiterController from "../../controller/RecruiterController";
 import JobSeekerController from "../../controller/JobSeekerController";
@@ -22,6 +22,10 @@ const JobBoardHeader = (props) => {
         console.log("open create job post modal");
     };
 
+    React.useEffect(() => {
+        console.log(props);
+    }, []);
+
     return (
         <Box display={"flex"} mb={4} justifyContent={"space-between"}>
             <Box display={"flex"} flexDirection={"column"}>
@@ -37,7 +41,7 @@ const JobBoardHeader = (props) => {
                         <>My Job Postings</>
                     )}
                 </Typography>
-                {props.jobPosts && props.limit && (
+                {props.jobPosts > 0 && props.limit && (
                     <Box display={"flex"}>
                         Showing {Math.min(10, props.jobPosts)} posts |
                         <Box
@@ -45,6 +49,7 @@ const JobBoardHeader = (props) => {
                             color={"#6E8BF2"}
                             fontWeight={500}
                             onClick={openJobBoard}
+                            sx={{ cursor: "pointer" }}
                         >
                             {" "}
                             View More
@@ -59,10 +64,15 @@ const JobBoardHeader = (props) => {
                     startIcon={<AddIcon fontSize="medium" />}
                     sx={{
                         color: "white",
-                        backgroundColor: "#6E8BF2",
+                        backgroundColor: "#91A4E8",
                         fontSize: "20px",
                         fontWeight: "400",
                         textTransform: "none",
+                        height: "50px",
+                        padding: 2,
+                        "&:hover": {
+                            backgroundColor: "#91A4E8",
+                        },
                     }}
                     size="145px"
                 >
@@ -74,7 +84,10 @@ const JobBoardHeader = (props) => {
 };
 
 const JobPostCard = (props) => {
+    const navigate = useNavigate();
+
     const openJobPost = () => {
+        navigate("/job", { state: { jobId: props.id } });
         console.log("open job post for id %s", props.id);
     };
 
@@ -174,7 +187,7 @@ const JobPostCard = (props) => {
                 <Box
                     sx={{
                         height: "72px",
-                        overflow: "scroll",
+                        overflow: "hidden",
                         textOverflow: "ellipsis",
                         marginRight: "50px",
                         lineHeight: "18px",
@@ -214,10 +227,16 @@ export const JobBoard = (props) => {
 
     React.useEffect(() => {
         UserController.getCurrent().then((res) => {
+            console.log(res);
             if (res.recruiter) {
                 setIsRecruiter(true);
-                RecruiterController.getPfp.then((res) => {
-                    setJobPosts(res[0].jobPosts);
+                RecruiterController.getRecruiter().then((res) => {
+                    console.log(res[0].jobPosts);
+                    setJobPosts(
+                        res[0].jobPosts ? res[0].jobPosts.reverse() : []
+                    );
+                });
+                RecruiterController.getPfp().then((res) => {
                     const base64String = btoa(
                         new Uint8Array(res.data.data).reduce(function (
                             data,
@@ -243,8 +262,8 @@ export const JobBoard = (props) => {
                     );
                     setPfp(base64String);
                 });
-                JobSeekerController.getJobPosts().then((res) => {
-                    setJobPosts(res);
+                JobSeekerController.getJobPosts().then((jobs) => {
+                    setJobPosts(jobs ? jobs.reverse() : []);
                 });
             }
         });
@@ -258,7 +277,7 @@ export const JobBoard = (props) => {
                 sections={isRecruiter ? sectionsType[2] : sectionsType[1]}
             />
             <Box
-                sx={{ marginTop: "110px" }}
+                sx={{ marginTop: "100px" }}
                 width={props.customWidth ?? "80%"}
                 mx={"auto"}
             >
@@ -293,6 +312,7 @@ export const JobBoard = (props) => {
                         sx={{
                             justifyContent: "center",
                             display: "flex",
+                            marginBottom: 2,
                         }}
                     />
                 )}
