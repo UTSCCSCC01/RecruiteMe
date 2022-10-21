@@ -1,111 +1,51 @@
 import {
-    AppBar,
-    Avatar,
-    Box,
-    Button,
-    Drawer,
-    Link,
-    List,
-    ListItem,
-    ListItemButton,
-    ListItemText,
-    Toolbar,
-    Typography,
+  AppBar,
+  Avatar,
+  Box,
+  Button,
+  Drawer,
+  Link,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  Toolbar,
+  Typography,
 } from "@mui/material";
 import "./Profile.css";
-import EditIcon from "@mui/icons-material/Edit";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
-import LogoutIcon from '@mui/icons-material/Logout';
-import profilePic from "./example-assets/profile-pic-example.png";
-import Modal from "@mui/material/Modal";
 import JobSeekerController from "../../../controller/JobSeekerController";
-import RecruiterController from "../../../controller/RecruiterController";
-import UserController from "../../../controller/UserController";
 import {
-    BioSection,
-    WorkExperienceSection,
-    SkillsSection,
-    ResumeSection,
-    EducationSection,
+  BioSection,
+  WorkExperienceSection,
+  SkillsSection,
+  ResumeSection,
+  EducationSection,
 } from "./ProfileSections";
 import * as React from "react";
-import JobSeekerForm from "../../CreateJobSeekerForm/JobSeekerForm";
 import { useNavigate } from "react-router-dom";
-import RecruiterForm from "../../CreateJobSeekerForm/RecruiterForm";
 
 const ProfileHeader = (props) => {
     const navigate = useNavigate();
-    const [open, setOpen] = React.useState(false);
-    const [profile, setProfile] = React.useState(null);
-    const [user, setUser] = React.useState(null);
     const [pfp, setPfp] = React.useState(null);
+    const uid = window.location.pathname.split("/")[2]
+
     React.useEffect(() => {
-        if (!pfp) {
-            JobSeekerController.getPfp().then((res) => {
-                const base64String = btoa(
-                    new Uint8Array(res.data.data).reduce(function (data, byte) {
-                        return data + String.fromCharCode(byte);
-                    }, "")
-                );
-                setPfp(base64String);
-            });
-        }
+    JobSeekerController.getPfpid(uid).then((res) => {
+        const base64String = btoa(new Uint8Array(res.data.data).reduce(function (data, byte) {
+            return data + String.fromCharCode(byte);
+        }, ''));
+        setPfp(base64String)
     });
+    }, [uid]);
+
     const handleBack = () => {
-        navigate('/dashboard')
+        navigate("/dashboard");
     };
-    const handleClick = () => {
-        UserController.getCurrent().then((res) => {
-            setUser(res);
-            if (res.recruiter) {
-                RecruiterController.getRecruiter().then((res) => {
-                    setProfile(res);
-                    setOpen(true);
-                });
-            } else {
-                JobSeekerController.getJobSeeker().then((res) => {
-                    setProfile(res);
-                    setOpen(true);
-                });
-            }
-        });
-    };
-    const handleLogout = () => {
-        UserController.logout().then((res) => {
-            navigate("/");
-        });
-    };
-    const handleClose = () => {
-        setOpen(false);
-        window.location.reload(false);
-    };
+
     return (
         <>
-            <Modal
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-            >
-                {props.isRecruiter ? (
-                    <RecruiterForm
-                        close={handleClose}
-                        profile={profile}
-                        user={user}
-                        pfp={pfp}
-                        resume={props.resume}
-                    ></RecruiterForm>
-                ) : (
-                    <JobSeekerForm
-                        close={handleClose}
-                        profile={profile}
-                        user={user}
-                        pfp={pfp}
-                        resume={props.resume}
-                    ></JobSeekerForm>
-                )}
-            </Modal>
             <Box
                 sx={{
                     width: "100%",
@@ -136,14 +76,6 @@ const ProfileHeader = (props) => {
                         >
                             {props.firstName + " " + props.lastName}
                         </Typography>
-                        {props.isRecruiter && props.company && (
-                            <Typography
-                                sx={{ fontWeight: 500, fontSize: "30px" }}
-                                className="recruiter"
-                            >
-                                • Recruiter @ {props.company}
-                            </Typography>
-                        )}
                     </Box>
                     <Typography
                         sx={{
@@ -155,7 +87,7 @@ const ProfileHeader = (props) => {
                         className="profile-tagline"
                     >
                         {props.status}
-                    </Typography>
+                    </Typography>   
                 </Box>
                 <Button
                     onClick={handleBack}
@@ -170,7 +102,7 @@ const ProfileHeader = (props) => {
                     }}
                     size="145px"
                 >
-                    </Button>
+                </Button>
                 <Box
                     sx={{
                         display: "flex",
@@ -181,39 +113,13 @@ const ProfileHeader = (props) => {
                         bottom: 0,
                     }}
                 >
-                    <Button
-                        onClick={handleClick}
-                        startIcon={<EditIcon fontSize="large" />}
-                        sx={{
-                            color: "white",
-                            fontSize: "20px",
-                            fontWeight: "400",
-                            textTransform: "none",
-                        }}
-                        size="145px"
-                    >
-                        Edit Profile
-                    </Button>
-                    <Button
-                        onClick={handleLogout}
-                        startIcon={<LogoutIcon fontSize="large" />}
-                        sx={{
-                            top: "100",
-                            color: "white",
-                            fontSize: "20px",
-                            fontWeight: "400",
-                            textTransform: "none",
-                        }}
-                        size="145px"
-                    >
-                        Log Out
-                    </Button>
                 </Box>
 
                 <Avatar
                     className="profile-pic"
                     alt={props.name}
-                    src={`data:image/png;base64,${pfp}`} //TODO: display pic
+                    
+                    src={`data:image/png;base64, ${pfp}`} //TODO: display pic
                     sx={{
                         width: 225,
                         height: 225,
@@ -226,9 +132,9 @@ const ProfileHeader = (props) => {
             </Box>
         </>
     );
-};
+    };
 
-const ProfileInfo = (props) => {
+    const ProfileInfo = (props) => {
     return (
         <Box ml={2} mr={5}>
             {props.bio && <BioSection bio={props.bio} />}
@@ -249,15 +155,16 @@ const ProfileInfo = (props) => {
             )}
         </Box>
     );
-};
+    };
 
-export const Profile = (props) => {
+    export const OthersProfile = (props) => {
     const [resume, setResume] = React.useState(null);
     const [viewResume, setViewResume] = React.useState();
+    const uid = window.location.pathname.split("/")[2]
 
     React.useEffect(() => {
         if (!resume) {
-            JobSeekerController.getResume().then((res) => {
+            JobSeekerController.getResumeId(uid).then((res) => {
                 if (res) {
                     const base64String = btoa(
                         new Uint8Array(res.data.data).reduce(function (
@@ -266,7 +173,7 @@ export const Profile = (props) => {
                         ) {
                             return data + String.fromCharCode(byte);
                         },
-                            "")
+                        "")
                     );
                     setViewResume(base64String);
                     const url = window.URL.createObjectURL(

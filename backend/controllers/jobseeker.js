@@ -191,7 +191,7 @@ const view_job_seeker_profile_picture = async (req, res) => {
 }
 
 const view_others_profile_picture = async (req, res) => {
-    ProfilePicture.find({ _id: req.param.id }, function (err, docs) {
+    ProfilePicture.find({ _id: req.params.id }, function (err, docs) {
         if (err) {
             res.send(400).send("User profile picture doesn't exist")
             console.log(err);
@@ -231,6 +231,8 @@ const add_job_seeker_resume = async (req, res) => {
     }
 };
 
+
+
 const update_job_seeker_resume = async (req, res) => {
 
     Resume.exists({ _id: req.user._id }, function (err, docs) {
@@ -255,6 +257,18 @@ const update_job_seeker_resume = async (req, res) => {
 
 const view_job_seeker_resume = async (req, res) => {
     Resume.find({ _id: req.user._id }, function (err, docs) {
+        if (err) {
+            res.send(400).send("User resume doesn't exist")
+            console.log(err);
+        }
+        else {
+            res.status(200).send(docs[0])
+        }
+    });
+}
+
+const view_others_job_seeker_resume = async (req, res) => {
+    Resume.find({ _id: req.params._id }, function (err, docs) {
         if (err) {
             res.send(400).send("User resume doesn't exist")
             console.log(err);
@@ -390,5 +404,5 @@ module.exports = {
     update_job_seeker_resume, view_job_seeker_resume,
     view_open_job_posts, view_others_profile_picture,
     apply_job_post, view_job_seeker,
-    my_job_applications
+    my_job_applications, view_others_job_seeker_resume,
 }

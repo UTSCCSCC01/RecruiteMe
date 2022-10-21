@@ -20,6 +20,7 @@ router.get('/othersprofilepicture/:id', loggedIn, JobSeekerController.view_other
 router.post('/addresume', loggedIn, JobSeekerController.add_job_seeker_resume)
 router.put('/updateresume', loggedIn, JobSeekerController.update_job_seeker_resume)
 router.get('/resume', loggedIn, JobSeekerController.view_job_seeker_resume)
+router.get('/resume/:id', loggedIn, JobSeekerController.view_others_job_seeker_resume)
 
 // For job seeker job post data
 router.get('/openjobposts', loggedIn, JobSeekerController.view_open_job_posts)
