@@ -1,9 +1,8 @@
-import { Profile } from "./components/Profile2";
+import { OthersProfile } from "./components/OthersProfile";
 import * as React from "react";
 import JobSeekerController from "../../controller/JobSeekerController";
 
-
-export const ProfilePageId = () => {
+export const ViewOthersProfile = () => {
   const [user, setUser] = React.useState(null);
   const [email, setEmail] = React.useState(null);
   const uid = window.location.pathname.split("/")[2]
@@ -15,7 +14,7 @@ export const ProfilePageId = () => {
   }, []);
   
   return (
-    <Profile
+    <OthersProfile
         firstName={user?.firstName ?? ""}
         lastName={user?.lastName ?? ""}
         email={email}
