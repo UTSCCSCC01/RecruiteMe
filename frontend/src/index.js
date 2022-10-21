@@ -2,8 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./components/app/App";
-import ProfilePage from './components/profile/ProfilePage';
-import JobDetailPage from './pages/JobDetailPage';
+import ProfilePage from "./components/profile/ProfilePage";
 import JobSeekerForm from "./pages/CreateProfilePage";
 import RecruiterForm from "./pages/CreateProfilePage";
 import { JobBoard } from "./components/JobPostings/JobBoard";
@@ -29,7 +28,6 @@ root.render(
                 <Route path="/profile" element={<ProfilePage />} />
                 <Route path="/auth" element={<Auth />} />
                 <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/job" element={<JobDetailPage />} />
                 <Route path="/jobs" element={<JobBoard limit={false} />} />
             </Routes>
         </BrowserRouter>

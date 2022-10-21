@@ -119,13 +119,13 @@ const view_job_seekers = async (req, res) => {
 }
 
 const view_job_seeker = async (req, res) => {
-    JobSeeker.find({ uid: req.params.id }, function (err, jobseeker) {
+    JobSeeker.find({ _id: req.params.id }, function (err, recruiter) {
         if (err) {
             res.send(500).send("Internal Err")
             console.log(err);
         }
         else {
-            res.status(200).send(jobseeker)
+            res.status(200).send(recruiter)
         }
     });
 }
@@ -191,7 +191,7 @@ const view_job_seeker_profile_picture = async (req, res) => {
 }
 
 const view_others_profile_picture = async (req, res) => {
-    ProfilePicture.find({ _id: req.param.id }, function (err, docs) {
+    ProfilePicture.find({ _id: req.body._id }, function (err, docs) {
         if (err) {
             res.send(400).send("User profile picture doesn't exist")
             console.log(err);

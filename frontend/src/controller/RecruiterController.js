@@ -65,11 +65,6 @@ const RecruiterController = (function () {
                 "/recruiter/resume"
             );
         },
-        getPost: async () => {
-            return await Get(
-                "/recruiter/myposts"
-            )
-        },
         addJobPost: async (body) => {
             return await Post(
                 "/recruiter/addjobpost",

@@ -10,6 +10,7 @@ const JobSeekerForm = (props) => {
     const [selectedPictureURL, setSelectedPictureURL] = useState(props.pfp ? `data:image/png;base64,${props.pfp}` : null);
     const pfpExist = props.pfp != null
     const resumeExist = props.resume != null
+    console.log(props.resume)
     const [isPictureClicked, setIsPictureClicked] = useState(false);
     const [selectedResume, setSelectedResume] = useState(props.resume ? props.resume : null);
     const [isResumeClicked, setIsResumeClicked] = useState(false);
