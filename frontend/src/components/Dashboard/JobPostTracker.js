@@ -71,7 +71,7 @@ export default function JobPostTracker() {
                 New
               </Button>
             </ListSubheader>
-            {jobPosts.map(item => (
+            {jobPosts && jobPosts.map(item => (
               <ListItemButton
                 key={item._id}
                 selected={selectedIndex === jobPosts.indexOf(item)}
