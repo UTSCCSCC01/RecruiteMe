@@ -14,6 +14,7 @@ export default function JobPostTracker() {
   const [selectedIndex, setSelectedIndex] = React.useState(0);
   const [curApps, setCurApps] = React.useState([]);
   const [jobPosts, setJobPosts] = React.useState([]);
+  const [openJobPostingForm, setOpenJobPostingForm] = React.useState(false);
 
   React.useEffect(() => {
     RecruiterController.getPost().then((res) =>{
