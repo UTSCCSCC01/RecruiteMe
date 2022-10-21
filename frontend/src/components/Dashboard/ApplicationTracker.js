@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import JobSeekerController from "../../controller/JobSeekerController";
 import PostController from "../../controller/PostController";
 import TrackerCard from "./TrackerCard";
-import { JobBoard } from "../JobPostings/JobBoard";
+
 function ApplicationTracker() {
   const [postData, setPostData] = useState([]);
   useEffect(() => {
@@ -39,22 +39,23 @@ function ApplicationTracker() {
         sx={{
           width: "300px",
           padding: "2rem",
-          paddingTop: "120px",
+          paddingTop: "100px",
           display: "flex",
           flexDirection: "column",
           backgroundColor: "whitesmoke",
         }}
       >
-        <Typography variant="h4" sx={{ fontWeight: "bold" }} gutterBottom>
+        <Typography
+          sx={{
+            fontWeight: 500,
+            fontSize: "32px",
+          }}
+          gutterBottom
+        >
           My Applications
         </Typography>
 
-        <Grid
-          container
-          direction="row"
-          justifyContent="center"
-          spacing={2}
-        >
+        <Grid container direction="row" justifyContent="center" spacing={2}>
           {postData.map((post) => {
             return (
               <Grid item xs={12} key={post.data._id}>
@@ -87,12 +88,8 @@ function ApplicationTracker() {
           </IconButton>
         </Box>
       </Paper>
-            <Box width={"75%"} height={"100vh"} overflow={"scroll"}>
-                <JobBoard limit={true} customWidth={"90%"} />
-            </Box>
     </div>
   );
-
 }
 
 export default ApplicationTracker;

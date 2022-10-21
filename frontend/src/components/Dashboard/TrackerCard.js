@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Grid, Paper, CardMedia, Typography, Card } from "@mui/material";
-import defaultLogo from "../../assets/defaultcompany.png";
+import defaultLogo from "../../assets/example-logo.png";
 import CircleIcon from "@mui/icons-material/Circle";
 
 const status2text = ["Under Review", "Interview Scheduled", "Rejected"]

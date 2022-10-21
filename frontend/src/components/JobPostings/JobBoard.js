@@ -187,7 +187,7 @@ const JobPostCard = (props) => {
                 <Box
                     sx={{
                         height: "72px",
-                        overflow: "scroll",
+                        overflow: "hidden",
                         textOverflow: "ellipsis",
                         marginRight: "50px",
                         lineHeight: "18px",
@@ -277,7 +277,7 @@ export const JobBoard = (props) => {
                 sections={isRecruiter ? sectionsType[2] : sectionsType[1]}
             />
             <Box
-                sx={{ marginTop: "110px" }}
+                sx={{ marginTop: "100px" }}
                 width={props.customWidth ?? "80%"}
                 mx={"auto"}
             >
