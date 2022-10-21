@@ -52,6 +52,11 @@ const JobSeekerController = (function () {
                 "/jobseeker/openjobposts"
             );
         },
+        getApplications: async () => {
+            return await Get(
+                "/jobseeker/myapplications"
+            );
+        },
         applyToJob: async (body) => {
             return await Post(
                 "/jobseeker/apply",
@@ -68,6 +73,7 @@ const JobSeekerController = (function () {
                 "/jobseeker/view/"+body
             )
         }
+
     });
 })();
 
