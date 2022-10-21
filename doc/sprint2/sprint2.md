@@ -2,6 +2,8 @@
 
 On our first stand up meeting for sprint 2 on October 11, 2022, all members were present to choose the next 5 user stories to work on and reflect on sprint 1. We divided the stories into smaller tasks which were split into frontend and backend. Each member then chose the task they were most comfortable with.
 
+Trello invite link: https://trello.com/invite/404notfound76/ATTIddc9b686868a01aa3f5031bd8560321094FAF36D
+
 ## Goal
 
 The goal for the sprint was to add functionality such that job seekers can view and apply for job postings created by recruiters seamlessly, and allow recruiters to see information about the applicant in one convenient location
@@ -64,7 +66,7 @@ The goal for the sprint was to add functionality such that job seekers can view 
 | Member        | Capacity |
 | ------------- | -------- |
 | Rakshit Patel | 2        |
-| Alton Liu     | 2      |
+| Alton Liu     | 2        |
 | Raisa Haque   | 2        |
 | Pritish Panda | 2        |
 | Raymond Weng  | 2        |
