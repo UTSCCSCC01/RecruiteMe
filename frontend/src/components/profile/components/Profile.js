@@ -248,6 +248,7 @@ const ProfileHeader = (props) => {
 const ProfileInfo = (props) => {
     return (
         <Box ml={2} mr={5}>
+            
             {props.bio && <BioSection bio={props.bio} />}
             {props.workExperience && (
                 <WorkExperienceSection workExperience={props.workExperience} />

@@ -18,7 +18,7 @@ export const BioSection = (props) => {
 
 const WorkExperienceTile = (props) => {
     return (
-        <Box my={2}>
+        <Box my={2}>{console.log(props)}
             <Box
                 sx={{
                     display: "flex",

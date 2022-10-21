@@ -1,13 +1,19 @@
-import { Box, Button, ListItem, ListItemAvatar, Typography, Avatar, ListItemText, } from '@mui/material'
-import React from 'react';
+import { Box, Button, ListItem, ListItemAvatar, Typography, Avatar, ListItemText, Slide, Dialog, IconButton,  } from '@mui/material'
+import CloseIcon from '@mui/icons-material/Close';
 import JobSeekerController from '../../controller/JobSeekerController';
+import * as React from "react";
+import { useNavigate } from "react-router-dom";
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 export const ApplicantTracker = (props) =>{
   const [applicant, setApplicant] = React.useState({})
   const [pfp, setPfp] = React.useState(null);
+  const navigate = useNavigate();
 
   React.useEffect(() => {
-    const temp = null;
     JobSeekerController.getPfpid(props.applicant).then((res) => {
         const base64String = btoa(new Uint8Array(res.data.data).reduce(function (data, byte) {
             return data + String.fromCharCode(byte);
@@ -19,19 +25,20 @@ export const ApplicantTracker = (props) =>{
           fname: res[0].firstName,
           lname: res[0].lastName,
           bio: res[0].bio,
+          uid: props.uid
       })
     })
   }, [props]);
 
   const handleViewMore = () => {
-    console.log("View more")
-  }
+    navigate("/view-profile/"+props.applicant);
+  };
 
   return (
         <div>
         <ListItem sx = {{paddingTop: 4, backgroundColor: "#d9d9d9"}}>
         <ListItemAvatar>
-          <Avatar sx={{ width: 150, height: 150 }} src={`data:image/png;base64,${pfp}`}></Avatar>
+        <Avatar sx={{ width: 150, height: 150 }} src={`data:image/png;base64,${pfp}`}></Avatar>
         </ListItemAvatar>
         <ListItemText 
           sx={{ paddingLeft: 2}}
@@ -40,7 +47,7 @@ export const ApplicantTracker = (props) =>{
         />
       </ListItem>
       <Box style={{backgroundColor: "#d9d9d9", display:'flex', justifyContent:'flex-end'}}>
-        <Button onClick = {() => handleViewMore()}>
+        <Button onClick={handleViewMore}>
           View Profile -{'>'}
         </Button>
       </Box>

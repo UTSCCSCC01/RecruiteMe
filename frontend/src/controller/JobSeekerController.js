@@ -44,6 +44,9 @@ const JobSeekerController = (function () {
         getResume: async () => {
             return await Get("/jobseeker/resume");
         },
+        getResumeId: async (body) => {
+            return await Get("/jobseeker/resume/"+body);
+        },
         getJobPosts: async () => {
             return await Get("/jobseeker/openjobposts");
         },
