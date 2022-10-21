@@ -38,7 +38,7 @@ const ProfileHeader = (props) => {
         }, ''));
         setPfp(base64String)
     });
-    }, []);
+    }, [uid]);
 
     const handleBack = () => {
         navigate("/dashboard");
@@ -164,9 +164,7 @@ const ProfileHeader = (props) => {
 
     React.useEffect(() => {
         if (!resume) {
-            console.log(uid)
             JobSeekerController.getResumeId(uid).then((res) => {
-                console.log(res)
                 if (res) {
                     const base64String = btoa(
                         new Uint8Array(res.data.data).reduce(function (
