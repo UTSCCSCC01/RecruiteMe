@@ -21,11 +21,9 @@ export default function LoginForm() {
                         RecruiterController.getRecruiter().then((res) => {
                             console.log(res)
                             if(res.length == 0){
-                                console.log("S-H-I-T");
                                 navigate('/form')
                             }else{
-                                console.log("HUH?");
-                                navigate('/profile')
+                                navigate('/dashboard')
                             }
                         });
                     }
@@ -35,7 +33,7 @@ export default function LoginForm() {
                             if(res.length == 0){
                                 navigate('/form')
                             }else{
-                                navigate('/profile')
+                                navigate('/dashboard')
                             }
                     });
                 }
