@@ -96,6 +96,7 @@ const view_recruiter_profile = async (req, res) => {
         }
     });
 }
+
 const view_recruiters = async (req, res) => {
     Recruiter.find({}, function (err, recruiters) {
         if (err) {
@@ -222,7 +223,7 @@ const view_others_profile_picture = async (req, res) => {
 
 
 const view_recruiter = async (req, res) => {
-    Recruiter.find({ _id: req.params.id }, function (err, recruiter) {
+    Recruiter.find({ uid: req.params.id }, function (err, recruiter) {
         if (err) {
             res.send(500).send("Internal Err")
             console.log(err);

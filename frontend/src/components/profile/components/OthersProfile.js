@@ -26,11 +26,13 @@ import {
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
 
+
 const ProfileHeader = (props) => {
     const navigate = useNavigate();
     const [pfp, setPfp] = React.useState(null);
     const uid = window.location.pathname.split("/")[2]
 
+    
     React.useEffect(() => {
     JobSeekerController.getPfpid(uid).then((res) => {
         const base64String = btoa(new Uint8Array(res.data.data).reduce(function (data, byte) {
@@ -76,6 +78,14 @@ const ProfileHeader = (props) => {
                         >
                             {props.firstName + " " + props.lastName}
                         </Typography>
+                        {props.isRecruiter && props.company && (
+                            <Typography
+                                sx={{ fontWeight: 500, fontSize: "30px" }}
+                                className="recruiter"
+                            >
+                                • Recruiter @ {props.company}
+                            </Typography>
+                        )}
                     </Box>
                     <Typography
                         sx={{
