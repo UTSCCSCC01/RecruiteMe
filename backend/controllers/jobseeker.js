@@ -12,6 +12,7 @@ const Resume = require("../models/Resume");
 const Post = require("../models/Posts");
 const { Schema } = require('mongoose');
 
+
 // Profile text data API
 const add_job_seeker = async (req, res) => {
 
@@ -230,8 +231,6 @@ const add_job_seeker_resume = async (req, res) => {
         });
     }
 };
-
-
 
 const update_job_seeker_resume = async (req, res) => {
 

@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./components/app/App";
 import ProfilePage from './components/profile/ProfilePage';
+
 import JobDetailPage from './pages/JobDetailPage';
 import JobSeekerForm from "./pages/CreateProfilePage";
 import RecruiterForm from "./pages/CreateProfilePage";
@@ -18,6 +19,7 @@ import Dashboard from "./pages/Dashboard";
 import { ViewOthersProfile } from "./components/profile/ViewOtherProfilePageId";
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
     <React.StrictMode>
@@ -34,6 +36,7 @@ root.render(
                 <Route path="/job" element={<JobDetailPage />} />
                 <Route path="/jobs" element={<JobBoard limit={false} />} />
             </Routes>
+
         </BrowserRouter>
     </React.StrictMode>
 );

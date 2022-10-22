@@ -267,3 +267,4 @@ module.exports = {
     view_others_profile_picture, view_recruiter,
     view_my_posts
 }
+

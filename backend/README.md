@@ -327,6 +327,7 @@ var imageSchema = new mongoose.Schema({
       ]
       ```
 
+
 -   **View All Recruiter profiles** : GET {/recruiter/viewall}
     - View profiles of all recruiters
     - The user has to be loggedIn to use this endpoint
@@ -421,6 +422,7 @@ var imageSchema = new mongoose.Schema({
       ]
       ```
     - Return 200 for success and 404 if no post are made by a recruiter
+
 
 
 <p align="center">
@@ -649,7 +651,6 @@ var imageSchema = new mongoose.Schema({
         "__v": 0
       }
       ```
-
 -   **View My Job application** : GET {/jobseeker/myapplications}
     - Endpoint to view all job applications of a curetn user who is a job seeker
     - Sample Request : http://localhost:4000/jobseeker/myapplications
@@ -668,7 +669,7 @@ var imageSchema = new mongoose.Schema({
         }
       ]
       ```
-      
+
       
 <p align="center">
     <u><h2 align="center">Profile Picture</h2></u>

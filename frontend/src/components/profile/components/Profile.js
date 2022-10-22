@@ -247,6 +247,7 @@ const ProfileInfo = (props) => {
                     viewResume={props.viewResume}
                 />
             )}
+
         </Box>
     );
 };
@@ -278,6 +279,7 @@ export const Profile = (props) => {
                     document.body.appendChild(link);
                     setResume(link);
                 }
+
             });
         }
     });
@@ -372,6 +374,7 @@ export const Profile = (props) => {
                                 </ListItemButton>
                             </ListItem>
                         )}
+
                     </List>
 
                     {props.email && (
@@ -430,6 +433,7 @@ export const Profile = (props) => {
                         isRecruiter={props.isRecruiter}
                     ></ProfileInfo>
                 </Box>
+
         </Box>
     );
 };
