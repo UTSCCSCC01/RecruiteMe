@@ -4,14 +4,22 @@ const ProfilePicture = require("../models/Image");
 const Post = require("../models/Posts");
 
 const add_recruiter = async (req, res) => {
-
-    if (!req.body.firstName || !req.body.lastName || !req.body.company || !req.body.age || !req.body.bio || !req.body.workExp || !req.body.currStatus) {
+    if (
+        !req.body.firstName ||
+        !req.body.lastName ||
+        !req.body.company ||
+        !req.body.age ||
+        !req.body.bio ||
+        !req.body.workExp ||
+        !req.body.currStatus
+    ) {
         return res.status(400).send("There are missing fields in request body");
-    }
-    else {
+    } else {
         Recruiter.exists({ uid: req.user._id }, function (err, docs) {
             if (docs != null) {
-                res.status(403).send("User already exists, use 'put' endpoint for update")
+                res.status(403).send(
+                    "User already exists, use 'put' endpoint for update"
+                );
             } else {
                 const new_recruiter = new Recruiter({
                     firstName: req.body.firstName,
@@ -32,95 +40,87 @@ const add_recruiter = async (req, res) => {
                     })
                     .catch((err) => {
                         console.log(err);
-                        res.status(500).send(err)
+                        res.status(500).send(err);
                     });
             }
         });
-
     }
-
-
 };
 
 const update_recruiter = async (req, res) => {
-
     Recruiter.exists({ uid: req.user._id }, function (err, docs) {
         if (docs == null) {
-            res.status(403).send("User doesn't exist")
+            res.status(403).send("User doesn't exist");
         } else {
-            filter = { uid: req.user._id }
+            filter = { uid: req.user._id };
 
-            let update = {}
+            let update = {};
             if (req.body.firstName) {
-                update["firstName"] = req.body.firstName
+                update["firstName"] = req.body.firstName;
             }
             if (req.body.lastName) {
-                update["lastName"] = req.body.lastName
+                update["lastName"] = req.body.lastName;
             }
             if (req.body.company) {
-                update["company"] = req.body.company
+                update["company"] = req.body.company;
             }
             if (req.body.bio) {
-                update["bio"] = req.body.bio
+                update["bio"] = req.body.bio;
             }
             if (req.body.workExp) {
-                update["workExperience"] = req.body.workExp
+                update["workExperience"] = req.body.workExp;
             }
             if (req.body.currStatus) {
-                update["currStatus"] = req.body.currStatus
+                update["currStatus"] = req.body.currStatus;
             }
 
-            Recruiter.findOneAndUpdate(filter, update).then((result) => {
-                res.status(200).send(result);
-            }).catch((err) => {
-                console.log(err);
-                res.status(500).send(err)
-            });
-
-
+            Recruiter.findOneAndUpdate(filter, update)
+                .then((result) => {
+                    res.status(200).send(result);
+                })
+                .catch((err) => {
+                    console.log(err);
+                    res.status(500).send(err);
+                });
         }
     });
-
-
-}
+};
 
 const view_recruiter_profile = async (req, res) => {
-
     Recruiter.find({ uid: req.user._id }, function (err, docs) {
         if (err) {
-            res.send(400).send("User doesnt exist")
+            res.send(400).send("User doesnt exist");
             console.log(err);
-        }
-        else {
-            res.status(200).send(docs)
+        } else {
+            res.status(200).send(docs);
         }
     });
-}
+};
 
 const view_recruiters = async (req, res) => {
     Recruiter.find({}, function (err, recruiters) {
         if (err) {
-            res.send(500).send("Internal Err")
+            res.send(500).send("Internal Err");
             console.log(err);
-        }
-        else {
-            res.status(200).send(recruiters)
+        } else {
+            res.status(200).send(recruiters);
         }
     });
-}
+};
 
 const add_recruiter_profile_picture = async (req, res) => {
     if (!req.files.image.name) {
         return res.status(400).send("File is missing a name");
-    }
-    else {
+    } else {
         ProfilePicture.exists({ _id: req.user._id }, function (err, docs) {
             if (docs != null) {
-                res.status(403).send("Profile picture for this user already exists, use 'put' endpoint for update")
+                res.status(403).send(
+                    "Profile picture for this user already exists, use 'put' endpoint for update"
+                );
             } else {
                 const new_profile_picture = new ProfilePicture({
                     _id: req.user._id,
-                    data: mongodb.Binary(req.files.image.data)
+                    data: mongodb.Binary(req.files.image.data),
                 });
                 new_profile_picture
                     .save()
@@ -129,7 +129,7 @@ const add_recruiter_profile_picture = async (req, res) => {
                     })
                     .catch((err) => {
                         console.log(err);
-                        res.status(500).send(err)
+                        res.status(500).send(err);
                     });
             }
         });
@@ -137,44 +137,49 @@ const add_recruiter_profile_picture = async (req, res) => {
 };
 
 const update_recruiter_profile_picture = async (req, res) => {
-
     ProfilePicture.exists({ _id: req.user._id }, function (err, docs) {
         if (docs == null) {
-            res.status(403).send("Profile picture doesn't exist")
+            res.status(403).send("Profile picture doesn't exist");
         } else {
-            filter = { _id: req.user._id }
+            filter = { _id: req.user._id };
 
-            let update = {}
-            update["data"] = mongodb.Binary(req.files.image.data)
+            let update = {};
+            update["data"] = mongodb.Binary(req.files.image.data);
 
-            ProfilePicture.findOneAndUpdate(filter, update).then((result) => {
-                res.status(200).send(result);
-            }).catch((err) => {
-                console.log(err);
-                res.status(500).send(err)
-            });
+            ProfilePicture.findOneAndUpdate(filter, update)
+                .then((result) => {
+                    res.status(200).send(result);
+                })
+                .catch((err) => {
+                    console.log(err);
+                    res.status(500).send(err);
+                });
         }
     });
-}
+};
 
 const view_recruiter_profile_picture = async (req, res) => {
     ProfilePicture.find({ _id: req.user._id }, function (err, docs) {
         if (err) {
-            res.send(400).send("User profile picture doesn't exist")
+            res.send(400).send("User profile picture doesn't exist");
             console.log(err);
-        }
-        else {
-            res.status(200).send(docs[0])
+        } else {
+            res.status(200).send(docs[0]);
         }
     });
-}
+};
 
 const add_job_post = async (req, res) => {
-
     if (!req.user.recruiter) {
-        res.status(401).send("User has to be a recruiter to add a job post")
+        res.status(401).send("User has to be a recruiter to add a job post");
     }
-    if (!req.body.companyName || !req.body.role || !req.body.description || !req.body.qualification || !req.body.deadline) {
+    if (
+        !req.body.companyName ||
+        !req.body.role ||
+        !req.body.description ||
+        !req.body.qualification ||
+        !req.body.deadline
+    ) {
         return res.status(400).send("There are missing fields in request body");
     } else {
         const new_job_post = new Post({
@@ -196,15 +201,16 @@ const add_job_post = async (req, res) => {
                     { $push: { jobPosts: result._id } },
                     (err, _) => {
                         if (err) {
-                            res.status(500).send(err)
+                            res.status(500).send(err);
                         } else {
                             res.status(200).send("Added Succesfully");
                         }
-                    });
+                    }
+                );
             })
             .catch((err) => {
                 console.log(err);
-                res.status(500).send(err)
+                res.status(500).send(err);
             });
     }
 };
@@ -212,58 +218,56 @@ const add_job_post = async (req, res) => {
 const view_others_profile_picture = async (req, res) => {
     ProfilePicture.find({ _id: req.body._id }, function (err, docs) {
         if (err) {
-            res.send(400).send("User profile picture doesn't exist")
+            res.send(400).send("User profile picture doesn't exist");
             console.log(err);
-        }
-        else {
-            res.status(200).send(docs[0])
+        } else {
+            res.status(200).send(docs[0]);
         }
     });
-}
-
+};
 
 const view_recruiter = async (req, res) => {
     Recruiter.find({ uid: req.params.id }, function (err, recruiter) {
         if (err) {
-            res.send(500).send("Internal Err")
+            res.send(500).send("Internal Err");
             console.log(err);
-        }
-        else {
+        } else {
             if (recruiter.length != 0) {
-                res.status(200).send(recruiter[0])
+                res.status(200).send(recruiter);
+            } else {
+                res.status(404).send(
+                    "Recruiter doesnt exist, try to pass recruiter _id"
+                );
             }
-            else {
-                res.status(404).send("Recruiter doesnt exist, try to pass recruiter _id")
-            }
-
         }
     });
-}
+};
 
 const view_my_posts = async (req, res) => {
     Post.find({ recruiter: req.user._id }, function (err, posts) {
         if (err) {
-            res.send(500).send("Internal Err")
+            res.send(500).send("Internal Err");
             console.log(err);
-        }
-        else {
+        } else {
             if (posts.length != 0) {
-                res.status(200).send(posts)
-            }
-            else {
-                res.status(404).send("Recruiter hasnt made any posts")
+                res.status(200).send(posts);
+            } else {
+                res.status(404).send("Recruiter hasnt made any posts");
             }
         }
     });
-}
-
-
+};
 
 module.exports = {
-    add_recruiter, update_recruiter,
-    view_recruiter_profile, view_recruiters,
-    add_recruiter_profile_picture, update_recruiter_profile_picture,
-    view_recruiter_profile_picture, add_job_post,
-    view_others_profile_picture, view_recruiter,
-    view_my_posts
-}
+    add_recruiter,
+    update_recruiter,
+    view_recruiter_profile,
+    view_recruiters,
+    add_recruiter_profile_picture,
+    update_recruiter_profile_picture,
+    view_recruiter_profile_picture,
+    add_job_post,
+    view_others_profile_picture,
+    view_recruiter,
+    view_my_posts,
+};
