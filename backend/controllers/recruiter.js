@@ -271,3 +271,4 @@ module.exports = {
     view_recruiter,
     view_my_posts,
 };
+
