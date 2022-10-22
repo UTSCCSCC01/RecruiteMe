@@ -263,7 +263,8 @@ export const JobBoard = (props) => {
                     setPfp(base64String);
                 });
                 JobSeekerController.getJobPosts().then((jobs) => {
-                    setJobPosts(jobs ? jobs.reverse() : []);
+                    const filtered = jobs.filter(job => new Date(job.deadline)> new Date());
+                    setJobPosts(filtered ? filtered.reverse() : []);
                 });
             }
         });

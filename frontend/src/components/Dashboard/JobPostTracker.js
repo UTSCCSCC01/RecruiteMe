@@ -5,13 +5,14 @@ import RecruiterController from '../../controller/RecruiterController';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import Modal from "@mui/material/Modal";
 import JobPostingForm from '../CreateJobPostingForm/JobPostingForm';
+import companyLogo from "../../assets/example-logo.png";
 
 const Demo = styled('div')(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
 }));
 
 export default function JobPostTracker() {
-  const [selectedIndex, setSelectedIndex] = React.useState(0);
+  const [selectedIndex, setSelectedIndex] = React.useState(-1);
   const [curApps, setCurApps] = React.useState([]);
   const [jobPosts, setJobPosts] = React.useState([]);
   const [openJobPostingForm, setOpenJobPostingForm] = React.useState(false);
@@ -78,7 +79,7 @@ export default function JobPostTracker() {
               >
                 <ListItem key={item._id} disableGutters>
                   <ListItemAvatar>
-                    <Avatar variant="square" sx={{ width: 80, height: 80 }}>{item.avatar}</Avatar>
+                    <Avatar variant="square" src={companyLogo} sx={{ width: 80, height: 80 }}>{item.avatar}</Avatar>
                   </ListItemAvatar>
                   <ListItemText 
                     sx={{ paddingLeft: 2}}
@@ -95,7 +96,7 @@ export default function JobPostTracker() {
 
       <Box sx={{ width: "75%", maxHeight: 635,}}>
         <Box sx={{height: 70,}}></Box>
-        <List style={{height: '100%', maxHeight: 700, overflow: 'auto'}}>
+        <List style={{ overflow: 'auto'}}>
           <Box style={{display:'flex'}}>
             <Box sx={{width:150,}}>
               <ListSubheader sx={{fontSize:20}} color="inherit" >Job Seekers</ListSubheader>

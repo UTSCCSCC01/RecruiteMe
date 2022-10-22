@@ -4,7 +4,6 @@ import {
     Box,
     Button,
     Drawer,
-    Link,
     List,
     ListItem,
     ListItemButton,
@@ -17,7 +16,7 @@ import {
 import Modal from '@mui/material/Modal';
 
 import * as React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate , Link} from "react-router-dom";
 import JobSeekerController from "../../controller/JobSeekerController";
 
 
@@ -25,6 +24,8 @@ const JobDetail = (props) => {
     const [showModal, setShowModal] = React.useState(false);
     const [toastMessage, setToastMessage] = React.useState(null);
     const [showToast, setShowToast] = React.useState(false);
+    
+        
     const recruiterTitle = ' | Recruiter'
     const qualification = props.job.qualification.map(qualification => (<Typography variant="body1" mb={2}>{'- ' + qualification}</Typography>));
     const handleApplyClick = event => {
@@ -66,7 +67,7 @@ const JobDetail = (props) => {
                             sx={{ marginTop: 40, marginLeft: -30 }}
                         >
                             <text style={{ fontSize: 20 }}>
-                                <Link style={{ fontSize: 20 }} to='/about'>Jane Smith</Link>
+                                <Link style={{ fontSize: 20 }} to={'/view-profile/'+props.job.recruiter} state={{isRecruiter: true}}>Profile</Link>
                                 {recruiterTitle}
                             </text>
                         </Box>

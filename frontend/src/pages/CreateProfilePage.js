@@ -28,7 +28,7 @@ export default function CreateProfilePage() {
     });
     }
     
-        const handleClose = () => {setOpen(false); navigate('/profile')};
+        const handleClose = () => {setOpen(false); navigate('/dashboard')};
 
         return (
             <div>

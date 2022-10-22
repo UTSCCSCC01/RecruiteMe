@@ -76,6 +76,11 @@ const RecruiterController = (function () {
                 body
             );
         },
+        viewId: async (body) => {
+            return await Get(
+                "/recruiter/view/"+body
+            )
+        }
     });
 })();
 
