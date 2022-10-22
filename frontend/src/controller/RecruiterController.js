@@ -81,7 +81,6 @@ const RecruiterController = (function () {
                 "/recruiter/view/"+body
             )
         }
-
     });
 })();
 
