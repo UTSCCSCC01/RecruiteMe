@@ -44,7 +44,7 @@ Your Mark: _
     - 1 mark  = At least 2 group members or more have not sent their updates or is low-quality
     - 0 marks = At least 3 group members or more have not sent their updates or is low-quality
 
-  Daily Stand-ups Total Mark: 0 / 10
+  Daily Stand-ups Total Mark: 10 / 10
 
 ---
 ## User Stories (Tracked in /Github) (max 10 marks) 
@@ -133,7 +133,7 @@ Your Mark: _
     - 0 marks = majority of commit message do not begin with the ticket number of the task followed by a short description of commit changes
     
     
-Your Mark: 0
+Your Mark: 1
     
   - Tasks Distribution (max 3 marks)
     - 3 marks = every team member had at least one task assigned and completed
@@ -160,7 +160,7 @@ Tracking on Jira Total Mark: 17 / 20
   - Started stories that are incomplete will be counted
   - Mark Breakdown: [x = Percentage of story points completed * 20]
 
-  Your Mark: 16 / 20 (NOT-22 was not marked as complete)
+  Your Mark: 19 / 20 (NOT-22 was not marked as complete)
 
 ---
 ## System Design (PDF or MD file or another suitable format) (max 10 marks) 
@@ -227,6 +227,6 @@ System Design Total Mark: 10 / 10
 
 ## Total Mark
 
-72 / 89
+86 / 89
 
  « Note: This mark will be updated after the demo is presented »
