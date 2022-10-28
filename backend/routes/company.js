@@ -7,6 +7,7 @@ const { loggedIn } = require("../middleware/loggedIn")
 router.post('/add', loggedIn, CompanyController.add_company)
 router.get('/view/:id', loggedIn, CompanyController.view_company)
 router.put('/update', loggedIn, CompanyController.update_company)
+router.post('/review', loggedIn, CompanyController.add_review)
 
 // router.get('/profile', loggedIn, CompanyController.view_reviews)
 

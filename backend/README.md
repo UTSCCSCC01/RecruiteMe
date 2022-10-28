@@ -903,7 +903,7 @@ const companySchema = new Schema({
       ```
     - Return 200 for success and 4XX for failure, with an error in the response body
 
--   **Uupdate Company Page** : PUT {/company/update}
+-   **Update Company Page** : PUT {/company/update}
     - Endpoint to update company page job : http://localhost:4000/company/update
     - Can only update its "about" for now
     - Sample body request
@@ -911,6 +911,22 @@ const companySchema = new Schema({
       {
         "companyId":"635ae860ce5914a300f65460",
         "about" : "BIG BIG COMPANY"
+      }
+      ```
+    - Return 200 for success and 4XX for failure, with an error in the response body
+
+-   **Add Review to Company Page** : POST {/company/review}
+    - Endpoint to add Review to company page : http://localhost:4000/company/review
+    - Sample body request
+      ```
+      {
+          "companyId": "635ae860ce5914a300f65460",
+          "review" : {
+              "position": "SDE II",
+              "review": "VERY NICE ",
+              "salary": 50000,
+              "rating": 5
+          }
       }
       ```
     - Return 200 for success and 4XX for failure, with an error in the response body
