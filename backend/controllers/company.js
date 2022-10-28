@@ -77,13 +77,64 @@ const view_company = async (req, res) => {
 
 };
 
+const add_review = async (req, res) => {
+
+    if (!req.body.companyId || !req.body.review) {
+        return res.status(400).send("There are missing fields in request body");
+    }
+    else {
+
+        Company.findOne({ _id: req.body.companyId }).then(async (result) => {
+            var reviews = result.reviews
+            reviews.push(req.body.review)
+
+            Company.findOneAndUpdate(
+                { _id: req.body.companyId },
+                {
+                    $set: {
+                        reviews: reviews
+                    }
+                }, (err, _) => {
+                    if (err) {
+                        return res.status(400).send(err);
+                    }
+                    else {
+                        return res.status(200).send("Review added Successfully");
+                    }
+                }
+            )
+        }).catch((err) => {
+            console.log(err);
+            res.status(500).send(err)
+        });
+    }
+};
+
+
+const view_reviews = async (req, res) => {
+    if (!req.params.companyId) {
+        return res.status(400).send("There are missing fields in request params");
+    }
+    else {
+        Company.find({ _id: req.params.companyId }, function (err, company) {
+            if (err) {
+                res.send(500).send("Internal Err")
+                console.log(err);
+            }
+            else {
+                res.status(200).send(company.reviews)
+            }
+        });
+    }
+};
+
 
 
 module.exports = {
     add_company,
     view_company,
     update_company,
-
-
+    add_review,
+    view_reviews
 };
 
