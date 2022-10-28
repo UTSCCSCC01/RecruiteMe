@@ -148,7 +148,7 @@ content-type: application/json
 
 {
     "companyName":"Amazon",
-    "role":"SDE Intern",
+    "role":"SDE Intern IV",
     "description":"Work for us ",
     "qualification":["Good at software engineering"],
     "deadline": "2022-11-01T03:59:00.000+00:00"
@@ -168,3 +168,48 @@ GET http://localhost:4000/recruiter/myposts HTTP/1.1
 ###
 
 GET http://localhost:4000/post/view/634e1ab0298e3e3ce79850e3 HTTP/1.1
+
+###
+
+
+POST http://localhost:4000/company/add HTTP/1.1
+content-type: application/json
+
+{
+    "companyName":"Amazon",
+    "about":"Big Tech"
+}
+
+
+### 
+
+GET http://localhost:4000/company/view/635ae860ce5914a300f65460 HTTP/1.1
+
+
+
+###
+
+
+PUT http://localhost:4000/company/update HTTP/1.1
+content-type: application/json
+
+{
+    "companyId":"635ae860ce5914a300f65460",
+    "about" : "BIG BIG COMPANY"
+}
+
+
+###
+
+POST http://localhost:4000/company/review HTTP/1.1
+content-type: application/json
+
+{
+    "companyId": "635ae860ce5914a300f65460",
+    "review" : {
+        "position": "SDE II",
+        "review": "VERY NICE ",
+        "salary": 50000,
+        "rating": 5
+    }
+}

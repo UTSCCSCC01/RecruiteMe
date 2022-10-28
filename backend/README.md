@@ -137,13 +137,11 @@ bio: {
        }),
        required: false
    },
-   appliedPost: {
-       type: Map,
-       of: new Schema({
-           postId: { type: Schema.Types.ObjectId, ref: 'Posts' },
-           status: Boolean
-       })
-   },
+   appliedPost: [{
+        postId: String,
+        status: Number
+    }
+    ]
    currStatus: {
        type: String,
        required: false
@@ -195,6 +193,34 @@ var imageSchema = new mongoose.Schema({
    name: String,
    data: Buffer
 });
+```
+
+- Company:
+```
+const companySchema = new Schema({
+    companyName: {
+        type: String,
+        required: true
+    },
+    about: {
+        type: String,
+        required: true
+    },
+    createrId: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+
+    },
+    jobPosts: [{ type: Schema.Types.ObjectId, ref: 'Posts' }],
+    reviews: [{
+        position: String,
+        review: String,
+        salary: Number,
+        rating: Number
+    }],
+}
+);
 ```
 
 <p align="center">
@@ -820,3 +846,71 @@ var imageSchema = new mongoose.Schema({
       }
       ```
     - Return 200 for success and 400 or 500 for failure , with an error in the response body
+
+<p align="center">
+    <u><h2 align="center">Company Page</h2></u>
+</p>
+
+-   **Add Company Page** : POST {/company/add}
+    - Endpoint to add job seeker : http://localhost:4000/company/add
+    - The user has to be loggedIn to use this endpoint
+    - Sample body request
+      ```
+      {
+        "companyName":"Amazon",
+        "about":"Big Tech"
+      }
+
+      ```
+    - Return 200 for success and 4XX for failure, with an error in the response body
+
+-   **View Company Page** : GET {/company/:id}
+    - Endpoint to view company page: http://localhost:4000/company/view/635ae860ce5914a300f65460
+    - The user has to be loggedIn to use this endpoint
+    - Sample body reponse
+      ```
+      {   
+        "_id": "635ae860ce5914a300f65460",
+        "companyName": "Amazon",
+        "about": "BIG BIG COMPANY",
+        "createrId": "633e2eac6068a665ef3ab2de",
+        "jobPosts": [
+          "635aebf394dd6b04b94945f5",
+          "635af259dd0a1eb8507bc9ca",
+          "635af278dd0a1eb8507bc9d8",
+          "635af36be6c311ebb9915701",
+          "635b4d5eea0608aa7ac62892"
+        ],
+        "reviews": [
+          {
+            "position": "SDE",
+            "review": "NICE",
+            "salary": 10000,
+            "rating": 5,
+            "_id": "635ae9bba74203239e949cb4"
+          },
+          {
+            "position": "SDE II",
+            "review": "VERY NICE ",
+            "salary": 50000,
+            "rating": 5,
+            "_id": "635ae9daa74203239e949cbd"
+          }
+        ],
+        "__v": 0
+      }
+
+      ```
+    - Return 200 for success and 4XX for failure, with an error in the response body
+
+-   **Uupdate Company Page** : PUT {/company/update}
+    - Endpoint to update company page job : http://localhost:4000/company/update
+    - Can only update its "about" for now
+    - Sample body request
+      ```
+      {
+        "companyId":"635ae860ce5914a300f65460",
+        "about" : "BIG BIG COMPANY"
+      }
+      ```
+    - Return 200 for success and 4XX for failure, with an error in the response body
