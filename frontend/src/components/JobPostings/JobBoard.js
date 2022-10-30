@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Avatar, Box, Button, Typography } from "@mui/material";
+import { Avatar, Box, Button, Typography, Select, MenuItem, FormControl, InputLabel } from "@mui/material";
 import Pagination from "@mui/material/Pagination";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import AddIcon from "@mui/icons-material/Add";
@@ -26,6 +26,9 @@ const JobBoardHeader = (props) => {
         console.log(props);
     }, []);
 
+    // Filters
+    const [filters, setFilters] = React.useState("All");
+
     return (
         <Box display={"flex"} mb={4} justifyContent={"space-between"}>
             <Box display={"flex"} flexDirection={"column"}>
@@ -41,6 +44,20 @@ const JobBoardHeader = (props) => {
                         <>My Job Postings</>
                     )}
                 </Typography>
+                {/* Add drop down*/}
+                <FormControl fullWidth>
+                <InputLabel id="select-filter">Filters</InputLabel>
+                    <Select
+                        labelId="select-filter"
+                        value={filters}
+                        label="Filters"
+                        onChange={(e) => setFilters(e.target.value)}
+                    >
+                        <MenuItem value={"Qualifications"}>Qualifications</MenuItem>
+                        <MenuItem value={"Description Key Words"}>Description Key Words</MenuItem>
+                        <MenuItem value={"Role"}>Role</MenuItem>
+                    </Select>
+                </FormControl>
                 {props.jobPosts > 0 && props.limit && (
                     <Box display={"flex"}>
                         Showing {Math.min(10, props.jobPosts)} posts |
