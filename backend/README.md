@@ -701,12 +701,13 @@ const companySchema = new Schema({
     <u><h2 align="center">Profile Picture</h2></u>
 </p>
 
--   **Add Profile Picture** : POST {/{jobseeker OR recruiter}/addpfp}
-    - Endpoint to add profile picture : http://localhost:4000/{jobseeker OR recruiter}/addpfp
+-   **Add Profile Picture** : POST {/{jobseeker OR recruiter OR company}/addpfp}
+    - Endpoint to add profile picture : http://localhost:4000/{jobseeker OR recruiter OR company}/addpfp
     - The user has to be loggedIn to use this endpoint
     - Pictures must be sent as form-data
     - When taking in the picture from the front end, the name of the input must be "image" as shown below:
       <input type="file" name="image" value="" required>
+    - When updating a company profile picture, the company's object ID must be included in the body as "companyId": ...
     - Sample body request
       
       ![image](https://user-images.githubusercontent.com/68790482/194485394-93f37106-ff9d-4753-85dc-3f1123682b73.png)
@@ -714,12 +715,13 @@ const companySchema = new Schema({
       
     - Return 200 for success and 401 for aunthentication failure, with an error in the response body
 
--   **Update Profile Picture** : PUT {/{jobseeker OR recruiter}/updatepfp}
-    - Endpoint to update profile picture : http://localhost:4000/{jobseeker OR recruiter}/updatepfp
+-   **Update Profile Picture** : PUT {/{jobseeker OR recruiter OR company}/updatepfp}
+    - Endpoint to update profile picture : http://localhost:4000/{jobseeker OR recruiter OR company}/updatepfp
     - The user has to be loggedIn to use this endpoint
     - Pictures must be sent as form-data
     - When taking in the picture from the front end, the name of the input must be "image" as shown below:
       <input type="file" name="image" value="" required>
+    - When updating a company profile picture, the company's object ID must be included in the body as "companyId": ...
     - Sample body request
       
       ![image](https://user-images.githubusercontent.com/68790482/194486518-98bd06dd-9ee0-4b28-a23e-ab9dd66184ba.png)
@@ -744,16 +746,12 @@ const companySchema = new Schema({
         "__v": 0
       }
       
--   **View Specific User's Profile Picture** : GET {/{jobseeker OR recruiter}/othersprofilepicture}
+-   **View Specific User's Profile Picture** : GET {/{jobseeker OR recruiter OR company}/othersprofilepicture/$id}
     - View the profile picture of a specified user in the database
-    - View Specific User's Profile Picture : http://localhost:4000/{jobseeker OR recruiter}/othersprofilepicture
+    - View Specific User's Profile Picture : http://localhost:4000/{jobseeker OR recruiter OR company}/othersprofilepicture/$id
     - Front end developers must use base64 to display image (check step 10 of https://www.geeksforgeeks.org/upload-and-retrieve-image-on-mongodb-using-mongoose/)
-    - Sample Request Body:
-      ```
-      {
-        "_id": "633e2eb14988c2467ea47872"
-      }
-      ```
+    - Replace $id with _id of user/company you want to view
+    - Sample Request: http://localhost:4000/company/othersprofilepicture/633e2eb14988c2467ea47872
       
     - Sample Response:
       ```

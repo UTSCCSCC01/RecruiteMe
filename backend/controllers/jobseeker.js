@@ -1,8 +1,5 @@
-const express = require('express')
-const fileUpload = require('express-fileupload')
 const User = require("../models/User");
 const JobSeeker = require("../models/JobSeeker");
-var fs = require('fs');
 const mongodb = require('mongodb');
 const mongoose = require('mongoose');
 
