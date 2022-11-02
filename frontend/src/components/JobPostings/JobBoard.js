@@ -42,7 +42,7 @@ const JobBoardHeader = (props) => {
             jobs = jobs.filter(job => new Date(job.deadline)> new Date());
             console.log(jobs);
             let filtered = [];
-            if (filterValues !== []) {
+            if (filterValues.length > 0) {
                 if (filterType === "Role") {
                     // Filter all jobs by roles in filterValues
                     filtered = jobs.filter((job) => {
