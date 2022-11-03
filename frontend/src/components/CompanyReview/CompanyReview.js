@@ -2,7 +2,7 @@ import CompanyReviewForm from './CompanyReviewForm';
 import { Button, Rating, Modal, Typography, Card, Pagination, Box } from '@mui/material';
 import * as React from 'react';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import JobSeekerController from '../../controller/JobSeekerController';
+import CompanyController from '../../controller/CompanyController';
 
 export default function CompanyReview(props) {
 
@@ -18,7 +18,7 @@ export default function CompanyReview(props) {
         setOpenCompanyReviewForm(false); window.location.reload(false);
     };
     React.useEffect(() => {
-        JobSeekerController.getCompany(props.companyId).then((res) => {
+        CompanyController.getCompany(props.companyId).then((res) => {
             setReviews(res.reviews)
         });
     }, []);
@@ -46,7 +46,7 @@ export default function CompanyReview(props) {
                     aria-labelledby="modal-modal-title"
                     aria-describedby="modal-modal-description"
                 >
-                    <CompanyReviewForm close={handleCloseCompanyReviewForm}></CompanyReviewForm>
+                    <CompanyReviewForm close={handleCloseCompanyReviewForm} companyId={props.companyId}></CompanyReviewForm>
                 </Modal>
             </div>
             {reviews && reviews.slice(3 * (page - 1), 3 * page).map(review => (

@@ -79,17 +79,6 @@ const JobSeekerController = (function () {
             return await Get(
                 "/jobseeker/view/"+body
             )
-        },
-        getCompany: async (body) => {
-            return await Get(
-                "/company/view/"+body
-            )
-        },
-        addReview: async (body) => {
-            return await Post(
-                "/company/review",
-                body
-            )
         }
     });
 })();

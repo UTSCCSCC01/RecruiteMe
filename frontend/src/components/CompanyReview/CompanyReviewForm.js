@@ -1,7 +1,7 @@
 // Create a form for posting jobs
 import React, { useState, number } from 'react';
 import { Grid, Paper, TextField, Button, Chip, Rating, Typography } from '@mui/material'
-import JobSeekerController from '../../controller/JobSeekerController';
+import CompanyController from '../../controller/CompanyController';
 
 const JobPostingForm = (props) => {
     const [position, setPosition] = useState("");
@@ -12,7 +12,7 @@ const JobPostingForm = (props) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         const reviewBody = {
-            companyId: '635ae860ce5914a300f65460',
+            companyId: props.companyId,
             review: {
                 position: position,
                 review: review,
@@ -20,8 +20,7 @@ const JobPostingForm = (props) => {
                 rating: value
             }
         };
-        JobSeekerController.addReview(reviewBody).then((res) => {
-            console.log(res);
+        CompanyController.addCompanyReview(reviewBody).then((res) => {
             if (res.status === 200) {
                 props.close();
             }
