@@ -8,7 +8,6 @@ const add_recruiter = async (req, res) => {
     if (
         !req.body.firstName ||
         !req.body.lastName ||
-        !req.body.company ||
         !req.body.age ||
         !req.body.bio ||
         !req.body.workExp ||
@@ -26,7 +25,6 @@ const add_recruiter = async (req, res) => {
                     firstName: req.body.firstName,
                     lastName: req.body.lastName,
                     uid: req.user._id,
-                    company: req.body.company,
                     email: req.user.email,
                     age: req.body.age,
                     bio: req.body.bio,
@@ -61,9 +59,6 @@ const update_recruiter = async (req, res) => {
             }
             if (req.body.lastName) {
                 update["lastName"] = req.body.lastName;
-            }
-            if (req.body.company) {
-                update["company"] = req.body.company;
             }
             if (req.body.bio) {
                 update["bio"] = req.body.bio;
@@ -175,7 +170,6 @@ const add_job_post = async (req, res) => {
         return res.status(401).send("User has to be a recruiter to add a job post");
     }
     if (
-        !req.body.companyName ||
         !req.body.role ||
         !req.body.description ||
         !req.body.qualification ||
@@ -184,58 +178,65 @@ const add_job_post = async (req, res) => {
         return res.status(400).send("There are missing fields in request body");
     } else {
 
-        Company.findOne({ companyName: req.body.companyName }, (err, company) => {
-            console.log(company)
-            if (company == null) {
-                res.status(404).send("Company Page should be added first");
+        Recruiter.findOne({ uid: req.user._id }, (err, recruiter) => {
+            if (recruiter == null) {
+                res.status(404).send("recruiter doesnt exists");
             } else {
-                const new_job_post = new Post({
-                    companyName: req.body.companyName,
-                    role: req.body.role,
-                    description: req.body.description,
-                    qualification: req.body.qualification,
-                    applicants: [],
-                    recruiter: req.user._id,
-                    isHiring: true,
-                    posted: Date(),
-                    deadline: req.body.deadline,
-                });
-                new_job_post
-                    .save()
-                    .then((result) => {
-                        Recruiter.findOneAndUpdate(
-                            { uid: req.user._id },
-                            { $push: { jobPosts: result._id } },
-                            (err, _) => {
-                                if (err) {
-                                    res.status(500).send(err);
-                                }
-                                else {
-                                    Company.findOneAndUpdate(
-                                        { companyName: req.body.companyName },
-                                        { $push: { jobPosts: result._id } },
-                                        (err, _) => {
-                                            if (err) {
-                                                res.status(500).send(err);
-                                            } else {
-                                                res.status(200).send("Added Succesfully");
-                                            }
+                Company.findOne({ _id: recruiter.companyId }, (err, company) => {
+                    console.log(company)
+                    if (company == null) {
+                        res.status(404).send("Company Page should be added first");
+                    } else {
+                        const new_job_post = new Post({
+                            companyName: recruiter.companyName,
+                            companyId: recruiter.companyId,
+                            role: req.body.role,
+                            description: req.body.description,
+                            qualification: req.body.qualification,
+                            applicants: [],
+                            recruiter: req.user._id,
+                            isHiring: true,
+                            posted: Date(),
+                            deadline: req.body.deadline,
+                        });
+                        new_job_post
+                            .save()
+                            .then((result) => {
+                                Recruiter.findOneAndUpdate(
+                                    { uid: req.user._id },
+                                    { $push: { jobPosts: result._id } },
+                                    (err, _) => {
+                                        if (err) {
+                                            res.status(500).send(err);
                                         }
-                                    );
-                                }
-                            }
-                        );
+                                        else {
+                                            Company.findOneAndUpdate(
+                                                { _id: recruiter.companyId },
+                                                { $push: { jobPosts: result._id } },
+                                                (err, _) => {
+                                                    if (err) {
+                                                        res.status(500).send(err);
+                                                    } else {
+                                                        res.status(200).send("Added Succesfully");
+                                                    }
+                                                }
+                                            );
+                                        }
+                                    }
+                                );
 
-                    })
-                    .catch((err) => {
-                        console.log(err);
-                        res.status(500).send(err);
-                    });
+                            })
+                            .catch((err) => {
+                                console.log(err);
+                                res.status(500).send(err);
+                            });
+                    }
+                })
             }
-        })
 
-    }
-};
+        });
+    };
+}
 
 const view_others_profile_picture = async (req, res) => {
     ProfilePicture.find({ _id: req.body._id }, function (err, docs) {
