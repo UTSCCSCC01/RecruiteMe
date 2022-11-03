@@ -1,4 +1,6 @@
 const Company = require("../models/Company");
+const ProfilePicture = require("../models/Image");
+const mongodb = require('mongodb');
 
 const add_company = async (req, res) => {
     if (
@@ -128,6 +130,64 @@ const view_reviews = async (req, res) => {
     }
 };
 
+const add_company_profile_picture = async (req, res) => {
+    if (!req.files.image.name || !req.body.companyId) {
+        return res.status(400).send("Missing file name or company ID");
+    } else {
+        ProfilePicture.exists({ _id: req.body.companyId }, function (err, docs) {
+            if (docs != null) {
+                res.status(403).send("Profile picture for this user already exists, use 'put' endpoint for update")
+            } else {
+                const new_profile_picture = new ProfilePicture({
+                    _id: req.body.companyId,
+                    data: mongodb.Binary(req.files.image.data)
+                });
+                new_profile_picture
+                    .save()
+                    .then((result) => {
+                        res.status(200).send(result);
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                        res.status(500).send(err)
+                    });
+            }
+        });
+    }
+};
+
+const update_company_profile_picture = async (req, res) => {
+    ProfilePicture.exists({ _id: req.body.companyId }, function (err, docs) {
+        if (docs == null) {
+            res.status(403).send("Profile picture doesn't exist")
+        } else {
+            filter = { _id: req.body.companyId }
+
+            let update = {}
+            update["data"] = mongodb.Binary(req.files.image.data)
+
+            ProfilePicture.findOneAndUpdate(filter, update).then((result) => {
+                res.status(200).send(result);
+            }).catch((err) => {
+                console.log(err);
+                res.status(500).send(err)
+            });
+        }
+    });
+}
+
+const view_company_profile_picture = async (req, res) => {
+    ProfilePicture.find({ _id: req.params.id }, function (err, docs) {
+        if (err) {
+            res.send(400).send("User profile picture doesn't exist")
+            console.log(err);
+        }
+        else {
+            res.status(200).send(docs[0])
+        }
+    });
+}
+
 
 
 module.exports = {
@@ -135,6 +195,9 @@ module.exports = {
     view_company,
     update_company,
     add_review,
-    view_reviews
+    view_reviews,
+    add_company_profile_picture,
+    update_company_profile_picture,
+    view_company_profile_picture
 };
 
