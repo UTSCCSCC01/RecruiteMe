@@ -1,13 +1,16 @@
 import CompanyReviewForm from './CompanyReviewForm';
-import { Button, Rating, Modal, Typography, Card } from '@mui/material';
+import { Button, Rating, Modal, Typography, Card, Pagination, Box } from '@mui/material';
 import * as React from 'react';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import JobSeekerController from '../../controller/JobSeekerController';
 
-export default function CompanyReview({ }) {
+export default function CompanyReview(props) {
 
     const [openCompanyReviewForm, setOpenCompanyReviewForm] = React.useState(false);
     const [reviews, setReviews] = React.useState(null);
+    const [page, setPage] = React.useState(1);
+
+
     const handleOpenCompanyReviewForm = () => {
         setOpenCompanyReviewForm(true);
     };
@@ -15,13 +18,13 @@ export default function CompanyReview({ }) {
         setOpenCompanyReviewForm(false); window.location.reload(false);
     };
     React.useEffect(() => {
-        JobSeekerController.getCompany('635ae860ce5914a300f65460').then((res) => {
+        JobSeekerController.getCompany(props.companyId).then((res) => {
             setReviews(res.reviews)
         });
     }, []);
     return (
         <div style={{paddingBottom: 5}}>
-            <div style={{ marginTop: 80, display: 'flex', paddingBottom:30 }}>
+            <div style={{ marginTop: 20, display: 'flex', paddingBottom:10 }}>
                 <Typography variant="h4" sx={{ marginLeft: '10'}}>Reviews</Typography>
                 <Button
                     onClick={handleOpenCompanyReviewForm}
@@ -46,14 +49,26 @@ export default function CompanyReview({ }) {
                     <CompanyReviewForm close={handleCloseCompanyReviewForm}></CompanyReviewForm>
                 </Modal>
             </div>
-            {reviews && reviews.map(review => (
-                <Card variant="outlined" sx={{margin: 5, padding:3}}>
+            {reviews && reviews.slice(3 * (page - 1), 3 * page).map(review => (
+                <Box sx={{marginBottom: 4, padding:3, backgroundColor: "#D9D9D9" }}>
                     <Typography variant="h5" mb={2}>{review.position}</Typography>
                     <Rating name="read-only" value={review.rating} readOnly />
                     <Typography variant="body1" mt={2} mb={2}>{'Salary: $' + review.salary}</Typography>
                     <Typography variant="body1" mb={2}>{review.review}</Typography>
-                </Card>
+                </Box>
             ))}
+            {reviews && reviews.length > 3 && (
+                <Pagination
+                    count={Math.ceil(reviews.length / 3)}
+                    page={page}
+                    onChange={(event, value) => setPage(value)}
+                    sx={{
+                        justifyContent: "center",
+                        display: "flex",
+                        marginBottom: 2,
+                    }}
+                />
+            )}
         </div>
     )
 }

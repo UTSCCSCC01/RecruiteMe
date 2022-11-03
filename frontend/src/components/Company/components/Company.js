@@ -25,6 +25,7 @@ import companyLogo from "../../../assets/example-logo.png";
 import JobSeekerForm from "../../CreateJobSeekerForm/JobSeekerForm";
 import { useNavigate } from "react-router-dom";
 import RecruiterForm from "../../CreateJobSeekerForm/RecruiterForm";
+import CompanyReview from "../../CompanyReview/CompanyReview";
 
 const CompanyHeader = (props) => {
     const navigate = useNavigate();
@@ -204,13 +205,11 @@ const CompanyInfo = (props) => {
                     companyLogo={props.companyLogo}
                 />
             )}
-            {props.reviews.length > 0 && (
-                <ReviewSection
+                <CompanyReview
                     reviews={props.reviews}
                     companyId={props.companyId}
                     isRecruiter={props.isRecruiter}
                 />
-            )}
         </Box>
     );
 };

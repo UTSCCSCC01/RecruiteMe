@@ -24,7 +24,6 @@ export const ProfilePage = () => {
             }
         });
     }, []);
-
     return (
         <div>
             {user && (

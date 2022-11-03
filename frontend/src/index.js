@@ -5,7 +5,6 @@ import App from "./components/app/App";
 import ProfilePage from "./components/profile/ProfilePage";
 
 import JobDetailPage from "./pages/JobDetailPage";
-import CompanyReviewPage from "./pages/CompanyReviewPage";
 import JobSeekerForm from "./pages/CreateProfilePage";
 import RecruiterForm from "./pages/CreateProfilePage";
 import { JobBoard } from "./components/JobPostings/JobBoard";
@@ -35,7 +34,6 @@ root.render(
             <Route path="/auth" element={<Auth />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/job" element={<JobDetailPage />} />
-            <Route path="/review" element={<CompanyReviewPage />} />
             <Route path="/jobs" element={<JobBoard limit={false} />} />
             <Route path="/company/:id" element={<CompanyPage />} />
         </Routes>
