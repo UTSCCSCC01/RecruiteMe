@@ -138,7 +138,7 @@ const RecruiterForm = (props) => {
                                 />
                                 
                                 
-                                <TextField
+                                {/* <TextField
                                     label='Company Page'
                                     placeholder='Enter Link to Company Page'
                                     name='company'
@@ -147,7 +147,7 @@ const RecruiterForm = (props) => {
                                     sx={{ left: 60, paddingBottom: "1em" }}
                                     InputProps={{ sx: { width: 560, backgroundColor: "#f3f1f1" } }}
                                     onChange={e => handleProfileChange(e)}
-                                />
+                                /> */}
                                 
                             </div>
                         </div>

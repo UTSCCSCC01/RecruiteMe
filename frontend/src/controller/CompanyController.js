@@ -17,13 +17,14 @@ const CompanyController = (function () {
         addPfp: async (body, body2) => {
             const formData = new FormData();
             formData.append("image", body);
-            formData.append("compandId", body2);
+            formData.append("companyId", body2);
             return await PostFile("/company/addpfp", formData);
         },
         updatePfp: async (body, body2) => {
             const formData = new FormData();
             formData.append("image", body);
-            formData.append("compandId", body2);
+            formData.append("companyId", body2);
+            console.log(body2)
             return await PutFile("/company/updatepfp", formData);
         },
         getPfp: async (id) => {

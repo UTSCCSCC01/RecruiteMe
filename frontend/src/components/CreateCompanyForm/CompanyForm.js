@@ -7,27 +7,17 @@ import EditIcon from "@mui/icons-material/Edit";
 
 const CompanyForm = (props) => {
   const [profileFormValues, setProfileFormValues] = useState((props.companyName && props.companyName.length != 0) ? props : [{ companyName:"", about:"", }])
-  const notNewProfile = (props.companyName && props.companyName.length != 0)
+  const [notNewProfile, setNotNewProfile] = useState(props.companyName && props.companyName.length != 0)
   const [selectedPicture, setSelectedPicture] = useState();
   const [selectedPictureURL, setSelectedPictureURL] = useState(props.pfp ? `data:image/png;base64,${props.pfp}` : null);
   const pfpExist = props.pfp != null
   const [isPictureClicked, setIsPictureClicked] = useState(false);
   const PictureInput = useRef(null);
-  const [open, setOpen] = React.useState(false);
+  const [error, setError] = React.useState(false);
 
   const handlePictureClick = event => {
     PictureInput.current.click();
   };
-
-  const handleClose = () => {
-    setOpen(false);
-    window.location.reload(false);
-};
-
-  const handleClick = () => {
-    console.log()  
-    //setOpen(true);
-  }
 
   const handlePictureChange = event => {
     setSelectedPicture(event.target.files[0]);
@@ -44,23 +34,28 @@ const CompanyForm = (props) => {
   }
 
   let handleSubmit = (event) => {
-    let id = "6362c7974da2939b511e266c";
     event.preventDefault()
-    let body = {about:"", companyId:""};
-    body["companyId"] = id;
-    if (selectedPicture != null && isPictureClicked) {
-      if (pfpExist) {
-        CompanyController.updatePfp(selectedPicture, id).then((res) => { console.log('image uploaded') });
-      } else {
-        CompanyController.addPfp(selectedPicture, id).then((res) => { console.log('image uploaded') });
-      }
-    }
-    
+    let body = { "about": profileFormValues.about, 
+                  "companyId": props.companyId,
+                  "companyName": profileFormValues.companyName}
+    console.log(body)
     if (notNewProfile) {
       CompanyController.updateCompany(body).then((res) => { if (!res.status) {} });
     } else {
-      CompanyController.addCompany(body).then((res) => { props.close()});
+      CompanyController.addCompany(body).then((res) => { 
+        if(res.status == 403){
+          setError(true);
+        }});
     }
+    if (selectedPicture != null && isPictureClicked) {
+      if (pfpExist) {
+        CompanyController.updatePfp(selectedPicture, props.companyId).then((res) => { console.log('image uploaded') });
+      } else {
+        CompanyController.addPfp(selectedPicture, props.companyId).then((res) => { console.log('image uploaded') });
+      }
+    }
+    
+    
   }
 
   return (
@@ -85,11 +80,12 @@ const CompanyForm = (props) => {
                               accept="image/png, image/jpeg"
                               style={{ display: 'none' }}
                           />
-                          <img style={{ width: 282 / 2, height: 319 / 2 }} src={selectedPictureURL ? selectedPictureURL : require('../../assets/JobSeekerFormImageUpload.png')} onClick={() => handlePictureClick()} />
+                          <img style={{ width: 282 / 2, height: 319 / 2 }} alt="" src={selectedPictureURL ? selectedPictureURL : require('../../assets/JobSeekerFormImageUpload.png')} onClick={() => handlePictureClick()} />
                           
                       </div>
                       <Avatar
                       src={`data:image/png;base64,${props.pfp}`}
+                      alt={props.name}
                       ></Avatar>
                       <div>
                               <TextField
@@ -97,7 +93,8 @@ const CompanyForm = (props) => {
                                   placeholder='Enter Company Name'
                                   fullWidth
                                   name='companyName'
-                                  disabled={notNewProfile}
+                                  disabled={props.disabled}
+                                  error={error}
                                   value={profileFormValues.companyName}
                                   sx={{ left: -14, width: 760, paddingBottom: "1em", paddingRight: "1em" }}
                                   InputProps={{ sx: { backgroundColor: "#f3f1f1" } }}
@@ -121,9 +118,6 @@ const CompanyForm = (props) => {
                               required
                           />
                       </div>
-                      <Button onClick={handleClick}>
-                        Test
-                      </Button>
                   </div>
                   <div >
                       <Button type='submit' color='secondary' variant='filled' sx={{ borderRadius: 3, left: 295, width: 130, height: 45, backgroundColor: "#91a4e8", textTransform: 'none', color: "#FFFFFF", fontSize: 19 }} fullWidth>Save</Button>

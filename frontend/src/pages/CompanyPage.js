@@ -1,37 +1,35 @@
-import JobSeekerForm from '../components/CreateJobSeekerForm/JobSeekerForm';
-import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import * as React from 'react';
-import JobSeekerController from "../controller/JobSeekerController";
-import RecruiterController from "../controller/RecruiterController";
-import UserController from "../controller/UserController";
-import { useNavigate, UseNavigate } from 'react-router-dom';
-import RecruiterForm from '../components/CreateJobSeekerForm/RecruiterForm';
 import CompanyForm from '../components/CreateCompanyForm/CompanyForm';
 import CompanyController from '../controller/CompanyController';
 import { Avatar } from '@mui/material';
-
+import RecruiterController from '../controller/RecruiterController';
 
 export default function CompanyPage() {
     const [company, setCompany] = React.useState(null);
     const [open, setOpen] = React.useState(false);
     const [pfp, setPfp] = React.useState(null);
-
     React.useEffect(() => {
-        let body = "6362c7974da2939b511e266c"
-        CompanyController.getCompany(body).then((res) => {
-            setCompany(res);
-        });
-        if(!pfp){
-            CompanyController.getPfp(body).then((res)=>{
-                const base64String = btoa(
-                    new Uint8Array(res.data.data).reduce(function (data, byte) {
-                        return data + String.fromCharCode(byte);
-                    }, "")
-                );
-                setPfp(base64String);
-            })
-        }
+        RecruiterController.getRecruiter().then((res) => {
+            console.log(res[0].companyId)
+            if(res[0].companyId != null){
+                CompanyController.getCompany(res[0].companyId).then((res2) => {
+                    if(res2 != 400){
+                        setCompany(res2);
+                    } else{
+                        console.log("No company")
+                    }
+                });
+                CompanyController.getPfp(res[0].companyId).then((res2)=>{
+                    const base64String = btoa(
+                        new Uint8Array(res2.data.data).reduce(function (data, byte) {
+                            return data + String.fromCharCode(byte);
+                        }, "")
+                    );
+                    setPfp(base64String);
+                })
+            }
+        })
     }, []);
 
     const handleClose = () => {
@@ -46,15 +44,14 @@ export default function CompanyPage() {
     return (
         <div>
         
-            {company && (
-                <CompanyForm
+            <CompanyForm
                 pfp={pfp}
+                companyId={company?._id ?? ""}
                 open={open??false}
                 close={handleClose}
                 companyName={company?.companyName ?? ""}
                 about={company?.about ?? ""}
-                ></CompanyForm>
-            )}
+            ></CompanyForm>
             <Avatar
                     className="profile-pic"
                     src={`data:image/png;base64,${pfp}`} //TODO: display pic
