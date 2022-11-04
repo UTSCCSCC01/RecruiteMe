@@ -46,7 +46,6 @@ export const CompanyPage = () => {
                     return data + String.fromCharCode(byte);
                 }, "")
             );
-            console.log(base64String);
             setPfp(base64String);
         });
     }, []);

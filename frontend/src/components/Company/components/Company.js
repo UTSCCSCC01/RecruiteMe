@@ -21,34 +21,19 @@ import RecruiterController from "../../../controller/RecruiterController";
 import UserController from "../../../controller/UserController";
 import { AboutSection, JobPostSection, ReviewSection } from "./CompanySections";
 import * as React from "react";
-import JobSeekerForm from "../../CreateJobSeekerForm/JobSeekerForm";
 import { useNavigate } from "react-router-dom";
-import RecruiterForm from "../../CreateJobSeekerForm/RecruiterForm";
+import CompanyForm from "../../CreateCompanyForm/CompanyForm";
 import CompanyReview from "../../CompanyReview/CompanyReview";
 
 const CompanyHeader = (props) => {
     const navigate = useNavigate();
     const [open, setOpen] = React.useState(false);
-    const [company, setCompany] = React.useState(null);
-    const [user, setUser] = React.useState(null);
+
     const handleBack = () => {
         navigate(-1);
     };
     const handleClick = () => {
-        UserController.getCurrent().then((res) => {
-            setUser(res);
-            if (res.recruiter) {
-                RecruiterController.getRecruiter().then((res) => {
-                    setCompany(res);
-                    setOpen(true);
-                });
-            } else {
-                JobSeekerController.getJobSeeker().then((res) => {
-                    setCompany(res);
-                    setOpen(true);
-                });
-            }
-        });
+        setOpen(true)
     };
     const handleLogout = () => {
         UserController.logout().then((res) => {
@@ -61,30 +46,20 @@ const CompanyHeader = (props) => {
     };
     return (
         <>
-            {/* <Modal
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
+          {props.companyId && 
+          <Modal
+            open={open}
+            close={handleClose}
             >
-                {props.isRecruiter ? (
-                    <RecruiterForm
-                        close={handleClose}
-                        company={company}
-                        user={user}
-                        pfp={pfp}
-                        resume={props.resume}
-                    ></RecruiterForm>
-                ) : (
-                    <JobSeekerForm
-                        close={handleClose}
-                        company={company}
-                        user={user}
-                        pfp={pfp}
-                        resume={props.resume}
-                    ></JobSeekerForm>
-                )}
-            </Modal> */}
+          <CompanyForm
+                    pfp={props.pfp}
+                    companyId={props.companyId}
+                    about={props.about}
+                    disabled
+                    close={handleClose}
+                    companyName={props.name}
+                ></CompanyForm>
+                </Modal>}
             <Box
                 sx={{
                     width: "100%",
@@ -181,10 +156,6 @@ const CompanyHeader = (props) => {
                         position: "absolute",
                         top: 125,
                         left: 35,
-                        backgroundColor: "white",
-                        color: "#91A4E8",
-                        fontSize: 84,
-                        fontWeight: 500,
                         objectFit: "scale-down",
                         border: "white 4px solid",
                     }}
@@ -208,11 +179,11 @@ const CompanyInfo = (props) => {
                     companyLogo={props.companyLogo}
                 />
             )}
-            <CompanyReview
-                reviews={props.reviews}
-                companyId={props.companyId}
-                isRecruiter={props.isRecruiter}
-            />
+                <CompanyReview
+                    reviews={props.reviews}
+                    companyId={props.companyId}
+                    isRecruiter={props.isRecruiter}
+                />
         </Box>
     );
 };
@@ -228,6 +199,8 @@ export const Company = (props) => {
                     <CompanyHeader
                         name={props.company}
                         isRecruiter={props.isRecruiter}
+                        companyId={props.companyId}
+                        about={props.about}
                         pfp={props.pfp}
                         userId={props.userId}
                         creatorId={props.creatorId}

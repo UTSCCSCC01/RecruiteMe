@@ -17,6 +17,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import LogoutIcon from "@mui/icons-material/Logout";
+import AddIcon from "@mui/icons-material/Add";
 import profilePic from "./example-assets/profile-pic-example.png";
 import Modal from "@mui/material/Modal";
 import JobSeekerController from "../../../controller/JobSeekerController";
@@ -33,10 +34,12 @@ import * as React from "react";
 import JobSeekerForm from "../../CreateJobSeekerForm/JobSeekerForm";
 import { useNavigate } from "react-router-dom";
 import RecruiterForm from "../../CreateJobSeekerForm/RecruiterForm";
+import CompanyForm from "../../CreateCompanyForm/CompanyForm";
 
 const ProfileHeader = (props) => {
     const navigate = useNavigate();
     const [open, setOpen] = React.useState(false);
+    const [openCompanyCreate, setOpenCompanyCreate] = React.useState(false);
     const [profile, setProfile] = React.useState(null);
     const [user, setUser] = React.useState(null);
     const [pfp, setPfp] = React.useState(null);
@@ -71,6 +74,13 @@ const ProfileHeader = (props) => {
             }
         });
     };
+    const handleCreateCompany = () => {
+        setOpenCompanyCreate(true)
+    };
+    const handleCompanyClose = () => {
+        setOpenCompanyCreate(false)
+        window.location.reload(false);
+    };
     const handleLogout = () => {
         UserController.logout().then((res) => {
             navigate("/");
@@ -92,6 +102,15 @@ const ProfileHeader = (props) => {
 
     return (
         <>
+            <Modal
+                open={openCompanyCreate}
+                close={handleCompanyClose}
+            >
+                <CompanyForm
+                    add
+                    close={handleCompanyClose}
+                ></CompanyForm>
+            </Modal>
             <Modal
                 open={open}
                 onClose={handleClose}
@@ -198,6 +217,20 @@ const ProfileHeader = (props) => {
                         bottom: 0,
                     }}
                 >
+                    {props.isRecruiter && !props.companyName &&
+                        <Button 
+                            onClick={handleCreateCompany}
+                            startIcon={<AddIcon fontSize="large" />}
+                            sx={{
+                                color: "white",
+                                fontSize: "20px",
+                                fontWeight: "400",
+                                textTransform: "none",
+                            }}
+                            size="145px"
+                        >
+                            Create Company Page
+                        </Button>}
                     <Button
                         onClick={handleClick}
                         startIcon={<EditIcon fontSize="large" />}
@@ -283,7 +316,7 @@ export const Profile = (props) => {
                         ) {
                             return data + String.fromCharCode(byte);
                         },
-                        "")
+                            "")
                     );
                     setViewResume(base64String);
                     const url = window.URL.createObjectURL(
