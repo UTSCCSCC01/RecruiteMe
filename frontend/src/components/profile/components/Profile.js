@@ -82,12 +82,12 @@ const ProfileHeader = (props) => {
     };
 
     const openCompanyPage = () => {
-        navigate("/company/635ae860ce5914a300f65460");
-        // navigate("/company", {
-        //     state: {
-        //         companyId: "635ae860ce5914a300f65460",
-        //     },
-        // });
+        console.log('ho')
+        navigate("/company", {
+            state: {
+                companyId: props.companyId,
+            },
+        });
     };
 
     return (
@@ -146,7 +146,7 @@ const ProfileHeader = (props) => {
                         >
                             {props.firstName + " " + props.lastName}
                         </Typography>
-                        {props.isRecruiter && props.company && (
+                        {props.isRecruiter && props.companyName && (
                             <Typography
                                 sx={{
                                     fontWeight: 500,
@@ -156,7 +156,7 @@ const ProfileHeader = (props) => {
                                 className="recruiter"
                                 onClick={openCompanyPage}
                             >
-                                • Recruiter @ {props.company}
+                                • Recruiter @ {props.companyName}
                             </Typography>
                         )}
                     </Box>
@@ -306,7 +306,8 @@ export const Profile = (props) => {
                     lastName={props.lastName}
                     resume={resume}
                     isRecruiter={props.isRecruiter}
-                    company={props.company}
+                    companyName={props.companyName}
+                    companyId={props.companyId}
                     status={props.status}
                 ></ProfileHeader>
             </AppBar>
