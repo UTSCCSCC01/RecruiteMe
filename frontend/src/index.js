@@ -19,7 +19,9 @@ import Dashboard from "./pages/Dashboard";
 import { ViewOthersProfile } from "./components/profile/ViewOtherProfilePageId";
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import CompanyPage from "./components/Company/CompanyPage"
+
+import CompanyPage from "./components/Company/CompanyPage";
+import MyApplications from "./pages/MyApplications";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -35,7 +37,8 @@ root.render(
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/job" element={<JobDetailPage />} />
             <Route path="/jobs" element={<JobBoard limit={false} />} />
-            <Route path="/company" element={<CompanyPage/>}/>
+            <Route path="/company" element={<CompanyPage />} />
+            <Route path="/my-applications" element={<MyApplications />} />
         </Routes>
     </BrowserRouter>
 );
