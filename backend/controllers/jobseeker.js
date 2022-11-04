@@ -79,6 +79,9 @@ const update_job_seeker = async (req, res) => {
             if (req.body.currStatus) {
                 update["currStatus"] = req.body.currStatus
             }
+            if (req.body.appliedPost) {
+                update["appliedPost"] = req.body.appliedPost
+            }
 
             JobSeeker.findOneAndUpdate(filter, update).then((result) => {
                 res.status(200).send(result);
@@ -288,6 +291,31 @@ const view_open_job_posts = async (req, res) => {
     });
 }
 
+const update_application_status = async (req, res) => {
+    JobSeeker.exists({ uid: req.body.uid }, function (err, docs) {
+        if (docs == null) {
+            res.status(403).send("User doesn't exist")
+        } else {
+            filter = { uid: req.body.uid, "appliedPost.postId": req.body.postId }
+
+            let update = {}
+            if (req.body.status) {
+                update["appliedPost.$.status"] = req.body.status
+            } else {
+                res.status(403).send("Request body is missing status field")
+            }
+
+            JobSeeker.findOneAndUpdate(filter, update).then((result) => {
+                res.status(200).send(result);
+            }).catch((err) => {
+                console.log(err);
+                res.status(500).send(err)
+            });
+
+        }
+    });
+}
+
 //APPLY TO JOB POST
 const apply_job_post = async (req, res) => {
 
@@ -401,4 +429,5 @@ module.exports = {
     view_open_job_posts, view_others_profile_picture,
     apply_job_post, view_job_seeker,
     my_job_applications, view_others_job_seeker_resume,
+    update_application_status
 }
