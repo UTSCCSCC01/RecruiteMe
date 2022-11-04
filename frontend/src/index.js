@@ -19,7 +19,7 @@ import Dashboard from "./pages/Dashboard";
 import { ViewOthersProfile } from "./components/profile/ViewOtherProfilePageId";
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import CompanyPage from "./pages/CompanyPage";
+import CompanyPage from "./components/Company/CompanyPage"
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
