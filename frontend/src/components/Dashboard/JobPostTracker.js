@@ -37,8 +37,8 @@ export default function JobPostTracker(props) {
         });
         RecruiterController.getRecruiter().then((res) => {
             setProfile(res[0]);
-            console.log(res[0]);
-            CompanyController.getPfp(res[0].companyId).then((res) => {
+            if (res[0].companyId){
+              CompanyController.getPfp(res[0].companyId).then((res) => {
                 const base64String = btoa(
                     new Uint8Array(res.data.data).reduce(function (data, byte) {
                         return data + String.fromCharCode(byte);
@@ -46,6 +46,7 @@ export default function JobPostTracker(props) {
                 );
                 setCompanyLogo(base64String);
             });
+          }
         });
     }, []);
 
