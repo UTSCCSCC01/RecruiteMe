@@ -4,7 +4,7 @@ import RecruiterController from "../../controller/RecruiterController";
 import JobSeekerController from "../../controller/JobSeekerController";
 
 const RecruiterForm = (props) => {
-    const [profileFormValues, setProfileFormValues] = useState((props.profile && props.profile.length !== 0) ? props.profile : [{ firstName: "", lastName: "", phoneNumber: "", company: "", age: 20, bio: "", currStatus: "asd",  education: [{school: "UTSC", program: "Computer Science", gradDate: "2024"}],}])
+    const [profileFormValues, setProfileFormValues] = useState((props.profile && props.profile.length !== 0) ? props.profile : [{ firstName: "", lastName: "", phoneNumber: "", age: 20, bio: "", currStatus: "asd",  education: [{school: "UTSC", program: "Computer Science", gradDate: "2024"}],}])
     const [workFormValues, setWorkFormValues] = useState((props.profile && props.profile.length !== 0) ? props.profile[0].workExperience : [{ company: "", jobTitle: "", startDate: "", description: "" }])
     const notNewProfile = (props.profile && props.profile.length !== 0)
     const [selectedPicture, setSelectedPicture] = useState();
@@ -138,16 +138,17 @@ const RecruiterForm = (props) => {
                                 />
                                 
                                 
-                                {/* <TextField
-                                    label='Company Page'
+                                <TextField
+                                    label='Company'
                                     placeholder='Enter Link to Company Page'
                                     name='company'
-                                    value={profileFormValues[0].company}
+                                    value={profileFormValues[0].companyName ? profileFormValues[0].companyName : 'Please create company page'}
+                                    disabled
                                     fullWidth
                                     sx={{ left: 60, paddingBottom: "1em" }}
                                     InputProps={{ sx: { width: 560, backgroundColor: "#f3f1f1" } }}
                                     onChange={e => handleProfileChange(e)}
-                                /> */}
+                                />
                                 
                             </div>
                         </div>

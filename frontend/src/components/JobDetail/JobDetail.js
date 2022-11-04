@@ -48,12 +48,11 @@ const JobDetail = (props) => {
     };
 
     const openCompanyPage = () => {
-        navigate("/company/635ae860ce5914a300f65460");
-        // navigate("/company", {
-        //     state: {
-        //         companyId: "635ae860ce5914a300f65460",
-        //     },
-        // });
+        navigate("/company", {
+            state: {
+                companyId: props.job.companyId,
+            },
+        });
     };
 
     return (
@@ -121,7 +120,10 @@ const JobDetail = (props) => {
                             >
                                 <Link
                                     style={{ fontSize: 20 }}
-                                    to="/company/635ae860ce5914a300f65460"
+                                    to="/company"
+                                    state={{
+                                        companyId: props.job.companyId,
+                                      }}
                                 >
                                     More about this company
                                 </Link>

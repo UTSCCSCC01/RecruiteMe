@@ -1,12 +1,15 @@
 const Company = require("../models/Company");
+const Recruiter = require("../models/Recruiter");
 const ProfilePicture = require("../models/Image");
 const mongodb = require('mongodb');
 
 const add_company = async (req, res) => {
-    if (
-        !req.body.companyName ||
-        !req.body.about
-    ) {
+
+    if (!req.user.recruiter) {
+
+        return res.status(400).send("User should be a recruiter");
+    }
+    if (!req.body.companyName || !req.body.about) {
         return res.status(400).send("There are missing fields in request body");
     } else {
         Company.exists({ companyName: req.body.companyName }, function (err, docs) {
@@ -26,7 +29,25 @@ const add_company = async (req, res) => {
                     .save()
                     .then((result) => {
 
-                        res.status(200).send(result);
+                        /// add companyy to recruiter
+                        Recruiter.exists({ uid: req.user._id }, function (err, docs) {
+                            if (docs == null) {
+                                res.status(403).send("User doesn't exist");
+                            } else {
+                                filter = { uid: req.user._id };
+
+                                let update = { "companyId": result._id, "companyName": result.companyName };
+
+                                Recruiter.findOneAndUpdate(filter, update)
+                                    .then((result) => {
+                                        return res.status(200).send(result);
+                                    })
+                                    .catch((err) => {
+                                        console.log(err);
+                                        return res.status(500).send(err);
+                                    });
+                            }
+                        });
                     })
                     .catch((err) => {
                         console.log(err);

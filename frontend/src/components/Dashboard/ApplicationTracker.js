@@ -12,8 +12,7 @@ function ApplicationTracker() {
   useEffect(() => {
     let ignore = false;
     JobSeekerController.getApplications().then((res) => {
-      let postIDs = res.slice(1, 5); // get first 4 applications
-
+      let postIDs = res.slice(0, 4); // get first 4 applications
       postIDs.forEach((val, i, arr) => {
         PostController.getPost(val.postId).then((res) => {
           if (!ignore)

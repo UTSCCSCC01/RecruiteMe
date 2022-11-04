@@ -11,10 +11,8 @@ const recruiterSchema = new Schema({
         required: true
     },
     uid: { type: Schema.Types.ObjectId, ref: 'User' },
-    company: {
-        type: String,
-        required: true
-    },
+    companyName: { type: String },
+    companyId: { type: Schema.Types.ObjectId, ref: 'Company' },
     email: {
         type: String,
         required: true
