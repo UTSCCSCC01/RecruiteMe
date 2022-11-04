@@ -1,8 +1,5 @@
-const express = require('express')
-const fileUpload = require('express-fileupload')
 const User = require("../models/User");
 const JobSeeker = require("../models/JobSeeker");
-var fs = require('fs');
 const mongodb = require('mongodb');
 const mongoose = require('mongoose');
 
@@ -267,7 +264,7 @@ const view_job_seeker_resume = async (req, res) => {
 }
 
 const view_others_job_seeker_resume = async (req, res) => {
-    Resume.find({ _id: req.params._id }, function (err, docs) {
+    Resume.find({ _id: req.params.id }, function (err, docs) {
         if (err) {
             res.send(400).send("User resume doesn't exist")
             console.log(err);

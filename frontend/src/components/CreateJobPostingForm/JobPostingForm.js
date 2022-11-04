@@ -9,7 +9,6 @@ const JobPostingForm = (props) => {
     const [qualifications, setQualifications] = useState([]);
     const [deadline, setDeadline] = useState(null)
 
-
     const handleQualificationsTag = (e) => {
         if (e.key === 'Enter' && e.target.value !== '') {
             setQualifications([...qualifications, e.target.value])
@@ -31,7 +30,7 @@ const JobPostingForm = (props) => {
         RecruiterController.getRecruiter().then((res) => {
             console.log(res);
             const job = {
-                companyName: res[0].company,
+                companyId: props.companyId,
                 role: role,
                 description: description,
                 qualification: qualifications,

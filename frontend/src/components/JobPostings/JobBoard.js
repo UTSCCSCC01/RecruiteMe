@@ -193,12 +193,21 @@ const JobBoardHeader = (props) => {
     );
 };
 
-const JobPostCard = (props) => {
+export const JobPostCard = (props) => {
     const navigate = useNavigate();
 
     const openJobPost = () => {
         navigate("/job", { state: { jobId: props.id } });
         console.log("open job post for id %s", props.id);
+    };
+
+    const openCompanyPage = () => {
+        navigate("/company/635ae860ce5914a300f65460");
+        // navigate("/company", {
+        //     state: {
+        //         companyId: "635ae860ce5914a300f65460",
+        //     },
+        // });
     };
 
     return (
@@ -216,7 +225,12 @@ const JobPostCard = (props) => {
                 className="company-logo"
                 alt={props.company}
                 // src={`data:image/png;base64,${pfp}`} //TODO: display pic
-                src={companyLogo}
+                onClick={openCompanyPage}
+                src={
+                    props.companyLogo
+                        ? `data:image/png;base64,${props.companyLogo}`
+                        : companyLogo
+                }
                 sx={{
                     width: 150,
                     height: 150,
@@ -224,6 +238,7 @@ const JobPostCard = (props) => {
                     margin: "20px",
                     alignSelf: "center",
                     padding: "10px",
+                    cursor: "pointer",
                 }}
             />
             <Box
@@ -248,7 +263,14 @@ const JobPostCard = (props) => {
                         >
                             {props.role}
                         </Typography>
-                        <Typography sx={{ fontWeight: 300, fontSize: "28px" }}>
+                        <Typography
+                            sx={{
+                                fontWeight: 300,
+                                fontSize: "28px",
+                                cursor: "pointer",
+                            }}
+                            onClick={openCompanyPage}
+                        >
                             • {props.company}
                         </Typography>
                     </Box>
@@ -375,7 +397,9 @@ export const JobBoard = (props) => {
                     setPfp(base64String);
                 });
                 JobSeekerController.getJobPosts().then((jobs) => {
-                    const filtered = jobs.filter(job => new Date(job.deadline)> new Date());
+                    const filtered = jobs.filter(
+                        (job) => new Date(job.deadline) > new Date()
+                    );
                     setJobPosts(filtered ? filtered.reverse() : []);
                 });
             }

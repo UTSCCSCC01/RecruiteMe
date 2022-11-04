@@ -11,15 +11,19 @@ const Demo = styled('div')(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
 }));
 
-export default function JobPostTracker() {
+export default function JobPostTracker(props) {
   const [selectedIndex, setSelectedIndex] = React.useState(-1);
   const [curApps, setCurApps] = React.useState([]);
   const [jobPosts, setJobPosts] = React.useState([]);
   const [openJobPostingForm, setOpenJobPostingForm] = React.useState(false);
+  const [profile, setProfile] = React.useState(null)
 
   React.useEffect(() => {
     RecruiterController.getPost().then((res) =>{
       setJobPosts(res)
+    });
+    RecruiterController.getRecruiter().then((res) =>{
+      setProfile(res[0])
     });
   }, []);
 
@@ -38,23 +42,25 @@ export default function JobPostTracker() {
   const handleViewMore = () => {
     console.log("View more")
   }
-
+console.log(profile)
   return (
     <div>
+      {profile && profile.companyId &&
       <Modal
           open={openJobPostingForm}
           onClose={handleCloseJobPostingForm}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
       >
-          <JobPostingForm close={handleCloseJobPostingForm}></JobPostingForm>
-      </Modal>
+          <JobPostingForm close={handleCloseJobPostingForm} companyId={profile.CompanyId}></JobPostingForm>
+      </Modal>}
       <Grid container >
       <Box sx={{ width: "25%", height: 700,}}>
         <Box sx={{height: 70,}}></Box>
         <Demo>
           <List sx={{ width: '100%', height: '100%',maxWidth: 350}}>
           <ListSubheader sx={{fontSize:20}} color="inherit">My Job Posts
+              {profile && profile.companyId &&
               <Button
                     onClick={handleOpenPostJobForm}
                     startIcon={<AddCircleIcon fontSize="large" />}
@@ -68,7 +74,7 @@ export default function JobPostTracker() {
                     size="145px"
                 >
                 New
-              </Button>
+              </Button>}
             </ListSubheader>
             
             {jobPosts && jobPosts.map(item => (
