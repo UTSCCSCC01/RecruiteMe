@@ -24,6 +24,12 @@ Job Details Component
 Dashboard Component
 - Contains the components for the dashboard pages for recruiters and job seekers
 
+Company Component
+- Contains the components for the company page
+
+Company Review Component
+- Contains the form for creating a company review and the card for displaying a company review
+
 
 ## Pages
 The frontend is organized based on pages. Pages are located in the src/pages folder.
@@ -45,6 +51,9 @@ Dashboard
 
 JobDetailsPage
 - Renders the job details page, where the user can see specific details about a job posting
+
+CompanyPage
+- Renders the company page, where the user can see specific details about a company
 
 ## Controllers
 The controllers behave as a bridge between the frontend and the backend. Controllers are located in the src/controllers folder.
@@ -76,6 +85,7 @@ RecruiterController.js
     - getResume: GET request to /recruiter/resume gets the resume for the recruiter
     - getPost: GET request to /recruiter/myposts gets the job posting for the recruiter
     - addJobPost: POST request to /recruiter/addjobpost adds a job posting for the recruiter
+    - viewId: GET request to /recruiter/view gets the profile of a recruiter by id
 
 JobSeekerController.js
 - Provides functionallity for job seeker related requests:
@@ -101,3 +111,13 @@ JobSeekerController.js
 PostController.js
 - Provides functionallity for job posting related requests:
     - getPost: GET request to /post/view/:id gets the job posting with the given id
+
+CompanyController.js
+- Provides functionallity for company related requests:
+    - addCompany: POST request to /company/add adds a new company
+    - getCompany: GET request to /company/view/:id gets the company with the given id
+    - updateCompany: PUT request to /company/update updates the company
+    - addCompanyReview: POST request to /company/review adds a company review
+    - addPfp: POST request to /company/addpfp adds a profile picture for the company
+    - updatePfp: PUT request to /company/updatepfp updates the profile picture for the company
+    - getPfp: GET request to /company/othersprofilepicture/:id gets the profile picture for other company's
