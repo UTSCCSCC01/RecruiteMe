@@ -6,9 +6,10 @@ import { useEffect, useState } from "react";
 import JobSeekerController from "../../controller/JobSeekerController";
 import PostController from "../../controller/PostController";
 import TrackerCard from "./TrackerCard";
-
+import { useNavigate } from "react-router-dom";
 function ApplicationTracker() {
   const [postData, setPostData] = useState([]);
+  const navigate = useNavigate();
   useEffect(() => {
     let ignore = false;
     JobSeekerController.getApplications().then((res) => {
@@ -58,8 +59,12 @@ function ApplicationTracker() {
         <Grid container direction="row" justifyContent="center" spacing={2}>
           {postData.map((post) => {
             return (
-              <Grid item xs={12} key={post.data._id}>
-                <TrackerCard post={post} />
+              <Grid
+                item
+                xs={12}
+                key={post.data._id}
+              >
+                <TrackerCard post={post} type="tracker"/>
               </Grid>
             );
           })}
@@ -78,7 +83,7 @@ function ApplicationTracker() {
               color: "#91A4E8",
             }}
             onClick={() => {
-              /**reroute to applications */
+              navigate("/my-applications");
             }}
           >
             <Typography variant="subtitle1" sx={{ fontWeight: "bold" }}>

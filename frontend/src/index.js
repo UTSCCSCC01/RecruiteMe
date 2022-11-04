@@ -20,6 +20,7 @@ import { ViewOthersProfile } from "./components/profile/ViewOtherProfilePageId";
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import CompanyPage from "./components/Company/CompanyPage";
+import MyApplications from "./pages/MyApplications";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -36,6 +37,7 @@ root.render(
             <Route path="/job" element={<JobDetailPage />} />
             <Route path="/jobs" element={<JobBoard limit={false} />} />
             <Route path="/company/:id" element={<CompanyPage />} />
+            <Route path="/my-applications" element={<MyApplications />} />
         </Routes>
     </BrowserRouter>
 );
