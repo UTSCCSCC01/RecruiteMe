@@ -82,7 +82,7 @@ const ProfileHeader = (props) => {
     };
 
     const openCompanyPage = () => {
-        console.log('ho')
+        console.log("ho");
         navigate("/company", {
             state: {
                 companyId: props.companyId,
@@ -156,7 +156,10 @@ const ProfileHeader = (props) => {
                                 className="recruiter"
                                 onClick={openCompanyPage}
                             >
-                                • Recruiter @ {props.companyName}
+                                • Recruiter @{" "}
+                                <span style={{ color: "#5344c2" }}>
+                                    {props.companyName}
+                                </span>
                             </Typography>
                         )}
                     </Box>

@@ -21,7 +21,7 @@ export default function JobDetailPage({}) {
     const [pfp, setPfp] = useState(null);
     const [navtype, setNavtype] = useState(null);
     const { state } = useLocation();
-    const { jobId } = state;
+    const { jobId, companyLogo } = state;
     useEffect(() => {
         UserController.getCurrent().then((res) => {
             if (res.recruiter) {
@@ -82,6 +82,7 @@ export default function JobDetailPage({}) {
                     close={handleClose}
                     profile={profile}
                     user={user}
+                    companyLogo={companyLogo}
                 ></JobDetail>
             )}
         </div>
