@@ -12,13 +12,10 @@ export default function CompanyPage() {
     const [disabled, setDisabled] = React.useState(true);
     React.useEffect(() => {
         RecruiterController.getRecruiter().then((res) => {
-            console.log(res[0].companyId)
             if(res[0].companyId != null){
                 CompanyController.getCompany(res[0].companyId).then((res2) => {
                     if(res2 != 400){
                         setCompany(res2);
-                    } else{
-                        console.log("No company")
                     }
                 });
                 CompanyController.getPfp(res[0].companyId).then((res2)=>{
@@ -47,15 +44,16 @@ export default function CompanyPage() {
     return (
         <div>
         
-            {(
+            {open && (
                 <CompanyForm
-                pfp={pfp}
-                companyId={company?._id ?? ""}
-                open={open??false}
-                disabled={disabled??true}
-                close={handleClose}
-                companyName={company?.companyName ?? ""}
-                about={company?.about ?? ""}
+                    pfp={pfp}
+                    companyId={company?._id ?? ""}
+                    company={company}
+                    open={open}
+                    disabled={disabled??true}
+                    close={handleClose}
+                    companyName={company?.companyName ?? ""}
+                    about={company?.about ?? ""}
                 ></CompanyForm>
             )}
             <Avatar

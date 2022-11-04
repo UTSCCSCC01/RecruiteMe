@@ -6,7 +6,10 @@ import EditIcon from "@mui/icons-material/Edit";
 
 
 const CompanyForm = (props) => {
-  const [profileFormValues, setProfileFormValues] = useState((props.companyName && props.companyName.length != 0) ? props : [{ companyName:"", about:"", }])
+  
+  const [profileFormValues, setProfileFormValues] = useState(props.company)
+  console.log(props.company)
+  console.log(profileFormValues)
   const [notNewProfile, setNotNewProfile] = useState(props.companyName && props.companyName.length != 0)
   const [selectedPicture, setSelectedPicture] = useState();
   const [selectedPictureURL, setSelectedPictureURL] = useState(props.pfp ? `data:image/png;base64,${props.pfp}` : null);
@@ -35,17 +38,18 @@ const CompanyForm = (props) => {
 
   let handleSubmit = (event) => {
     event.preventDefault()
+    console.log(props.company)
     let body = { "about": profileFormValues.about, 
                   "companyId": props.companyId,
                   "companyName": profileFormValues.companyName}
-    console.log(body)
     if (notNewProfile) {
       CompanyController.updateCompany(body).then((res) => { if (!res.status) {} });
     } else {
       CompanyController.addCompany(body).then((res) => { 
         if(res.status == 403){
           setError(true);
-        }});
+        }
+      });
     }
     if (selectedPicture != null && isPictureClicked) {
       if (pfpExist) {
