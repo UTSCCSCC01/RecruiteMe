@@ -19,6 +19,7 @@ import Dashboard from "./pages/Dashboard";
 import { ViewOthersProfile } from "./components/profile/ViewOtherProfilePageId";
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+
 import CompanyPage from "./components/Company/CompanyPage";
 import MyApplications from "./pages/MyApplications";
 

@@ -21,7 +21,6 @@ import RecruiterController from "../../../controller/RecruiterController";
 import UserController from "../../../controller/UserController";
 import { AboutSection, JobPostSection, ReviewSection } from "./CompanySections";
 import * as React from "react";
-import companyLogo from "../../../assets/example-logo.png";
 import JobSeekerForm from "../../CreateJobSeekerForm/JobSeekerForm";
 import { useNavigate } from "react-router-dom";
 import RecruiterForm from "../../CreateJobSeekerForm/RecruiterForm";
@@ -182,6 +181,10 @@ const CompanyHeader = (props) => {
                         position: "absolute",
                         top: 125,
                         left: 35,
+                        backgroundColor: "white",
+                        color: "#91A4E8",
+                        fontSize: 84,
+                        fontWeight: 500,
                         objectFit: "scale-down",
                         border: "white 4px solid",
                     }}
@@ -205,11 +208,11 @@ const CompanyInfo = (props) => {
                     companyLogo={props.companyLogo}
                 />
             )}
-                <CompanyReview
-                    reviews={props.reviews}
-                    companyId={props.companyId}
-                    isRecruiter={props.isRecruiter}
-                />
+            <CompanyReview
+                reviews={props.reviews}
+                companyId={props.companyId}
+                isRecruiter={props.isRecruiter}
+            />
         </Box>
     );
 };

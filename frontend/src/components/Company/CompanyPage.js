@@ -46,6 +46,7 @@ export const CompanyPage = () => {
                     return data + String.fromCharCode(byte);
                 }, "")
             );
+            console.log(base64String);
             setPfp(base64String);
         });
     }, []);
@@ -79,8 +80,8 @@ export const CompanyPage = () => {
                     reviews={company.reviews}
                     companyId={cid}
                     isRecruiter={isRecruiter}
-                    userId={user._id}
-                    creatorId={company.creatorId}
+                    userId={user.uid}
+                    creatorId={company.createrId}
                 />
             )}
         </div>

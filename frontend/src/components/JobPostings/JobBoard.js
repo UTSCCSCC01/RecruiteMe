@@ -1,18 +1,27 @@
 import * as React from "react";
-import { Avatar, Box, Button, Typography, Select, MenuItem, FormControl, InputLabel, TextField, Grid, Chip } from "@mui/material";
+import {
+    Avatar,
+    Box,
+    Button,
+    Typography,
+    Select,
+    MenuItem,
+    FormControl,
+    InputLabel,
+    TextField,
+    Grid,
+    Chip,
+} from "@mui/material";
 import Pagination from "@mui/material/Pagination";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import AddIcon from "@mui/icons-material/Add";
-import companyLogo from "../../assets/example-logo.png";
 import UserController from "../../controller/UserController";
 import RecruiterController from "../../controller/RecruiterController";
 import JobSeekerController from "../../controller/JobSeekerController";
+import CompanyController from "../../controller/CompanyController";
 import Navbar from "../Navbar";
 import { sectionsType } from "../Dashboard/NavSections";
 import { useNavigate } from "react-router-dom";
-
-
-
 
 const JobBoardHeader = (props) => {
     const navigate = useNavigate();
@@ -25,10 +34,6 @@ const JobBoardHeader = (props) => {
         console.log("open create job post modal");
     };
 
-    React.useEffect(() => {
-        console.log(props);
-    }, []);
-
     //Filters
     const [filterType, setFilterType] = React.useState("Role");
     const [filterValues, setFilterValues] = React.useState([]);
@@ -37,9 +42,9 @@ const JobBoardHeader = (props) => {
     const filterJobPosts = (props) => {
         console.log("Filtering job posts");
         console.log(filterType, filterValues);
-        
+
         JobSeekerController.getJobPosts().then((jobs) => {
-            jobs = jobs.filter(job => new Date(job.deadline)> new Date());
+            jobs = jobs.filter((job) => new Date(job.deadline) > new Date());
             console.log(jobs);
             let filtered = [];
             if (filterValues.length > 0) {
@@ -49,14 +54,12 @@ const JobBoardHeader = (props) => {
                         return filterValues.includes(job.role);
                     });
                 } else if (filterType === "Description") {
-                    
                     // Filter all jobs by words in filterValues
                     filtered = jobs.filter((job) => {
                         return filterValues.some((word) => {
                             return job.description.includes(word);
                         });
                     });
-                    
                 } else if (filterType === "Qualifications") {
                     // Filter all jobs by qualifications in filterValues
                     filtered = jobs.filter((job) => {
@@ -65,25 +68,27 @@ const JobBoardHeader = (props) => {
                         });
                     });
                 }
-            }else{
-                filtered = jobs.filter(job => new Date(job.deadline)> new Date());
+            } else {
+                filtered = jobs.filter(
+                    (job) => new Date(job.deadline) > new Date()
+                );
             }
             props.setJobPosts(filtered ? filtered.reverse() : []);
         });
     };
 
     const handleFilterValueTag = (e) => {
-        if (e.key === 'Enter' && e.target.value !== '') {
-            setFilterValues([...filterValues, e.target.value])
-            e.target.value = ''
+        if (e.key === "Enter" && e.target.value !== "") {
+            setFilterValues([...filterValues, e.target.value]);
+            e.target.value = "";
         }
-        console.log("Filter Values: ", filterValues)
-    }
+        console.log("Filter Values: ", filterValues);
+    };
     const handleFilterType = (type) => {
         console.log("Filter Type: ", type);
-        setFilterType(type)
-        setFilterValues([])
-    }
+        setFilterType(type);
+        setFilterValues([]);
+    };
 
     return (
         <Box display={"flex"} mb={4} justifyContent={"space-between"}>
@@ -104,17 +109,25 @@ const JobBoardHeader = (props) => {
                 <Grid container spacing={3}>
                     <Grid item>
                         <FormControl fullWidth>
-                                <InputLabel id="select-filter">Filter By</InputLabel>
-                                <Select
-                                    labelId="select-filter"
-                                    value={filterType}
-                                    label="Filters"
-                                    onChange={(e) => handleFilterType(e.target.value)}
-                                >
-                                    <MenuItem value={"Role"}>Role</MenuItem>
-                                    <MenuItem value={"Qualifications"}>Qualifications</MenuItem>
-                                    <MenuItem value={"Description"}>Words in Description</MenuItem>
-                                </Select>
+                            <InputLabel id="select-filter">
+                                Filter By
+                            </InputLabel>
+                            <Select
+                                labelId="select-filter"
+                                value={filterType}
+                                label="Filters"
+                                onChange={(e) =>
+                                    handleFilterType(e.target.value)
+                                }
+                            >
+                                <MenuItem value={"Role"}>Role</MenuItem>
+                                <MenuItem value={"Qualifications"}>
+                                    Qualifications
+                                </MenuItem>
+                                <MenuItem value={"Description"}>
+                                    Words in Description
+                                </MenuItem>
+                            </Select>
                         </FormControl>
                     </Grid>
                     {/* Add some space */}
@@ -127,16 +140,20 @@ const JobBoardHeader = (props) => {
                         />
                         {/* For every skill entered, create a deletable chip */}
                         {/* Map the skills to chips */}
-                        <Grid
-                            sx={{ paddingBottom: "0.5em" }}
-                        >
-                        {filterValues.map((filterValue) => (
-                            <Chip
-                                label={filterValue}
-                                onDelete={() => setFilterValues(filterValues.filter((q) => q !== filterValue))}
-                                sx={{ margin: 1 }}
-                            />
-                        ))}
+                        <Grid sx={{ paddingBottom: "0.5em" }}>
+                            {filterValues.map((filterValue) => (
+                                <Chip
+                                    label={filterValue}
+                                    onDelete={() =>
+                                        setFilterValues(
+                                            filterValues.filter(
+                                                (q) => q !== filterValue
+                                            )
+                                        )
+                                    }
+                                    sx={{ margin: 1 }}
+                                />
+                            ))}
                         </Grid>
                     </Grid>
                     <Grid item>
@@ -195,19 +212,51 @@ const JobBoardHeader = (props) => {
 
 export const JobPostCard = (props) => {
     const navigate = useNavigate();
+    const [companyLogo, setCompanyLogo] = React.useState(props.companyLogo);
 
     const openJobPost = () => {
-        navigate("/job", { state: { jobId: props.id } });
+        navigate("/job", {
+            state: { jobId: props.id, companyLogo: companyLogo },
+        });
         console.log("open job post for id %s", props.id);
     };
 
     const openCompanyPage = () => {
-        navigate("/company/635ae860ce5914a300f65460");
-        // navigate("/company", {
-        //     state: {
-        //         companyId: "635ae860ce5914a300f65460",
-        //     },
-        // });
+        navigate("/company", {
+            state: {
+                companyId: props.companyId,
+            },
+        });
+    };
+
+    React.useEffect(() => {
+        if (!props.companyId) {
+            setCompanyLogo(null);
+        }
+        if (!companyLogo && props.companyId) {
+            CompanyController.getPfp(props.companyId).then((res) => {
+                const base64String = btoa(
+                    new Uint8Array(res.data.data).reduce(function (data, byte) {
+                        return data + String.fromCharCode(byte);
+                    }, "")
+                );
+                setCompanyLogo(base64String);
+            });
+        }
+    }, []);
+
+    const getCompanyLogo = async (cid) => {
+        if (!cid) {
+            setCompanyLogo(null);
+            return;
+        }
+        const res = await CompanyController.getPfp(cid);
+        const base64String = btoa(
+            new Uint8Array(res.data.data).reduce(function (data, byte) {
+                return data + String.fromCharCode(byte);
+            }, "")
+        );
+        setCompanyLogo(base64String);
     };
 
     return (
@@ -224,17 +273,14 @@ export const JobPostCard = (props) => {
                 variant="rounded"
                 className="company-logo"
                 alt={props.company}
-                // src={`data:image/png;base64,${pfp}`} //TODO: display pic
                 onClick={openCompanyPage}
-                src={
-                    props.companyLogo
-                        ? `data:image/png;base64,${props.companyLogo}`
-                        : companyLogo
-                }
+                src={`data:image/png;base64,${companyLogo}`}
                 sx={{
                     width: 150,
                     height: 150,
                     backgroundColor: "white",
+                    color: "#91A4E8",
+                    fontSize: 58,
                     margin: "20px",
                     alignSelf: "center",
                     padding: "10px",
@@ -357,8 +403,6 @@ export const JobBoard = (props) => {
     const [page, setPage] = React.useState(1);
     const [pfp, setPfp] = React.useState(null);
 
-    
-
     React.useEffect(() => {
         UserController.getCurrent().then((res) => {
             console.log(res);
@@ -397,6 +441,7 @@ export const JobBoard = (props) => {
                     setPfp(base64String);
                 });
                 JobSeekerController.getJobPosts().then((jobs) => {
+                    console.log(jobs);
                     const filtered = jobs.filter(
                         (job) => new Date(job.deadline) > new Date()
                     );
@@ -440,6 +485,7 @@ export const JobBoard = (props) => {
                                 closingOn={post.deadline}
                                 id={post._id}
                                 key={post._id}
+                                companyId={post.companyId}
                             />
                         ))}
 

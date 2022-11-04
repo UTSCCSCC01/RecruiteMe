@@ -83,15 +83,20 @@ const JobDetail = (props) => {
                             marginRight: 100,
                         }}
                     >
-                        <img
+                        <Avatar
+                            variant="rounded"
                             onClick={openCompanyPage}
+                            alt={props.job.companyName}
                             style={{
                                 width: 250,
                                 height: 250,
                                 marginLeft: 50,
                                 cursor: "pointer",
+                                backgroundColor: "white",
+                                color: "#91A4E8",
+                                fontSize: 84,
                             }}
-                            src={require("../../assets/example-logo.png")}
+                            src={`data:image/png;base64,${props.companyLogo}`}
                         />
                         <Box
                             m={1}
@@ -123,7 +128,7 @@ const JobDetail = (props) => {
                                     to="/company"
                                     state={{
                                         companyId: props.job.companyId,
-                                      }}
+                                    }}
                                 >
                                     More about this company
                                 </Link>
