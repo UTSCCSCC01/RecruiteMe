@@ -35,7 +35,7 @@ root.render(
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/job" element={<JobDetailPage />} />
             <Route path="/jobs" element={<JobBoard limit={false} />} />
-            <Route path="/company/:id" element={<CompanyPage />} />
+            <Route path="/company" element={<CompanyPage />} />
         </Routes>
     </BrowserRouter>
 );

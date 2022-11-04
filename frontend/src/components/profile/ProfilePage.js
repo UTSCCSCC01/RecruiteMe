@@ -32,7 +32,8 @@ export const ProfilePage = () => {
                     lastName={user?.lastName ?? ""}
                     email={email}
                     isRecruiter={isRecruiter}
-                    company={user?.company}
+                    companyName={user?.companyName}
+                    companyId={user?.companyId}
                     bio={user?.bio}
                     workExperience={user?.workExperience}
                     education={user?.education}

@@ -26,6 +26,7 @@ export default function CompanyReview(props) {
         <div style={{paddingBottom: 5}}>
             <div style={{ marginTop: 20, display: 'flex', paddingBottom:10 }}>
                 <Typography variant="h4" sx={{ marginLeft: '10'}}>Reviews</Typography>
+                {!props.isRecruiter &&
                 <Button
                     onClick={handleOpenCompanyReviewForm}
                     startIcon={<AddCircleIcon fontSize="large" />}
@@ -39,7 +40,7 @@ export default function CompanyReview(props) {
                     size="145px"
                 >
                     Add Review
-                </Button>
+                </Button>}
                 <Modal
                     open={openCompanyReviewForm}
                     onClose={handleCloseCompanyReviewForm}

@@ -9,12 +9,12 @@ import { useLocation } from "react-router-dom";
 
 export const CompanyPage = () => {
     const [isRecruiter, setIsRecruiter] = React.useState(false);
-    let cid = window.location.pathname.split("/")[2];
+    const { state } = useLocation();
+    let cid = state.companyId;
     const [company, setCompany] = React.useState(null);
     const [user, setUser] = React.useState(null);
     const [pfp, setPfp] = React.useState(null);
     const [jobPosts, setJobPosts] = React.useState(null);
-
     React.useEffect(() => {
         UserController.getCurrent().then((res) => {
             if (res.recruiter) {
