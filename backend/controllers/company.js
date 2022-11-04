@@ -131,7 +131,8 @@ const view_reviews = async (req, res) => {
 };
 
 const add_company_profile_picture = async (req, res) => {
-    if (!req.files.image.name || req.body.companyId) {
+    if (!req.files.image.name || !req.body.companyId) {
+
         return res.status(400).send("Missing file name or company ID");
     } else {
         ProfilePicture.exists({ _id: req.body.companyId }, function (err, docs) {
@@ -139,7 +140,7 @@ const add_company_profile_picture = async (req, res) => {
                 res.status(403).send("Profile picture for this user already exists, use 'put' endpoint for update")
             } else {
                 const new_profile_picture = new ProfilePicture({
-                    _id: req.files.companyId,
+                    _id: req.body.companyId,
                     data: mongodb.Binary(req.files.image.data)
                 });
                 new_profile_picture

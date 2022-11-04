@@ -9,6 +9,7 @@ export default function CompanyPage() {
     const [company, setCompany] = React.useState(null);
     const [open, setOpen] = React.useState(false);
     const [pfp, setPfp] = React.useState(null);
+    const [disabled, setDisabled] = React.useState(true);
     React.useEffect(() => {
         RecruiterController.getRecruiter().then((res) => {
             console.log(res[0].companyId)
@@ -28,6 +29,8 @@ export default function CompanyPage() {
                     );
                     setPfp(base64String);
                 })
+            }else{
+                setDisabled(false);
             }
         })
     }, []);
@@ -44,14 +47,17 @@ export default function CompanyPage() {
     return (
         <div>
         
-            <CompanyForm
+            {(
+                <CompanyForm
                 pfp={pfp}
                 companyId={company?._id ?? ""}
                 open={open??false}
+                disabled={disabled??true}
                 close={handleClose}
                 companyName={company?.companyName ?? ""}
                 about={company?.about ?? ""}
-            ></CompanyForm>
+                ></CompanyForm>
+            )}
             <Avatar
                     className="profile-pic"
                     src={`data:image/png;base64,${pfp}`} //TODO: display pic
