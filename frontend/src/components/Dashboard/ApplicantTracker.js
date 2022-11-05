@@ -14,6 +14,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import JobSeekerController from "../../controller/JobSeekerController";
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
+import ApplicantStatus from "./ApplicantStatus";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -34,11 +35,16 @@ export const ApplicantTracker = (props) => {
             setPfp(base64String);
         });
         JobSeekerController.viewId(props.applicant).then((res) => {
+            //compare job post id to job seekers appliedPost list and find the same ID
+            const post = res[0].appliedPost.filter(
+                (posts) => posts.postId === props.postId
+            );
             setApplicant({
                 fname: res[0].firstName,
                 lname: res[0].lastName,
                 bio: res[0].bio,
-                uid: props.uid,
+                uid: res[0].uid,
+                post: post,
             });
         });
     }, [props]);
@@ -58,31 +64,35 @@ export const ApplicantTracker = (props) => {
                         src={`data:image/png;base64,${pfp}`}
                     ></Avatar>
                 </ListItemAvatar>
-                <ListItemText
-                    sx={{ paddingLeft: 2 }}
-                    primary={
-                        <Typography
-                            variant="h5"
-                            style={{
-                                verticalAlign: "bottom",
-                                color: "#000000",
-                            }}
-                        >
-                            {applicant.fname} • {applicant.lname}
-                        </Typography>
-                    }
-                    secondary={
-                        <Typography
-                            sx={{
-                                textOverflow: "ellipsis",
-                                height: 170,
-                                overflow: "hidden",
-                            }}
-                        >
-                            {applicant.bio}
-                        </Typography>
-                    }
-                />
+                <Box>
+                    <ListItemText
+                        sx={{ paddingLeft: 2 }}
+                        primary={
+                            <Typography
+                                variant="h5"
+                                style={{
+                                    verticalAlign: "bottom",
+                                    color: "#000000",
+                                }}
+                            >
+                                {applicant.fname} • {applicant.lname}
+                            </Typography>
+                        }
+                        secondary={
+                            <Typography
+                                sx={{
+                                    textOverflow: "ellipsis",
+                                    height: 170,
+                                    overflow: "hidden",
+                                }}
+                            >
+                                {applicant.bio}
+                            </Typography>
+                        }
+                    />
+
+                    <ApplicantStatus applicant={applicant} />
+                </Box>
             </ListItem>
             <Box
                 style={{

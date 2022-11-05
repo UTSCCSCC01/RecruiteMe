@@ -30,6 +30,7 @@ export default function JobPostTracker(props) {
     const [openJobPostingForm, setOpenJobPostingForm] = React.useState(false);
     const [profile, setProfile] = React.useState(null);
     const [companyLogo, setCompanyLogo] = React.useState(null);
+    const [curPost, setCurPost] = React.useState(null);
 
     React.useEffect(() => {
         RecruiterController.getPost().then((res) => {
@@ -61,6 +62,7 @@ export default function JobPostTracker(props) {
     const handleJobPostClicked = (event, index) => {
         setSelectedIndex(index);
         setCurApps(jobPosts[index].applicants);
+        setCurPost(jobPosts[index]._id);
     };
 
     const handleViewMore = () => {
@@ -200,6 +202,7 @@ export default function JobPostTracker(props) {
                             <ApplicantTracker
                                 key={item}
                                 applicant={item}
+                                postId={curPost}
                             ></ApplicantTracker>
                         ))}
                     </List>
