@@ -79,6 +79,12 @@ const JobSeekerController = (function () {
             return await Get(
                 "/jobseeker/view/"+body
             )
+        },
+        updateApplicationStatus: async (body) => {
+            return await Put(
+                "/jobseeker/updateapplicationstatus",
+                body
+            )
         }
     });
 })();

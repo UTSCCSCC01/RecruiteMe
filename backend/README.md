@@ -24,6 +24,16 @@ or
 nodemon index.js
 ```
 
+# Table of Contents
+- [Models/Schema](#models-schema)
+- [Endpoints](#endpoints)
+- [User Authentication](#user-authentication)
+- [Recruiter](#recruiter)
+- [Job Seeker](#job-Seeker)
+- [Profile Picture](#profile-picture)
+- [Job Post](jJob-post)
+- [Company Page](#company-page)
+
 
 <p align="center">
     <u><h2 align="center">Models/Schema:</h2></u>
@@ -50,41 +60,39 @@ const userSchema = new Schema({
 - Recruiter:
 ```
 const recruiterSchema = new Schema({
-   firstName: {
-       type: String,
-       required: true},
-   lastName: {
-       type: String,
-       required: true
-   },
-   uid: { type: Schema.Types.ObjectId, ref: 'User'},
-   company: {
-       type: String,
-       required: true
-   },
-   email: {
-       type: String,
-       required: true
-   },
-   age: {
-       type: Number,
-       required: true
-   },
-   bio: {
-       type: String,
-       required: false
-   },
-   workExperience: {
-       type: {},
-       required: false
-   },
-   jobPosts: [
-       { type: Schema.Types.ObjectId, ref: 'Posts' }
-   ],
-   currStatus: {
-       type: String,
-       required: false
-   }
+    firstName: {
+        type: String,
+        required: true},
+    lastName: {
+        type: String,
+        required: true
+    },
+    uid: { type: Schema.Types.ObjectId, ref: 'User'},
+    companyName: { type: String },
+    companyId: { type: Schema.Types.ObjectId, ref: 'Company' },
+    email: {
+        type: String,
+        required: true
+    },
+    age: {
+        type: Number,
+        required: true
+    },
+    bio: {
+        type: String,
+        required: false
+    },
+    workExperience: {
+        type: {},
+        required: false
+    },
+    jobPosts: [
+        { type: Schema.Types.ObjectId, ref: 'Posts' }
+    ],
+    currStatus: {
+        type: String,
+        required: false
+    }
  
 }
 );
@@ -93,61 +101,56 @@ const recruiterSchema = new Schema({
 - Job-seeker:
 ```
 const jobseekerSchema = new Schema({
-firstName: {
+  firstName: {
+        type: String,
+        required: true
+    },  
+  lastName: {
        type: String,
        required: true
    },
-   
-lastName: {
-       type: String,
-       required: true
-   },
-   uid: { type: Schema.Types.ObjectId, ref: 'User'},
-   phoneNumber: {
-       type: Number,
-       required: true
-   },
-   
-age: {
-       type: Number,
-       required: true
-   },
-   
-bio: {
-       type: String,
-       required: false
-   },
-   workExperience: {
-       type: Array,
-       of: new Schema({
-           company: String,
-           jobTitle: String,
-           startDate: String,
-           endDate: String,
-           description: String
-       }),
-       required: false
-   },
-   education: {
-       type: Array,
-       of: new Schema({
-           school: String,
-           program: String,
-           gradDate: String
-       }),
-       required: false
-   },
-   appliedPost: {
-       type: Map,
-       of: new Schema({
-           postId: { type: Schema.Types.ObjectId, ref: 'Posts' },
-           status: Boolean
-       })
-   },
-   currStatus: {
-       type: String,
-       required: false
-   },
+  uid: { type: Schema.Types.ObjectId, ref: 'User'},
+  phoneNumber: {
+      type: Number,
+      required: true
+  }, 
+  age: {
+        type: Number,
+        required: true
+    },
+    
+  bio: {
+        type: String,
+        required: false
+    },
+  workExperience: {
+      type: Array,
+      of: new Schema({
+          company: String,
+          jobTitle: String,
+          startDate: String,
+          endDate: String,
+          description: String
+      }),
+      required: false
+  },
+  education: {
+      type: Array,
+      of: new Schema({
+          school: String,
+          program: String,
+          gradDate: String
+      }),
+      required: false
+  },
+  appliedPost: [{
+      postId: String,
+      status: Number
+  }],
+  currStatus: {
+      type: String,
+      required: false
+  },
 }
 );
 ```
@@ -156,26 +159,30 @@ bio: {
 ```
 const postsSchema = new Schema({
    companyName: {
+        type: String,
+        required: true
+    },
+  companyId: { 
+        type: Schema.Types.ObjectId, 
+        ref: 'Company', required: true 
+    },
+  role: {
        type: String,
        required: true
-   },
-   role: {
-       type: String,
-       required: true
-   },
+    },
    description: {
        type: String,
        required: true
-   },
-   numofApplicants: {
+    },
+  numofApplicants: {
        type: Number,
        default: 0,
        required: true
-   },
-   recruiter: {
+    },
+  recruiter: {
        type: Boolean,
        required: true
-   }
+    }
 }
 );
 ```
@@ -195,6 +202,34 @@ var imageSchema = new mongoose.Schema({
    name: String,
    data: Buffer
 });
+```
+
+- Company:
+```
+const companySchema = new Schema({
+    companyName: {
+        type: String,
+        required: true
+    },
+    about: {
+        type: String,
+        required: true
+    },
+    createrId: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+
+    },
+    jobPosts: [{ type: Schema.Types.ObjectId, ref: 'Posts' }],
+    reviews: [{
+        position: String,
+        review: String,
+        salary: Number,
+        rating: Number
+    }],
+}
+);
 ```
 
 <p align="center">
@@ -256,7 +291,6 @@ var imageSchema = new mongoose.Schema({
       ```
       {
             "name": "Pritish",
-            "company": "UTSC",
             "age": 21,
             "bio": "Hello world",
             "workExp": {"USTC": 1},
@@ -272,7 +306,6 @@ var imageSchema = new mongoose.Schema({
     - Sample body request can include any of the below fields
       ```
       {
-          "company": "UTSC",
           "bio": "Hello world",
           "workExp": {"USTC": 1},
           "currStatus": "SEEKING FOR JOB IN WINTER 2023"
@@ -290,7 +323,8 @@ var imageSchema = new mongoose.Schema({
         "_id": "633b877883b4dabc802e382f",
         "name": "Pritish",
         "uid": "6338949197b101fd3b6c38a9",
-        "company": "UTM",
+        "companyName": "UTM",
+        "companyId": "100023",
         "email": "testmail.com",
         "age": 21,
         "bio": "Hello world",
@@ -314,7 +348,8 @@ var imageSchema = new mongoose.Schema({
         "_id": "633b877883b4dabc802e382f",
         "name": "Pritish",
         "uid": "6338949197b101fd3b6c38a9",
-        "company": "UTM",
+        "companyName": "UTM",
+        "companyId": "100023",
         "email": "testmail.com",
         "age": 21,
         "bio": "Hello world",
@@ -340,7 +375,8 @@ var imageSchema = new mongoose.Schema({
           "firstName": "Pritish",
           "lastName": "Panda",
           "uid": "6338949197b101fd3b6c38a9",
-          "company": "UTM",
+          "companyName": "UTM",
+          "companyId": "100023",
           "email": "testmail.com",
           "age": 21,
           "bio": "Hello world",
@@ -356,7 +392,6 @@ var imageSchema = new mongoose.Schema({
           "firstName": "Pritish2",
           "lastName": "Panda2",
           "uid": "6338949197b101fd3b6c38a9",
-          "company": "UTM2",
           "email": "test2mail.com",
           "age": 22,
           "bio": "Hello world",
@@ -380,7 +415,8 @@ var imageSchema = new mongoose.Schema({
       "_id": "633b877883b4dabc802e382f",
       "name": "Pritish",
       "uid": "6338949197b101fd3b6c38a9",
-      "company": "UTM",
+      "companyName": "UTM",
+      "companyId": "100023",
       "email": "testmail.com",
       "age": 21,
       "bio": "Hello world",
@@ -675,12 +711,13 @@ var imageSchema = new mongoose.Schema({
     <u><h2 align="center">Profile Picture</h2></u>
 </p>
 
--   **Add Profile Picture** : POST {/{jobseeker OR recruiter}/addpfp}
-    - Endpoint to add profile picture : http://localhost:4000/{jobseeker OR recruiter}/addpfp
+-   **Add Profile Picture** : POST {/{jobseeker OR recruiter OR company}/addpfp}
+    - Endpoint to add profile picture : http://localhost:4000/{jobseeker OR recruiter OR company}/addpfp
     - The user has to be loggedIn to use this endpoint
     - Pictures must be sent as form-data
     - When taking in the picture from the front end, the name of the input must be "image" as shown below:
       <input type="file" name="image" value="" required>
+    - When updating a company profile picture, the company's object ID must be included in the body as "companyId": ...
     - Sample body request
       
       ![image](https://user-images.githubusercontent.com/68790482/194485394-93f37106-ff9d-4753-85dc-3f1123682b73.png)
@@ -688,12 +725,13 @@ var imageSchema = new mongoose.Schema({
       
     - Return 200 for success and 401 for aunthentication failure, with an error in the response body
 
--   **Update Profile Picture** : PUT {/{jobseeker OR recruiter}/updatepfp}
-    - Endpoint to update profile picture : http://localhost:4000/{jobseeker OR recruiter}/updatepfp
+-   **Update Profile Picture** : PUT {/{jobseeker OR recruiter OR company}/updatepfp}
+    - Endpoint to update profile picture : http://localhost:4000/{jobseeker OR recruiter OR company}/updatepfp
     - The user has to be loggedIn to use this endpoint
     - Pictures must be sent as form-data
     - When taking in the picture from the front end, the name of the input must be "image" as shown below:
       <input type="file" name="image" value="" required>
+    - When updating a company profile picture, the company's object ID must be included in the body as "companyId": ...
     - Sample body request
       
       ![image](https://user-images.githubusercontent.com/68790482/194486518-98bd06dd-9ee0-4b28-a23e-ab9dd66184ba.png)
@@ -718,16 +756,12 @@ var imageSchema = new mongoose.Schema({
         "__v": 0
       }
       
--   **View Specific User's Profile Picture** : GET {/{jobseeker OR recruiter}/othersprofilepicture}
+-   **View Specific User's Profile Picture** : GET {/{jobseeker OR recruiter OR company}/othersprofilepicture/$id}
     - View the profile picture of a specified user in the database
-    - View Specific User's Profile Picture : http://localhost:4000/{jobseeker OR recruiter}/othersprofilepicture
+    - View Specific User's Profile Picture : http://localhost:4000/{jobseeker OR recruiter OR company}/othersprofilepicture/$id
     - Front end developers must use base64 to display image (check step 10 of https://www.geeksforgeeks.org/upload-and-retrieve-image-on-mongodb-using-mongoose/)
-    - Sample Request Body:
-      ```
-      {
-        "_id": "633e2eb14988c2467ea47872"
-      }
-      ```
+    - Replace $id with _id of user/company you want to view
+    - Sample Request: http://localhost:4000/company/othersprofilepicture/633e2eb14988c2467ea47872
       
     - Sample Response:
       ```
@@ -749,10 +783,10 @@ var imageSchema = new mongoose.Schema({
 -   **Add New Job Post** : POST {/recruiter/addjobpost}
     - Endpoint to add new job post : http://localhost:4000/recruiter/addjobpost
     - The recruiter has to be loggedIn to use this endpoint
+    - The Company of the Job is comonay of the recruiter , which is set automatically
     - Sample body request
       ```
       {
-        "companyName": "Google",
         "role": "Software Engineer",
         "description": "Engineer some software",
         "qualification": "Good at software engineering",
@@ -820,3 +854,89 @@ var imageSchema = new mongoose.Schema({
       }
       ```
     - Return 200 for success and 400 or 500 for failure , with an error in the response body
+
+<p align="center">
+    <u><h2 align="center">Company Page</h2></u>
+</p>
+
+-   **Add Company Page** : POST {/company/add}
+    - Endpoint to add job seeker : http://localhost:4000/company/add
+    - The user has to be loggedIn to use this endpoint
+    - Company Names are Unique
+    - CompanyId and CompanyName are saved in Recruiters schema
+    - Sample body request
+      ```
+      {
+        "companyName":"Amazon",
+        "about":"Big Tech"
+      }
+
+      ```
+    - Return 200 for success and 4XX for failure, with an error in the response body
+
+-   **View Company Page** : GET {/company/:id}
+    - Endpoint to view company page: http://localhost:4000/company/view/635ae860ce5914a300f65460
+    - The user has to be loggedIn to use this endpoint
+    - Sample body reponse
+      ```
+      {   
+        "_id": "635ae860ce5914a300f65460",
+        "companyName": "Amazon",
+        "about": "BIG BIG COMPANY",
+        "createrId": "633e2eac6068a665ef3ab2de",
+        "jobPosts": [
+          "635aebf394dd6b04b94945f5",
+          "635af259dd0a1eb8507bc9ca",
+          "635af278dd0a1eb8507bc9d8",
+          "635af36be6c311ebb9915701",
+          "635b4d5eea0608aa7ac62892"
+        ],
+        "reviews": [
+          {
+            "position": "SDE",
+            "review": "NICE",
+            "salary": 10000,
+            "rating": 5,
+            "_id": "635ae9bba74203239e949cb4"
+          },
+          {
+            "position": "SDE II",
+            "review": "VERY NICE ",
+            "salary": 50000,
+            "rating": 5,
+            "_id": "635ae9daa74203239e949cbd"
+          }
+        ],
+        "__v": 0
+      }
+
+      ```
+    - Return 200 for success and 4XX for failure, with an error in the response body
+
+-   **Update Company Page** : PUT {/company/update}
+    - Endpoint to update company page job : http://localhost:4000/company/update
+    - Can only update its "about" for now
+    - Sample body request
+      ```
+      {
+        "companyId":"635ae860ce5914a300f65460",
+        "about" : "BIG BIG COMPANY"
+      }
+      ```
+    - Return 200 for success and 4XX for failure, with an error in the response body
+
+-   **Add Review to Company Page** : POST {/company/review}
+    - Endpoint to add Review to company page : http://localhost:4000/company/review
+    - Sample body request
+      ```
+      {
+          "companyId": "635ae860ce5914a300f65460",
+          "review" : {
+              "position": "SDE II",
+              "review": "VERY NICE ",
+              "salary": 50000,
+              "rating": 5
+          }
+      }
+      ```
+    - Return 200 for success and 4XX for failure, with an error in the response body

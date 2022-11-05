@@ -1,8 +1,5 @@
-const express = require('express')
-const fileUpload = require('express-fileupload')
 const User = require("../models/User");
 const JobSeeker = require("../models/JobSeeker");
-var fs = require('fs');
 const mongodb = require('mongodb');
 const mongoose = require('mongoose');
 
@@ -81,6 +78,9 @@ const update_job_seeker = async (req, res) => {
             }
             if (req.body.currStatus) {
                 update["currStatus"] = req.body.currStatus
+            }
+            if (req.body.appliedPost) {
+                update["appliedPost"] = req.body.appliedPost
             }
 
             JobSeeker.findOneAndUpdate(filter, update).then((result) => {
@@ -267,7 +267,7 @@ const view_job_seeker_resume = async (req, res) => {
 }
 
 const view_others_job_seeker_resume = async (req, res) => {
-    Resume.find({ _id: req.params._id }, function (err, docs) {
+    Resume.find({ _id: req.params.id }, function (err, docs) {
         if (err) {
             res.send(400).send("User resume doesn't exist")
             console.log(err);
@@ -287,6 +287,27 @@ const view_open_job_posts = async (req, res) => {
         }
         else {
             res.status(200).send(posts)
+        }
+    });
+}
+
+const update_application_status = async (req, res) => {
+    JobSeeker.exists({ uid: req.body.uid }, function (err, docs) {
+        if (docs == null) {
+            res.status(403).send("User doesn't exist")
+        } else {
+            filter = { uid: req.body.uid, "appliedPost.postId": req.body.postId }
+
+            let update = {}
+            update["appliedPost.$.status"] = req.body.status
+
+            JobSeeker.findOneAndUpdate(filter, update).then((result) => {
+                res.status(200).send(result);
+            }).catch((err) => {
+                console.log(err);
+                res.status(500).send(err)
+            });
+
         }
     });
 }
@@ -404,4 +425,5 @@ module.exports = {
     view_open_job_posts, view_others_profile_picture,
     apply_job_post, view_job_seeker,
     my_job_applications, view_others_job_seeker_resume,
+    update_application_status
 }

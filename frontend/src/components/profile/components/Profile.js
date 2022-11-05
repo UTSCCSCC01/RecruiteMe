@@ -14,9 +14,10 @@ import {
 } from "@mui/material";
 import "./Profile.css";
 import EditIcon from "@mui/icons-material/Edit";
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
-import LogoutIcon from '@mui/icons-material/Logout';
+import LogoutIcon from "@mui/icons-material/Logout";
+import AddIcon from "@mui/icons-material/Add";
 import profilePic from "./example-assets/profile-pic-example.png";
 import Modal from "@mui/material/Modal";
 import JobSeekerController from "../../../controller/JobSeekerController";
@@ -33,10 +34,12 @@ import * as React from "react";
 import JobSeekerForm from "../../CreateJobSeekerForm/JobSeekerForm";
 import { useNavigate } from "react-router-dom";
 import RecruiterForm from "../../CreateJobSeekerForm/RecruiterForm";
+import CompanyForm from "../../CreateCompanyForm/CompanyForm";
 
 const ProfileHeader = (props) => {
     const navigate = useNavigate();
     const [open, setOpen] = React.useState(false);
+    const [openCompanyCreate, setOpenCompanyCreate] = React.useState(false);
     const [profile, setProfile] = React.useState(null);
     const [user, setUser] = React.useState(null);
     const [pfp, setPfp] = React.useState(null);
@@ -53,7 +56,7 @@ const ProfileHeader = (props) => {
         }
     });
     const handleBack = () => {
-        navigate('/dashboard')
+        navigate("/dashboard");
     };
     const handleClick = () => {
         UserController.getCurrent().then((res) => {
@@ -71,6 +74,13 @@ const ProfileHeader = (props) => {
             }
         });
     };
+    const handleCreateCompany = () => {
+        setOpenCompanyCreate(true)
+    };
+    const handleCompanyClose = () => {
+        setOpenCompanyCreate(false)
+        window.location.reload(false);
+    };
     const handleLogout = () => {
         UserController.logout().then((res) => {
             navigate("/");
@@ -80,8 +90,27 @@ const ProfileHeader = (props) => {
         setOpen(false);
         window.location.reload(false);
     };
+
+    const openCompanyPage = () => {
+        console.log("ho");
+        navigate("/company", {
+            state: {
+                companyId: props.companyId,
+            },
+        });
+    };
+
     return (
         <>
+            <Modal
+                open={openCompanyCreate}
+                close={handleCompanyClose}
+            >
+                <CompanyForm
+                    add
+                    close={handleCompanyClose}
+                ></CompanyForm>
+            </Modal>
             <Modal
                 open={open}
                 onClose={handleClose}
@@ -136,12 +165,20 @@ const ProfileHeader = (props) => {
                         >
                             {props.firstName + " " + props.lastName}
                         </Typography>
-                        {props.isRecruiter && props.company && (
+                        {props.isRecruiter && props.companyName && (
                             <Typography
-                                sx={{ fontWeight: 500, fontSize: "30px" }}
+                                sx={{
+                                    fontWeight: 500,
+                                    fontSize: "30px",
+                                    cursor: "pointer",
+                                }}
                                 className="recruiter"
+                                onClick={openCompanyPage}
                             >
-                                • Recruiter @ {props.company}
+                                • Recruiter @{" "}
+                                <span style={{ color: "#5344c2" }}>
+                                    {props.companyName}
+                                </span>
                             </Typography>
                         )}
                     </Box>
@@ -169,8 +206,7 @@ const ProfileHeader = (props) => {
                         textTransform: "none",
                     }}
                     size="145px"
-                >
-                    </Button>
+                ></Button>
                 <Box
                     sx={{
                         display: "flex",
@@ -181,6 +217,20 @@ const ProfileHeader = (props) => {
                         bottom: 0,
                     }}
                 >
+                    {props.isRecruiter && !props.companyName &&
+                        <Button 
+                            onClick={handleCreateCompany}
+                            startIcon={<AddIcon fontSize="large" />}
+                            sx={{
+                                color: "white",
+                                fontSize: "20px",
+                                fontWeight: "400",
+                                textTransform: "none",
+                            }}
+                            size="145px"
+                        >
+                            Create Company Page
+                        </Button>}
                     <Button
                         onClick={handleClick}
                         startIcon={<EditIcon fontSize="large" />}
@@ -247,7 +297,6 @@ const ProfileInfo = (props) => {
                     viewResume={props.viewResume}
                 />
             )}
-
         </Box>
     );
 };
@@ -279,7 +328,6 @@ export const Profile = (props) => {
                     document.body.appendChild(link);
                     setResume(link);
                 }
-
             });
         }
     });
@@ -294,7 +342,8 @@ export const Profile = (props) => {
                     lastName={props.lastName}
                     resume={resume}
                     isRecruiter={props.isRecruiter}
-                    company={props.company}
+                    companyName={props.companyName}
+                    companyId={props.companyId}
                     status={props.status}
                 ></ProfileHeader>
             </AppBar>
@@ -374,7 +423,6 @@ export const Profile = (props) => {
                                 </ListItemButton>
                             </ListItem>
                         )}
-
                     </List>
 
                     {props.email && (
@@ -420,20 +468,19 @@ export const Profile = (props) => {
                     )}
                 </Box>
             </Drawer>
-                <Box component="main" sx={{ flexGrow: 1, p: 3, pr: 0 }}>
-                    <Toolbar sx={{ height: 250 }} />
-                    <ProfileInfo
-                        resume={resume}
-                        setResume={setResume}
-                        viewResume={viewResume}
-                        bio={props.bio}
-                        workExperience={props.workExperience}
-                        education={props.education}
-                        skills={props.skills}
-                        isRecruiter={props.isRecruiter}
-                    ></ProfileInfo>
-                </Box>
-
+            <Box component="main" sx={{ flexGrow: 1, p: 3, pr: 0 }}>
+                <Toolbar sx={{ height: 250 }} />
+                <ProfileInfo
+                    resume={resume}
+                    setResume={setResume}
+                    viewResume={viewResume}
+                    bio={props.bio}
+                    workExperience={props.workExperience}
+                    education={props.education}
+                    skills={props.skills}
+                    isRecruiter={props.isRecruiter}
+                ></ProfileInfo>
+            </Box>
         </Box>
     );
 };

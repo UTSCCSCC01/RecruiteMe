@@ -6,6 +6,7 @@ const postsSchema = new Schema({
         type: String,
         required: true
     },
+    companyId: { type: Schema.Types.ObjectId, ref: 'Company', required: true },
     role: {
         type: String,
         required: true
