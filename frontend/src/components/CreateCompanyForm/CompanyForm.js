@@ -60,8 +60,10 @@ const CompanyForm = (props) => {
         }
         else if (selectedPicture != null && isPictureClicked) {
           RecruiterController.getRecruiter().then((res) => {
-            CompanyController.addPfp(selectedPicture, res[0].companyId).then((res) => {});
+            CompanyController.addPfp(selectedPicture, res[0].companyId).then((res) => {props.close()});
           });
+        }else{
+          props.close();
         }
       });
     }
