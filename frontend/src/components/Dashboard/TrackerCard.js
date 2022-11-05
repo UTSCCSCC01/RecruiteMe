@@ -11,12 +11,7 @@ import {
 import CircleIcon from "@mui/icons-material/Circle";
 import CompanyController from "../../controller/CompanyController";
 import { useNavigate } from "react-router-dom";
-const status2text = [
-  "Under Review",
-  "Interview Scheduled",
-  "Rejected",
-  "Accepted",
-];
+import { status2text } from "./StatusTypes";
 /*
 types are "tracker" and "page" for variance in the application tracker and
 the my applications page.
