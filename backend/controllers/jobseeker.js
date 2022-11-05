@@ -299,11 +299,7 @@ const update_application_status = async (req, res) => {
             filter = { uid: req.body.uid, "appliedPost.postId": req.body.postId }
 
             let update = {}
-            if (req.body.status) {
-                update["appliedPost.$.status"] = req.body.status
-            } else {
-                res.status(403).send("Request body is missing status field")
-            }
+            update["appliedPost.$.status"] = req.body.status
 
             JobSeeker.findOneAndUpdate(filter, update).then((result) => {
                 res.status(200).send(result);
