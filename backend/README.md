@@ -459,6 +459,18 @@ const companySchema = new Schema({
       ```
     - Return 200 for success and 404 if no post are made by a recruiter
 
+-   **Send Online Assesments** : POST {/recruiter/sendassement}
+    - Endpoint to update recruiter profile : http://localhost:4000/recruiter/sendassement 
+    - The user has to be loggedIn and be a recuiter to use this endpoint
+    - Sample body request can include any of the below fields
+      ```
+      {
+        "uid": "633e2eac6068a665ef3ab2de",  // job seeker_uid
+        "postId" : "636425977a14140bfba68bf3",
+        "assesment_link": "https://cmsweb.utsc.utoronto.ca/cscc01f22/index.html"
+      }
+      ```
+    - Return 200 for success and 400 for failure , with a error in the resposne body
 
 
 <p align="center">
