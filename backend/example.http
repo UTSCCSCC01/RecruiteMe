@@ -133,12 +133,12 @@ GET http://localhost:4000/jobseeker/viewall HTTP/1.1
 
 GET http://localhost:4000/jobseeker/openjobposts HTTP/1.1
 
-
+###
 POST http://localhost:4000/jobseeker/apply HTTP/1.1
 content-type: application/json
 
 {
-    "post_id": "634e1ab0298e3e3ce79850e3"
+    "post_id": "636425977a14140bfba68bf3"
 }
 
 
@@ -158,11 +158,9 @@ GET http://localhost:4000/post/view/634e1ab0298e3e3ce79850e3 HTTP/1.1
 
 ###
 
-###
 
 GET http://localhost:4000/auth/currUser HTTP/1.1
 
-###
 
 ###
 
@@ -224,3 +222,17 @@ content-type: application/json
         "rating": 5
     }
 }
+
+
+###
+POST http://localhost:4000/recruiter/sendassement HTTP/1.1
+content-type: application/json
+
+{
+    "uid": "633e2eac6068a665ef3ab2de",
+    "postId" : "636425977a14140bfba68bf3",
+    "assesment_link": "https://cmsweb.utsc.utoronto.ca/cscc01f22/index.html"
+}
+
+
+

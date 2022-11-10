@@ -388,29 +388,22 @@ const apply_job_post = async (req, res) => {
 }
 
 const my_job_applications = async (req, res) => {
-
-    if (!req.user.recruiter) {
-        JobSeeker.find({ uid: req.user._id }, function (err, docs) {
-            if (err) {
-                res.send(404).send("User doesn't exist")
-                console.log(err);
+    JobSeeker.find({ uid: req.user._id }, function (err, docs) {
+        if (err) {
+            res.send(404).send("User doesn't exist")
+            console.log(err);
+        }
+        else {
+            if (docs.length == 0) {
+                res.status(404).send("User doesn't exist")
             }
             else {
-                if (docs.length == 0) {
-                    res.status(404).send("User doesn't exist")
-                }
-                else {
-                    res.status(200).send(docs[0].appliedPost)
-
-                }
+                res.status(200).send(docs[0].appliedPost)
 
             }
-        });
-    }
-    else {
-        res.status(404).send("Only Job seeker can acces this endpoint")
-    }
 
+        }
+    });
 }
 
 
