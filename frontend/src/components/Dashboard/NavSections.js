@@ -10,9 +10,11 @@ export const sectionsType = [
     [
         { title: "Job Postings", href: "/jobs" },
         { title: "My Applications", href: "/my-applications" },
+        { title: "My Calendar", href: "/calendar" },
     ],
     [
         { title: "Job Seekers", href: "" },
         { title: "My Job Posts", href: "" },
+        { title: "My Calendar", href: "/calendar" },
     ],
 ];
