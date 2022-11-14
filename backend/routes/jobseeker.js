@@ -28,4 +28,7 @@ router.post('/apply', loggedIn, JobSeekerController.apply_job_post)
 router.get('/myapplications', loggedIn, isJobSeeker, JobSeekerController.my_job_applications)
 router.put('/updateapplicationstatus', loggedIn, JobSeekerController.update_application_status)
 
+// For interview data
+router.put('/selectinterviewtime', loggedIn, JobSeekerController.select_interview_time)
+
 module.exports = router
