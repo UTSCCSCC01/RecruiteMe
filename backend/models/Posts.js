@@ -42,9 +42,10 @@ const postsSchema = new Schema({
     deadline: {
         type: Date,
         required: true
-    }
-}
-);
+    },
+    availableDates: [Date],
+    interviewLink: {type: String}
+});
 
 const Post = mongoose.model('Posts', postsSchema)
 module.exports = Post;
