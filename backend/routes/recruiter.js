@@ -20,6 +20,10 @@ router.get('/othersprofilepicture', loggedIn, RecruiterController.view_others_pr
 router.post('/addjobpost', loggedIn, isRecruiter, RecruiterController.add_job_post)
 router.get('/myposts', loggedIn, RecruiterController.view_my_posts)
 
+// For online assessment data
 router.post('/sendassement', loggedIn, isRecruiter, RecruiterController.send_online_assesment)
+
+// For interview data
+router.put('/updateinterviewdata', loggedIn, RecruiterController.update_interview_data)
 
 module.exports = router

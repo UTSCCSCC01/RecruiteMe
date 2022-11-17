@@ -8,6 +8,7 @@ const ProfilePicture = require("../models/Image");
 const Resume = require("../models/Resume");
 const Post = require("../models/Posts");
 const { Schema } = require('mongoose');
+const { update_interview_data } = require("./recruiter");
 
 
 // Profile text data API
@@ -406,6 +407,25 @@ const my_job_applications = async (req, res) => {
     });
 }
 
+const select_interview_time = async (req, res) => {
+    JobSeeker.exists({ uid: req.user._id }, function (err, docs) {
+        if (docs == null) {
+            res.status(403).send("User doesn't exist")
+        } else {
+            filter = { uid: req.user._id, "appliedPost.postId": req.body.postId }
+
+            let update = {}
+            update["appliedPost.$.interviewDate"] = req.body.interviewDate
+
+            JobSeeker.findOneAndUpdate(filter, update).then((result) => {
+                res.status(200).send(result);
+            }).catch((err) => {
+                console.log(err);
+                res.status(500).send(err)
+            });
+        }
+    });
+}
 
 
 module.exports = {
@@ -418,5 +438,6 @@ module.exports = {
     view_open_job_posts, view_others_profile_picture,
     apply_job_post, view_job_seeker,
     my_job_applications, view_others_job_seeker_resume,
-    update_application_status
+    update_application_status,
+    select_interview_time
 }

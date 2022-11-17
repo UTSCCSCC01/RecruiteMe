@@ -304,6 +304,33 @@ const send_online_assesment = async (req, res) => {
     });
 }
 
+const update_interview_data = async (req, res) => {
+    Post.exists({ _id: req.body.postId }, function (err, docs) {
+        if (docs == null) {
+            res.status(403).send("Post doesn't exist")
+        } else {
+            filter = { _id: req.body.postId }
+
+            let update = {}
+            if (req.body.availableDates) {
+                update["availableDates"] = req.body.availableDates
+            }
+            if (req.body.interviewLink) {
+                update["interviewLink"] = req.body.interviewLink
+            }
+
+            Post.findOneAndUpdate(filter, update).then((result) => {
+                res.status(200).send(result);
+            }).catch((err) => {
+                console.log(err);
+                res.status(500).send(err)
+            });
+
+
+        }
+    });
+}
+
 module.exports = {
     add_recruiter,
     update_recruiter,
@@ -316,6 +343,7 @@ module.exports = {
     view_others_profile_picture,
     view_recruiter,
     view_my_posts,
-    send_online_assesment
+    send_online_assesment,
+    update_interview_data
 };
 

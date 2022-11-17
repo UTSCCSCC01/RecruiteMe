@@ -472,6 +472,19 @@ const companySchema = new Schema({
       ```
     - Return 200 for success and 400 for failure , with a error in the resposne body
 
+-   **Update Interview Data** : PUT {/recruiter/updateinterviewdata}
+    - Endpoint to set available times and link for interview: http://localhost:4000/recruiter/updateinterviewdata 
+    - The user has to be loggedIn to use this endpoint
+    - Sample body request must include postId and 1 or more of the below fields:
+      ```
+      {
+        "postId": "634b765367614164f3c6f1a9",
+        "availableDates": ["2022-11-20T10:00", "2022-11-20T11:00", "2022-11-20T12:00", "2022-11-20T13:00"],
+        "interviewLink": "Check email for interview link"
+      }
+      ```
+    - Return 200 for success and 400 for user creation failure , with an error in the response body
+
 
 <p align="center">
     <u><h2 align="center">Job Seeker</h2></u>
@@ -717,6 +730,18 @@ const companySchema = new Schema({
         }
       ]
       ```
+
+-   **Select Interview Time** : PUT {/jobseeker/selectinterviewtime}
+    - Endpoint to select interview time for a specified post: http://localhost:4000/jobseeker/selectinterviewtime 
+    - The user has to be loggedIn to use this endpoint
+    - Sample body request must include all of the below fields, where interviewDate is in the JSON Date format
+      ```
+      {
+        "postId": "634b765367614164f3c6f1a9",
+        "interviewDate": "2022-11-20T10:00"
+      }
+      ```
+    - Return 200 for success and 400 for user creation failure , with an error in the response body
 
       
 <p align="center">
