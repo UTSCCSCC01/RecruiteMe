@@ -86,7 +86,8 @@ RecruiterController.js
     - getPost: GET request to /recruiter/myposts gets the job posting for the recruiter
     - addJobPost: POST request to /recruiter/addjobpost adds a job posting for the recruiter
     - viewId: GET request to /recruiter/view gets the profile of a recruiter by id
-
+    - updateInterviewData: PUT request to /recruiter/updateinterviewdata updates the interview dates for the job post by id
+    - sendAssessment: POST request to /recruiter/sendassement adds the assessment link to the job post affliated with the applicant
 JobSeekerController.js
 - Provides functionallity for job seeker related requests:
     - getJobSeeker: GET request to /jobseeker/profile gets the profile of the logged-in job seeker
@@ -107,7 +108,8 @@ JobSeekerController.js
     - applyToJob: POST request to /jobseeker/apply applies to a job posting
     - getJobPostId: GET request to /post/view/ + body gets the job posting with a specific id
     - viewId: GET request to /post/view/ + body gets profile with a specific id
-
+    - updateApplicationStatus: PUT request to /jobseeker/updateapplicationstatus to update the application status
+    - updateInterviewTime: Put request to /jobseeker/selectinterviewtime to select the interview time
 PostController.js
 - Provides functionallity for job posting related requests:
     - getPost: GET request to /post/view/:id gets the job posting with the given id
