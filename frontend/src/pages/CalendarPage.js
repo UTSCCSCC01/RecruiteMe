@@ -1,58 +1,74 @@
 import { Calendar, momentLocalizer } from 'react-big-calendar'
 import moment from 'moment'
 import * as React from 'react';
+import { useCallback } from 'react';
 import "react-big-calendar/lib/css/react-big-calendar.css"
 import {
-  AppBar,
-  Avatar,
   Box,
   Button,
-  Drawer,
-  Link,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemText,
-  Toolbar,
-  Typography,
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useNavigate } from "react-router-dom";
+import UserController from "../controller/UserController";
+import RecruiterController from "../controller/RecruiterController";
+import JobSeekerController from "../controller/JobSeekerController";
+import PostController from '../controller/PostController';
+import { maxWidth } from '@mui/system';
 
-// Setup the localizer by providing the moment (or globalize, or Luxon) Object
-// to the correct localizer.
-const localizer = momentLocalizer(moment) // or globalizeLocalizer
-
-const tempevents = [
-  {
-    title: "Google Interview",
-    start: new Date(2022, 10, 13, 13),
-    end: new Date(2022, 10, 13, 14)
-  },
-  {
-    title: "Google Interview 2",
-    start: new Date(2022, 10, 13, 16),
-    end: new Date(2022, 10, 13, 17)
-  },
-  {
-    title: "Google Interview 3",
-    start: new Date(2022, 10, 13, 9),
-    end: new Date(2022, 10, 13, 10)
-  },
-  {
-    title: "Google Interview 4",
-    start: new Date(2022, 10, 13, 0),
-    end: new Date(2022, 10, 13, 2)
-  },
-]
+const localizer = momentLocalizer(moment)
 
 export default function CalendarPage() {
   const navigate = useNavigate()
-  const [events, setEvents] = React.useState(tempevents)
+  const [events, setEvents] = React.useState([])
+  const [done, setDone] = React.useState(false)
+  const [isRecruiter, setIsRecruiter] = React.useState(false);
+  const [user, setUser] = React.useState(null);
+  const [selectedEvent, setSelectedEvent] = React.useState(null);
 
   const handleBack = () => {
     navigate("/dashboard");
   };
+
+
+  const test = [{
+    title: "bruh",
+    start: new Date(),
+    end: new Date(2022, 10, 17)
+  }]
+  
+
+  React.useEffect(() => {
+    UserController.getCurrent().then((res) => {
+      if (res.recruiter) {
+        setIsRecruiter(true);
+        RecruiterController.getRecruiter().then((res) => {
+          setUser(res[0]);
+          console.log(res[0])
+        });
+      } else {
+        JobSeekerController.getJobSeeker().then((res) => {
+          res[0].appliedPost.map((post) =>{
+            PostController.getPost(post.postId).then((res2) =>{
+              setEvents(cur => [
+                ...cur, 
+                {
+                title: "Interview with "+res2.companyName+" at "+post.assesmentLink,
+                start: new Date(post.interviewDate),
+                end: new Date(post.interviewDate).setHours(new Date(post.interviewDate).getHours() + 1),
+                }
+              ]);
+            });
+          })
+        });
+      }
+    });
+    setDone(true)
+  }, []);
+
+  const onSelectEvent = useCallback((calEvent) => {
+    setSelectedEvent(calEvent)
+    console.log(calEvent)
+  }, [])
 
   return(
     <div>
@@ -83,16 +99,32 @@ export default function CalendarPage() {
       <Box
         sx={{
           color: "white",
-          height: 50,
+          height: 75,
         }}
       ></Box>
-      <Calendar
-        localizer={localizer}
-        events={events}
-        startAccessor="start"
-        endAccessor="end"
-        style={{height: 500, margin: "50px"}}
-      ></Calendar>
+      {events.length != 0 && 
+        <Calendar
+          localizer={localizer}
+          events={events}
+          startAccessor="start"
+          endAccessor="end"
+          onSelectEvent={onSelectEvent}
+          style={{height: 500, margin: "5px"}}
+        ></Calendar>}
+      {selectedEvent &&
+      <Box
+        sx={{width: maxWidth}}
+        minHeight="100px"
+        display="flex"
+        alignItems="center"
+        justifyContent="center">
+        <Box
+          sx={{backgroundColor: "#ffffff"}}>
+          Event: {selectedEvent.title}
+          <div>Start Time: {selectedEvent.start.toString()}</div>
+          <div>Duration: 1hr</div>
+        </Box>
+      </Box>}
     </div>
   )
 }
