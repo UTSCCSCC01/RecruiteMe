@@ -325,8 +325,6 @@ const update_interview_data = async (req, res) => {
                 console.log(err);
                 res.status(500).send(err)
             });
-
-
         }
     });
 }

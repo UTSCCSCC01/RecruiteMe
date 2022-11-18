@@ -80,7 +80,13 @@ const RecruiterController = (function () {
             return await Get(
                 "/recruiter/view/"+body
             )
-        }
+        },
+        updateInterviewData: async (body) => {
+            return await Put(
+                "/recruiter/updateinterviewdata",
+                body
+            );
+        },
     });
 })();
 
