@@ -15,6 +15,5 @@ export const sectionsType = [
     [
         { title: "Job Seekers", href: "" },
         { title: "My Job Posts", href: "" },
-        { title: "My Calendar", href: "/calendar" },
     ],
 ];
