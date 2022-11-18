@@ -109,6 +109,7 @@ JobSeekerController.js
     - getJobPostId: GET request to /post/view/ + body gets the job posting with a specific id
     - viewId: GET request to /post/view/ + body gets profile with a specific id
     - updateApplicationStatus: PUT request to /jobseeker/updateapplicationstatus to update the application status
+    - updateInterviewTime: Put request to /jobseeker/selectinterviewtime to select the interview time
 PostController.js
 - Provides functionallity for job posting related requests:
     - getPost: GET request to /post/view/:id gets the job posting with the given id
