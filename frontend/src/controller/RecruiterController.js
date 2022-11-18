@@ -46,7 +46,15 @@ const RecruiterController = (function () {
             return await Post("/recruiter/addjobpost", body);
         },
         viewId: async (body) => {
-            return await Get("/recruiter/view/" + body);
+            return await Get(
+                "/recruiter/view/"+body
+            )
+        },
+        updateInterviewData: async (body) => {
+            return await Put(
+                "/recruiter/updateinterviewdata",
+                body
+            );
         },
         sendAssessment: async (body) => {
             return await Post("/recruiter/sendassement", body);

@@ -18,6 +18,7 @@ import CompanyController from "../../controller/CompanyController";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import Modal from "@mui/material/Modal";
 import JobPostingForm from "../CreateJobPostingForm/JobPostingForm";
+import InterviewSchedulerForm from "./InterviewSchedulerForm";
 
 const Demo = styled("div")(({ theme }) => ({
     backgroundColor: theme.palette.background.paper,
@@ -31,6 +32,8 @@ export default function JobPostTracker(props) {
     const [profile, setProfile] = React.useState(null);
     const [companyLogo, setCompanyLogo] = React.useState(null);
     const [curPost, setCurPost] = React.useState(null);
+
+    const [openScheduler, setOpenScheduler] = React.useState(false);
 
     React.useEffect(() => {
         RecruiterController.getPost().then((res) => {
@@ -69,6 +72,15 @@ export default function JobPostTracker(props) {
         console.log("View more");
     };
     console.log(profile);
+
+    const handleClickScheduleInterview = () => {
+        setOpenScheduler(true);
+        console.log("Show modal");
+    }
+    const handleCloseScheduler = () =>{
+        setOpenScheduler(false);
+    }
+
     return (
         <div>
             {profile && profile.companyId && (
@@ -84,6 +96,16 @@ export default function JobPostTracker(props) {
                     ></JobPostingForm>
                 </Modal>
             )}
+            <Modal
+                open={openScheduler}
+                onClose={() => setOpenScheduler(false)}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <div>
+                    <InterviewSchedulerForm close={handleCloseScheduler} postId={curPost}></InterviewSchedulerForm>
+                </div>
+            </Modal>
             <Grid container>
                 <Box sx={{ width: "25%", height: 700 }}>
                     <Box sx={{ height: 70 }}></Box>
@@ -136,36 +158,59 @@ export default function JobPostTracker(props) {
                                         }
                                     >
                                         <ListItem key={item._id} disableGutters>
-                                            <ListItemAvatar>
-                                                <Avatar
-                                                    variant="square"
-                                                    alt={
-                                                        profile
-                                                            ? profile.companyName
-                                                            : null
+                                            <Grid>
+                                                <ListItemAvatar>
+                                                    <Avatar
+                                                        variant="square"
+                                                        alt={
+                                                            profile
+                                                                ? profile.companyName
+                                                                : null
+                                                        }
+                                                        src={`data:image/png;base64,${companyLogo}`}
+                                                        sx={{
+                                                            width: 80,
+                                                            height: 80,
+                                                            border: "1px solid #cacacc",
+                                                            backgroundColor:
+                                                                "white",
+                                                            color: "#91A4E8",
+                                                            fontSize: 52,
+                                                        }}
+                                                    >
+                                                        {item.avatar}
+                                                    </Avatar>
+                                                </ListItemAvatar>
+                                            </Grid>
+                                            <Grid>
+                                                <ListItemText
+                                                    sx={{ paddingLeft: 2 }}
+                                                    primary={item.role}
+                                                    secondary={
+                                                        item.numofApplicants +
+                                                        " Applicants"
                                                     }
-                                                    src={`data:image/png;base64,${companyLogo}`}
+                                                />
+                                                {/* Add button for schedualling interview times */}
+                                                <Button
+                                                    variant="contained"
                                                     sx={{
-                                                        width: 80,
-                                                        height: 80,
-                                                        border: "1px solid #cacacc",
-                                                        backgroundColor:
-                                                            "white",
-                                                        color: "#91A4E8",
-                                                        fontSize: 52,
+                                                        backgroundColor: "#466bf0",
+                                                        color: "white",
+                                                        fontSize: "10px",
+                                                        fontWeight: "400",
+                                                        height: "30px",
+                                                        padding: 2,
+                                                        marginLeft: 2,
+                                                        "&:hover": {
+                                                            backgroundColor: "#466bf0",
+                                                        },
                                                     }}
+                                                    onClick={handleClickScheduleInterview}
                                                 >
-                                                    {item.avatar}
-                                                </Avatar>
-                                            </ListItemAvatar>
-                                            <ListItemText
-                                                sx={{ paddingLeft: 2 }}
-                                                primary={item.role}
-                                                secondary={
-                                                    item.numofApplicants +
-                                                    " Applicants"
-                                                }
-                                            />
+                                                    Set Interview Times
+                                                </Button>
+                                            </Grid>
                                         </ListItem>
                                     </ListItemButton>
                                 ))}
