@@ -30,7 +30,7 @@ function MyApplications() {
           if (!ignore)
             setPostData((postData) => [
               ...postData,
-              { status: val.status, data: res, assesmentLink: val.assesmentLink },
+              { status: val.status, data: res, application: val, assesmentLink: val.assesmentLink },
             ]);
         });
       });
