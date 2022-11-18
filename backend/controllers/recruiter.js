@@ -1,8 +1,8 @@
-const User = require("../models/User");
 const Recruiter = require("../models/Recruiter");
 const ProfilePicture = require("../models/Image");
 const Post = require("../models/Posts");
 const Company = require("../models/Company");
+const JobSeeker = require("../models/JobSeeker");
 
 const add_recruiter = async (req, res) => {
     if (
@@ -166,9 +166,6 @@ const view_recruiter_profile_picture = async (req, res) => {
 };
 
 const add_job_post = async (req, res) => {
-    if (!req.user.recruiter) {
-        return res.status(401).send("User has to be a recruiter to add a job post");
-    }
     if (
         !req.body.role ||
         !req.body.description ||
@@ -183,7 +180,6 @@ const add_job_post = async (req, res) => {
                 res.status(404).send("recruiter doesnt exists");
             } else {
                 Company.findOne({ _id: recruiter.companyId }, (err, company) => {
-                    console.log(company)
                     if (company == null) {
                         res.status(404).send("Company Page should be added first");
                     } else {
@@ -281,6 +277,57 @@ const view_my_posts = async (req, res) => {
     });
 };
 
+
+const send_online_assesment = async (req, res) => {
+
+    if (!req.body.uid || !req.body.assesment_link || !req.body.postId) {
+        return res.status(400).send("Missing fields")
+    }
+    JobSeeker.exists({ uid: req.body.uid }, function (err, docs) {
+        if (docs == null) {
+            res.status(403).send("Job seeker doesn't exist")
+        } else {
+            filter = { uid: req.body.uid, "appliedPost.postId": req.body.postId }
+
+            let update = {}
+            update["appliedPost.$.assesmentLink"] = req.body.assesment_link
+
+            JobSeeker.findOneAndUpdate(filter, update).then((result) => {
+                res.status(200).send("Assement Send Succesfully");
+            }).catch((err) => {
+                console.log(err);
+                res.status(500).send(err)
+            });
+
+        }
+    });
+}
+
+const update_interview_data = async (req, res) => {
+    Post.exists({ _id: req.body.postId }, function (err, docs) {
+        if (docs == null) {
+            res.status(403).send("Post doesn't exist")
+        } else {
+            filter = { _id: req.body.postId }
+
+            let update = {}
+            if (req.body.availableDates) {
+                update["availableDates"] = req.body.availableDates
+            }
+            if (req.body.interviewLink) {
+                update["interviewLink"] = req.body.interviewLink
+            }
+
+            Post.findOneAndUpdate(filter, update).then((result) => {
+                res.status(200).send(result);
+            }).catch((err) => {
+                console.log(err);
+                res.status(500).send(err)
+            });
+        }
+    });
+}
+
 module.exports = {
     add_recruiter,
     update_recruiter,
@@ -293,5 +340,7 @@ module.exports = {
     view_others_profile_picture,
     view_recruiter,
     view_my_posts,
+    send_online_assesment,
+    update_interview_data
 };
 

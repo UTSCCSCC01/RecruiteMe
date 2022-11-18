@@ -1,7 +1,7 @@
 const express = require("express")
 const router = express.Router()
 const { JobSeekerController } = require('../controllers')
-const { loggedIn } = require("../middleware/loggedIn")
+const { loggedIn, isJobSeeker } = require("../middleware/loggedIn")
 
 // For job seeker text data
 router.post('/add', loggedIn, JobSeekerController.add_job_seeker)
@@ -25,7 +25,10 @@ router.get('/resume/:id', loggedIn, JobSeekerController.view_others_job_seeker_r
 // For job seeker job post data
 router.get('/openjobposts', loggedIn, JobSeekerController.view_open_job_posts)
 router.post('/apply', loggedIn, JobSeekerController.apply_job_post)
-router.get('/myapplications', loggedIn, JobSeekerController.my_job_applications)
+router.get('/myapplications', loggedIn, isJobSeeker, JobSeekerController.my_job_applications)
 router.put('/updateapplicationstatus', loggedIn, JobSeekerController.update_application_status)
+
+// For interview data
+router.put('/selectinterviewtime', loggedIn, JobSeekerController.select_interview_time)
 
 module.exports = router

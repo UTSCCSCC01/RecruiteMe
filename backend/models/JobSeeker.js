@@ -45,10 +45,10 @@ const jobseekerSchema = new Schema({
     },
     appliedPost: [{
         postId: String,
-        status: Number
-    }
-    ]
-    ,
+        status: Number,
+        assesmentLink: String,
+        interviewDate: Date
+    }],
     currStatus: {
         type: String,
         required: false

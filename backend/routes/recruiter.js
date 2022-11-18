@@ -1,7 +1,7 @@
 const express = require("express")
 const router = express.Router()
 const { RecruiterController } = require('../controllers')
-const { loggedIn } = require("../middleware/loggedIn")
+const { loggedIn, isRecruiter } = require("../middleware/loggedIn")
 
 router.post('/add', loggedIn, RecruiterController.add_recruiter)
 router.put('/update', loggedIn, RecruiterController.update_recruiter)
@@ -17,7 +17,13 @@ router.get('/profilepicture', loggedIn, RecruiterController.view_recruiter_profi
 router.get('/othersprofilepicture', loggedIn, RecruiterController.view_others_profile_picture)
 
 // For recruiter job post data
-router.post('/addjobpost', loggedIn, RecruiterController.add_job_post)
+router.post('/addjobpost', loggedIn, isRecruiter, RecruiterController.add_job_post)
 router.get('/myposts', loggedIn, RecruiterController.view_my_posts)
+
+// For online assessment data
+router.post('/sendassement', loggedIn, isRecruiter, RecruiterController.send_online_assesment)
+
+// For interview data
+router.put('/updateinterviewdata', loggedIn, RecruiterController.update_interview_data)
 
 module.exports = router
