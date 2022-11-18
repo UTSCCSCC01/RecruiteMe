@@ -3,6 +3,7 @@ import React from "react";
 import {
     Avatar,
     Stack,
+    Box,
     Grid,
     Button,
     Typography,
@@ -11,6 +12,8 @@ import {
     InputLabel,
     Select,
     MenuItem,
+    Paper,
+    CardMedia,
 } from "@mui/material";
 import Modal from "@mui/material/Modal";
 import CircleIcon from "@mui/icons-material/Circle";
@@ -18,6 +21,7 @@ import CompanyController from "../../controller/CompanyController";
 import { useNavigate } from "react-router-dom";
 import { status2text } from "./StatusTypes";
 import { useEffect } from "react";
+import UserController from "../../controller/UserController";
 import JobSeekerController from "../../controller/JobSeekerController";
 // Popup for interview date selector
 const ModalPopup = ({ post }) => {
@@ -91,6 +95,7 @@ the my applications page.
 function TrackerCard({ post, type }) {
     const [companyLogo, setCompanyLogo] = React.useState(null);
     const [open, setOpen] = React.useState(false);
+      const [user, setUser] = React.useState(null);
     const navigate = useNavigate();
     React.useEffect(() => {
         if (!companyLogo) {
@@ -112,6 +117,35 @@ function TrackerCard({ post, type }) {
         setOpen(false);
         window.location.reload(false);
     };
+    
+  const handleCompleteOA = (event) => {
+    event.stopPropagation()
+    JobSeekerController.updateApplicationStatus({
+      uid: user._id,
+      postId: post.data._id,
+      status: 5
+    })
+    window.location.reload();
+    ;
+  };
+  const handleOpen = (event) => {
+    event.stopPropagation()
+  }
+  React.useEffect(() => {
+    UserController.getCurrent().then((res) => {
+      setUser(res)
+    })
+    if (!companyLogo) {
+      CompanyController.getPfp(post.data.companyId).then((res) => {
+        const base64String = btoa(
+          new Uint8Array(res.data.data).reduce(function (data, byte) {
+            return data + String.fromCharCode(byte);
+          }, "")
+        );
+        setCompanyLogo(base64String);
+      });
+    }
+  }, []);
     return (
         <>
             <Modal open={open} onClose={handleClose}>
@@ -172,6 +206,18 @@ function TrackerCard({ post, type }) {
                         <Typography variant="body2">
                             {status2text[post.status]}
                         </Typography>
+                                  {post.status === 4 && post.assesmentLink ?
+            type == "tracker" ?
+              <div>
+                <Button variant="contained" onClick={handleOpen} href={post.assesmentLink} target="_blank" sx={{ textTransform: 'none', fontSize: '12px', backgroundColor: "#91a4e8" }}>Open Assessment</Button>
+                <Button variant="contained" onClick={handleCompleteOA} target="_blank" sx={{ textTransform: 'none', fontSize: '12px', backgroundColor: "#91a4e8", marginTop: 1 }}>Complete OA</Button>
+              </div>
+              : <div>
+                <Button variant="contained" href={post.assesmentLink} target="_blank" sx={{ textTransform: 'none', fontSize: '12px', backgroundColor: "#91a4e8", marginTop: 1 }}>Open Assessment</Button>
+                <Button variant="contained" onClick={handleCompleteOA} target="_blank" sx={{ textTransform: 'none', fontSize: '12px', backgroundColor: "#91a4e8", marginTop: 1, left: 5}}>Complete OA</Button>
+              </div>
+
+            : null}
                         {/* {type === "page" ? (
                             <Typography variant="subtitle1" fontWeight={"bold"}>
                                 Deadline:{" "}
