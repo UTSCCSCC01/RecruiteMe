@@ -75,7 +75,24 @@ function ApplicantStatus({ applicant }) {
                     <MenuItem value={2}>{status2text[2]}</MenuItem>
                     <MenuItem value={3}>{status2text[3]}</MenuItem>
                     <MenuItem value={4}>{status2text[4]}</MenuItem>
+                    <MenuItem value={5}>{status2text[5]}</MenuItem>
                 </Select>
+                {status === 5 && 
+                <Button
+                variant="contained"
+                href={applicant.post[0].assesmentLink}
+                target="_blank"
+                sx={{
+                    height: "53px",
+                    fontSize: "16px",
+                    left: 10, 
+                    color: "white",
+                    backgroundColor: "#91A4E8",
+                    textTransform: 'none',
+                }}
+            >
+                Open Completed Assessment
+            </Button>}
                 {showOA && (
                     <Box pl={2} display={"flex"} alignItems={"center"}>
                         <TextField

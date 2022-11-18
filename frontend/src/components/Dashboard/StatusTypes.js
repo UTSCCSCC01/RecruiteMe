@@ -4,4 +4,5 @@ export const status2text = [
     "Rejected",
     "Accepted",
     "Pending OA",
+    "OA Completed"
 ];

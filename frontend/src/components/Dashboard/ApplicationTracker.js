@@ -19,7 +19,7 @@ function ApplicationTracker() {
           if (!ignore)
             setPostData((postData) => [
               ...postData,
-              { status: val.status, data: res },
+              { status: val.status, data: res, assesmentLink: val.assesmentLink },
             ]);
         });
       });
