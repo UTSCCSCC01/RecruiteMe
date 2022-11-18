@@ -3,4 +3,5 @@ export const status2text = [
     "Interview Scheduled",
     "Rejected",
     "Accepted",
-  ];
+    "Pending OA",
+];
