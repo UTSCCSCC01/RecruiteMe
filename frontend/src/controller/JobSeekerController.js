@@ -85,6 +85,12 @@ const JobSeekerController = (function () {
                 "/jobseeker/updateapplicationstatus",
                 body
             )
+        },
+        updateInterviewTime: async (body) => {
+            return await Put(
+                "/jobseeker/selectinterviewtime",
+                body
+            )
         }
     });
 })();

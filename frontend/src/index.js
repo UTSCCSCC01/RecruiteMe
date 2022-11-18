@@ -23,6 +23,8 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import CompanyPage from "./components/Company/CompanyPage";
 import MyApplications from "./pages/MyApplications";
 
+import CalendarPage from "./pages/CalendarPage";
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
     <BrowserRouter>
@@ -39,6 +41,7 @@ root.render(
             <Route path="/jobs" element={<JobBoard limit={false} />} />
             <Route path="/company" element={<CompanyPage />} />
             <Route path="/my-applications" element={<MyApplications />} />
+            <Route path="/calendar" element={<CalendarPage/>}/>
         </Routes>
     </BrowserRouter>
 );

@@ -180,7 +180,6 @@ const add_job_post = async (req, res) => {
                 res.status(404).send("recruiter doesnt exists");
             } else {
                 Company.findOne({ _id: recruiter.companyId }, (err, company) => {
-                    console.log(company)
                     if (company == null) {
                         res.status(404).send("Company Page should be added first");
                     } else {
