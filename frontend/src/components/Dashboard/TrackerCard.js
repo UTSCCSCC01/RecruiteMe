@@ -124,8 +124,9 @@ function TrackerCard({ post, type }) {
       uid: user._id,
       postId: post.data._id,
       status: 5
-    })
-    window.location.reload();
+    }).then(()=>{
+              window.location.reload();
+            })
     ;
   };
   const handleOpen = (event) => {
